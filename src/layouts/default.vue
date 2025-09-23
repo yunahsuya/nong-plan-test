@@ -81,5 +81,6 @@ const navItems = computed(() => [
   { title: '農旅觀光', to: '/tourism', show: true },
   { title: '關於我們', to: '/aboutUs', show: true },
   { title: '測試示範區', to: '/test', show: true },
+
 ])
 </script>

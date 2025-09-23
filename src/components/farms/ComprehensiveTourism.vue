@@ -1,38 +1,45 @@
 <template>
-  <div class="comprehensive-tourism">
+  <div class="w-full bg-blue-600">
     <!-- 分類選擇器 -->
-    <div class="category-selector">
-      <div class="section-content">
-        <h5 class="section-title">選擇您要探索的項目</h5>
+    <div class="bg-white border-b border-gray-200">
+      <div class="p-8 max-w-7xl mx-auto">
+        <h5 class="text-center mb-8 text-green-800 font-semibold text-2xl">選擇您要探索的項目</h5>
         
-        <!-- 水平排列的按鈕 -->
-        <div class="category-buttons">
-          <button
-            v-for="category in categories"
-            :key="category.id"
-            @click="selectCategory(category.id)"
-            :class="['category-btn', { 'active': selectedCategory === category.id }]"
-            :disabled="loading"
-          >
-            <i :class="category.icon" class="category-icon"></i>
-            <span class="category-name">{{ category.name }}</span>
-          </button>
-        </div>
+
+<!-- 水平排列的按鈕 -->
+<div class="flex flex-wrap gap-2 justify-center">
+  <button
+    v-for="category in categories"
+    :key="category.id"
+    @click="selectCategory(category.id)"
+    :class="[
+      'flex flex-col items-center justify-center px-3 py-2 border-2 rounded-lg transition-all duration-300 min-w-[80px] min-h-[60px] cursor-pointer text-base',
+      selectedCategory === category.id 
+        ? 'border-[#28A745] bg-[#28A745] text-white -translate-y-0.5 shadow-lg shadow-[#28A745]/30' 
+        : 'border-gray-300 bg-white text-gray-800 hover:border-[#28A745] hover:bg-[#28A745]/10 hover:-translate-y-0.5 hover:shadow-md hover:shadow-[#28A745]/15'
+    ]"
+    :disabled="loading"
+  >
+    <i :class="category.icon" class="text-lg mb-1"></i>
+    <span class="font-semibold text-sm text-center">{{ category.name }}</span>
+  </button>
+</div>
+
       </div>
     </div>
 
     <!-- 篩選器 -->
-    <div v-if="selectedCategory" class="filter-section">
-      <div class="section-content">
-        <h5 class="section-title">🔍 篩選條件</h5>
-        <div class="filter-controls">
-          <div class="filter-group">
-            <label for="countySelect" class="form-label">縣市</label>
+    <div v-if="selectedCategory" class="bg-white border-b border-gray-200">
+      <div class="p-8 max-w-7xl mx-auto">
+        <!-- <h5 class="text-center mb-8 text-green-800 font-semibold text-2xl">�� 篩選條件</h5> -->
+        <div class="flex gap-8 items-end flex-wrap">
+          <div class="flex-1 min-w-[200px]">
+            <label for="countySelect" class="block font-semibold text-gray-700 mb-2">縣市</label>
             <select 
               id="countySelect"
               v-model="selectedCounty" 
               @change="filterData" 
-              class="form-select"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               :disabled="loading"
             >
               <option value="">全部縣市</option>
@@ -60,30 +67,30 @@
               <option value="連江縣">連江縣</option>
             </select>
           </div>
-          <div class="filter-group">
-            <label for="keywordInput" class="form-label">關鍵字搜尋</label>
+          <div class="flex-1 min-w-[200px]">
+            <label for="keywordInput" class="block font-semibold text-gray-700 mb-2">關鍵字搜尋</label>
             <input 
               id="keywordInput"
               v-model="searchKeyword" 
               @input="filterData"
               type="text" 
-              class="form-control" 
+              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               placeholder="輸入景點名稱或關鍵字..."
               :disabled="loading"
             >
           </div>
-          <div class="filter-group">
-            <div class="filter-buttons">
+          <div class="flex-1 min-w-[200px]">
+            <div class="flex gap-2">
               <button 
                 @click="resetFilter" 
-                class="btn btn-outline-secondary"
+                class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors"
                 :disabled="loading"
               >
                 🔄 重置篩選
               </button>
               <button 
                 @click="refreshData" 
-                class="btn btn-outline-primary"
+                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors"
                 :disabled="loading"
                 title="重新載入最新資料"
               >
@@ -96,70 +103,76 @@
     </div>
 
     <!-- 載入狀態 -->
-    <div v-if="loading" class="loading-section">
-      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-        <span class="visually-hidden">載入中...</span>
+    <div v-if="loading" class="bg-white py-12 px-8 text-center border-b border-gray-200">
+      <div class="inline-block w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" role="status">
+        <span class="sr-only">載入中...</span>
       </div>
-      <p class="mt-3 text-muted">正在載入{{ getCurrentCategoryName() }}資料...</p>
+      <p class="mt-3 text-gray-600">正在載入{{ getCurrentCategoryName() }}資料...</p>
     </div>
 
     <!-- 錯誤訊息 -->
-    <div v-if="error" class="error-section">
+    <div v-if="error" class="bg-red-100 text-red-800 py-12 px-8 text-center border-b border-gray-200">
       <h4>❌ 載入失敗</h4>
       <p>{{ error }}</p>
-      <button @click="loadData" class="btn btn-outline-danger btn-sm">
+      <button @click="loadData" class="mt-4 px-4 py-2 border border-red-500 text-red-500 rounded-md text-sm bg-white hover:bg-red-50 transition-colors">
         🔄 重新載入
       </button>
     </div>
 
     <!-- 資料列表 -->
-    <div v-if="filteredData.length > 0 && !loading" class="data-list">
-      <div class="section-content">
-        <div class="data-grid">
+    <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
+      <div class="p-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div 
             v-for="item in filteredData" 
             :key="item.id" 
-            class="data-card"
+            class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
           >
-            <div class="card-content">
-              <h5 class="card-title">{{ item.name }}</h5>
-              <p class="card-text">
+            <div class="p-6">
+              <h5 class="text-green-800 font-semibold mb-4">{{ item.name }}</h5>
+                            <p class="text-gray-600 leading-relaxed mb-4">
                 <strong>地址：</strong>{{ getAddress(item) }}<br>
                 <span v-if="item.tel"><strong>電話：</strong>{{ item.tel }}<br></span>
-                <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank">{{ item.website }}</a><br></span>
+                <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span>
                 <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br></span>
               </p>
               
-              <!-- 無障礙設施標籤 -->
-              <div v-if="item.accessibleItems && item.accessibleItems.length > 0" class="accessible-section">
-                <small class="accessible-label">♿ 無障礙設施：</small><br>
-                <span 
-                  v-for="feature in item.accessibleItems" 
-                  :key="feature"
-                  class="accessible-tag"
-                >
-                  {{ feature }}
-                </span>
+                <!-- 無障礙設施標籤 -->
+                <div class="mb-4 min-h-[60px]">
+                <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
+                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br>
+                  <span 
+                    v-for="feature in item.accessibleItems" 
+                    :key="feature"
+                    class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs m-0.5"
+                  >
+                    {{ feature }}
+                  </span>
+                </div>
+                <div v-else class="text-gray-400 text-sm">
+                  <small>♿ 無障礙設施：</small><br>
+                  <span class="text-gray-400">暫無資料</span>
+                </div>
               </div>
 
               <!-- 行動按鈕 -->
-              <div class="action-buttons">
+              <div class="flex gap-2 flex-wrap">
                 <button 
                   @click="viewOnMap(item)" 
-                  class="btn btn-primary btn-sm"
+                  class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-600 transition-colors"
                 >
                   🗺️ 地圖
                 </button>
                 <button 
                   v-if="item.website" 
                   @click="openWebsite(item.website)" 
-                  class="btn btn-outline-primary btn-sm"
+                  class="px-3 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-50 hover:bg-blue-100 transition-colors"
                 >
                   🌐 網站
                 </button>
                 <button 
                   @click="addToFavorites(item)" 
-                  class="btn btn-outline-warning btn-sm"
+                  class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 bg-gray-600  rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors"
                 >
                   ⭐ 收藏
                 </button>
@@ -171,39 +184,39 @@
     </div>
 
     <!-- 無資料 -->
-    <div v-if="!loading && !error && filteredData.length === 0 && selectedCategory" class="no-data-section">
-      <div class="section-content">
+    <div v-if="!loading && !error && filteredData.length === 0 && selectedCategory" class="bg-blue-100 text-blue-800 py-12 px-8 text-center border-b border-gray-200">
+      <div class="max-w-7xl mx-auto">
         <h4>ℹ️ 沒有找到資料</h4>
         <p>找不到符合條件的{{ getCurrentCategoryName() }}，請嘗試其他篩選條件。</p>
       </div>
     </div>
 
     <!-- 統計資訊 -->
-    <div v-if="filteredData.length > 0" class="stats-section">
-      <div class="section-content">
+    <div v-if="filteredData.length > 0" class="bg-green-100 text-green-800 border-b border-gray-200">
+      <div class="p-8 max-w-7xl mx-auto">
         <h5>�� 統計資訊</h5>
         <p>共找到 <strong>{{ filteredData.length }}</strong> 筆{{ getCurrentCategoryName() }}資料</p>
       </div>
     </div>
 
     <!-- 收藏列表 -->
-    <div v-if="favorites.length > 0" class="favorites-section">
-      <div class="section-content">
-        <h5>⭐ 我的收藏</h5>
-        <div class="favorites-grid">
+    <div v-if="favorites.length > 0" class="bg-white border-b border-gray-200">
+      <div class="p-8 max-w-7xl mx-auto">
+        <h5 class="text-center mb-8 text-green-800 font-semibold text-2xl">⭐ 我的收藏</h5>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div 
             v-for="fav in favorites" 
             :key="fav.id" 
-            class="favorite-item"
+            class="border border-gray-200 rounded-lg p-4 bg-gray-50"
           >
-            <div class="favorite-content">
-              <div class="favorite-info">
+            <div class="flex justify-between items-center">
+              <div class="flex-1">
                 <strong>{{ fav.name }}</strong><br>
                 <small>{{ fav.category }} - {{ fav.address }}</small>
               </div>
               <button 
                 @click="removeFromFavorites(fav.id)" 
-                class="btn btn-outline-danger btn-sm"
+                class="px-3 py-1.5 border border-red-500 text-red-500 rounded text-sm bg-white hover:bg-red-50 transition-colors"
               >
                 ❌ 移除
               </button>
@@ -213,18 +226,18 @@
       </div>
     </div>
 
-    <!-- 小遊戲區域 -->
-    <div class="games-section">
-      <div class="section-content">
-        <h5>🎮 農遊小遊戲</h5>
-        <div class="games-grid">
-          <button @click="startQuiz" class="game-btn">
+   <!-- 小遊戲區域 -->
+   <div class="bg-white">
+      <div class="p-8 max-w-7xl mx-auto">
+        <h5 class="text-center mb-8 text-green-800 font-semibold text-2xl">�� 農遊小遊戲</h5>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button @click="startQuiz" class="p-4 border-2 border-gray-300 rounded-lg bg-white transition-all duration-300 cursor-pointer hover:border-green-500 hover:bg-green-50 hover:transform hover:-translate-y-0.5">
             🧠 農場知識問答
           </button>
-          <button @click="startMemory" class="game-btn">
+          <button @click="startMemory" class="p-4 border-2 border-gray-300 rounded-lg bg-white transition-all duration-300 cursor-pointer hover:border-green-500 hover:bg-green-50 hover:transform hover:-translate-y-0.5">
             🧩 記憶配對遊戲
           </button>
-          <button @click="startPuzzle" class="game-btn">
+          <button @click="startPuzzle" class="p-4 border-2 border-gray-300 rounded-lg bg-white transition-all duration-300 cursor-pointer hover:border-green-500 hover:bg-green-50 hover:transform hover:-translate-y-0.5">
             🧩 拼圖遊戲
           </button>
         </div>
@@ -415,13 +428,14 @@ export default {
       return category ? category.name : ''
     }
 
-    // 在地圖上查看
+          // 在地圖上查看
     const viewOnMap = (item) => {
-      if (item.coordinates && item.coordinates.latitude && item.coordinates.longitude) {
-        const url = `https://www.google.com/maps?q=${item.coordinates.latitude},${item.coordinates.longitude}`
+      if (item.name) {
+        // 使用農場名稱開啟 Google Maps
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.name)}`
         window.open(url, '_blank')
       } else {
-        alert(`查看 ${item.name} 的地圖位置`)
+        alert(`無法取得 ${item.name} 的名稱資訊`)
       }
     }
 
@@ -511,327 +525,3 @@ export default {
 }
 </script>
 
-<!-- 樣式保持不變 -->
-<style scoped>
-.comprehensive-tourism {
-  width: 100%;
-  background: #186cc1;
-}
-
-/* 通用區段樣式 */
-.section-content {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #2d5016;
-  font-weight: 600;
-  font-size: 1.5rem;
-}
-
-/* 分類選擇器 */
-.category-selector {
-  background: white;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.category-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.category-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 1.5rem;
-  border: 2px solid #dee2e6;
-  border-radius: 0.75rem;
-  background: white;
-  transition: all 0.3s ease;
-  min-width: 120px;
-  min-height: 100px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.category-btn:hover {
-  border-color: #28a745;
-  background: #f8fff9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
-}
-
-.category-btn.active {
-  border-color: #28a745;
-  background: #28a745;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-}
-
-.category-icon {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.category-name {
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* 篩選器 */
-.filter-section {
-  background: white;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.filter-controls {
-  display: flex;
-  gap: 2rem;
-  align-items: end;
-  flex-wrap: wrap;
-}
-
-.filter-group {
-  flex: 1;
-  min-width: 200px;
-}
-
-.filter-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.form-label {
-  font-weight: 600;
-  color: #495057;
-  margin-bottom: 0.5rem;
-}
-
-.form-select, .form-control {
-  border: 1px solid #ced4da;
-  border-radius: 0.375rem;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.9rem;
-}
-
-/* 載入和錯誤狀態 */
-.loading-section, .error-section, .no-data-section {
-  background: white;
-  padding: 3rem 2rem;
-  text-align: center;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.error-section {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-.no-data-section {
-  background: #d1ecf1;
-  color: #0c5460;
-}
-
-/* 資料列表 */
-.data-list {
-  background: white;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.data-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
-}
-
-.data-card {
-  border: 1px solid #e9ecef;
-  border-radius: 0.75rem;
-  background: white;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.data-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  border-color: #28a745;
-}
-
-.card-content {
-  padding: 1.5rem;
-}
-
-.card-title {
-  color: #2d5016;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.card-text {
-  color: #6c757d;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.accessible-section {
-  margin-bottom: 1rem;
-}
-
-.accessible-tag {
-  display: inline-block;
-  background: #e8f5e8;
-  color: #2e7d32;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.8rem;
-  margin: 0.125rem;
-}
-
-.accessible-label {
-  color: #28a745;
-  font-weight: 600;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-/* 統計資訊 */
-.stats-section {
-  background: #d4edda;
-  color: #155724;
-  border-bottom: 1px solid #e9ecef;
-}
-
-/* 收藏列表 */
-.favorites-section {
-  background: white;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.favorites-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.favorite-item {
-  border: 1px solid #e9ecef;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  background: #f8f9fa;
-}
-
-.favorite-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.favorite-info {
-  flex: 1;
-}
-
-/* 小遊戲區域 */
-.games-section {
-  background: white;
-}
-
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.game-btn {
-  padding: 1rem;
-  border: 2px solid #dee2e6;
-  border-radius: 0.5rem;
-  background: white;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.game-btn:hover {
-  border-color: #28a745;
-  background: #f8fff9;
-  transform: translateY(-2px);
-}
-
-/* 響應式設計 */
-@media (max-width: 768px) {
-  .section-content {
-    padding: 1rem;
-  }
-  
-  .category-buttons {
-    gap: 0.5rem;
-  }
-  
-  .category-btn {
-    min-width: 100px;
-    min-height: 80px;
-    padding: 0.75rem 1rem;
-  }
-  
-  .category-icon {
-    font-size: 1.5rem;
-  }
-  
-  .category-name {
-    font-size: 0.8rem;
-  }
-  
-  .filter-controls {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .data-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .favorites-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .games-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 576px) {
-  .category-buttons {
-    gap: 0.25rem;
-  }
-  
-  .category-btn {
-    min-width: 80px;
-    min-height: 70px;
-    padding: 0.5rem;
-  }
-  
-  .category-icon {
-    font-size: 1.2rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .category-name {
-    font-size: 0.75rem;
-  }
-}
-</style>
