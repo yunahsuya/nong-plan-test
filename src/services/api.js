@@ -591,6 +591,86 @@ export const exportFarmsToCSV = async (filters = {}) => {
   }
 }
 
+
+// ==================== 教育資源 API ====================
+
+// 取得教育資源分類
+export const getEducationCategories = async () => {
+  try {
+    const response = await api.get('/api/education/categories')
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得教育資源分類失敗',
+      error: error.message
+    }
+  }
+}
+
+// 取得特定分類的教育資源資料
+export const getEducationData = async (category, forceRefresh = false) => {
+  try {
+    const url = forceRefresh 
+      ? `/api/education/data/${category}?refresh=true` 
+      : `/api/education/data/${category}`
+    const response = await api.get(url)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || `取得 ${category} 教育資源資料失敗`,
+      error: error.message
+    }
+  }
+}
+
+// 清除教育資源快取
+export const clearEducationCache = async () => {
+  try {
+    const response = await api.delete('/api/education/cache')
+    return {
+      success: true,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '清除教育資源快取失敗',
+      error: error.message
+    }
+  }
+}
+
+// 重新整理教育資源快取
+export const refreshEducationCache = async (category = null) => {
+  try {
+    const url = category 
+      ? `/api/education/cache/refresh/${category}` 
+      : '/api/education/cache/refresh'
+    const response = await api.post(url)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '重新整理教育資源快取失敗',
+      error: error.message
+    }
+  }
+}
+
 // ==================== 預設匯出 ====================
 
 export default { 
@@ -616,5 +696,11 @@ export default {
   healthCheck,
   batchFetchData,
   getFarmStatistics,
-  exportFarmsToCSV
+  exportFarmsToCSV,
+
+  // 新增教育資源 API
+  getEducationCategories,
+  getEducationData,
+  clearEducationCache,
+  refreshEducationCache
 }
