@@ -25,10 +25,10 @@
               v-for="category in otherCategories" 
               :key="category.id"
               :class="[
-                'flex items-center px-4 py-3 border rounded-lg bg-white cursor-pointer transition-all duration-300',
+                'flex items-center px-4 py-3 border rounded-lg  cursor-pointer transition-all duration-300',
                 selectedOtherCategory === category.id 
-                  ? 'border-green-500 bg-green-500 text-white' 
-                  : 'border-gray-200 hover:border-green-500 hover:bg-green-50'
+  ? 'border-green-500 bg-green-600 text-white shadow-lg' 
+  : 'border-gray-200 bg-white hover:border-green-500 hover:bg-green-50'
               ]"
               @click="selectOtherCategory(category.id)"
             >
