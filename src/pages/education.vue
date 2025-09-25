@@ -295,21 +295,18 @@ const educationCategories = ref([
     name: '農民學院找產品',
     icon: '🌾',
     description: '農民產品與農產資訊',
-    apiUrl: 'https://data.moa.gov.tw/Service/OpenData/MemberProductData.aspx?IsTransData=1&UnitId=173'
   },
   {
     id: 'aquaculture',
     name: '水產知識淺說',
-    icon: '🐟',
+    icon: '🐠',
     description: '水產知識小遊戲',
-    apiUrl: 'https://data.moa.gov.tw/Service/OpenData/Tfrin.aspx?key=1200&IsTransData=1&UnitId=373'
   },
   {
     id: 'varieties',
     name: '農業試驗所品種介紹',
     icon: '🌱',
     description: '農作品種介紹與資訊',
-    apiUrl: 'https://data.moa.gov.tw/Service/OpenData/Tarivariety.aspx?IsTransData=1&UnitId=356'
   }
 ])
 
