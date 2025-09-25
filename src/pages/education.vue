@@ -131,66 +131,59 @@
               :key="item.id || index"
               class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
             >
-              <!-- 卡片標題 -->
-              <div class="flex items-start justify-between mb-4">
-                <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
-                  {{ item.name || item.title || '未命名' }}
-                </h4>
-                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  {{ getCategoryInfo(selectedCategory).name }}
-                </span>
-              </div>
+             <!-- 卡片標題 -->
+<div class="flex items-start justify-between mb-4">
+  <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
+    {{ selectedCategory === 'product' ? (item.crop || '未命名') : (item.name || item.title || '未命名') }}
+  </h4>
+  <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+    {{ getCategoryInfo(selectedCategory).name }}
+  </span>
+</div>
   
               <!-- 卡片內容 -->
-              <div class="space-y-3">
-                <!-- 地址 -->
-                <div v-if="item.address" class="flex items-start">
-                  <span class="text-gray-400 mr-2">📍</span>
-                  <span class="text-sm text-gray-600">{{ item.address }}</span>
-                </div>
+              <div class="space-y-3">          
+
+<div v-if="selectedCategory === 'product'" class="space-y-2">
+  <!-- 生產者 -->
+  <div v-if="item.member_name" class="flex items-center">
+    <span class="text-gray-400 mr-2">👤</span>
+    <span class="text-sm text-gray-600">生產者: {{ item.member_name }}</span>
+  </div>
   
-                <!-- 電話 -->
-                <div v-if="item.tel || item.phone" class="flex items-center">
-                  <span class="text-gray-400 mr-2">📞</span>
-                  <span class="text-sm text-gray-600">{{ item.tel || item.phone }}</span>
-                </div>
+  <!-- 安全等級/驗證標章 -->
+  <div v-if="item.verify_marker" class="flex items-center">
+    <span class="text-gray-400 mr-2">🏷️</span>
+    <span class="text-sm text-gray-600">安全等級: {{ item.verify_marker }}</span>
+  </div>
   
-                <!-- 縣市 -->
-                <div v-if="item.county" class="flex items-center">
-                  <span class="text-gray-400 mr-2">🏛️</span>
-                  <span class="text-sm text-gray-600">{{ item.county }}</span>
-                </div>
+  <!-- 月供貨量 -->
+  <div v-if="item.yield" class="flex items-center">
+    <span class="text-gray-400 mr-2">📦</span>
+    <span class="text-sm text-gray-600">月供貨量: {{ item.yield }}kg</span>
+  </div>
   
-                <!-- 網站 -->
-                <div v-if="item.website || item.url" class="flex items-center">
-                  <span class="text-gray-400 mr-2">🌐</span>
-                  <a 
-                    :href="item.website || item.url" 
-                    target="_blank" 
-                    class="text-sm text-blue-600 hover:text-blue-800 underline"
-                  >
-                    查看網站
-                  </a>
-                </div>
+  <!-- 產季 -->
+  <div v-if="item.season" class="flex items-center">
+    <span class="text-gray-400 mr-2">📅</span>
+    <span class="text-sm text-gray-600">產季: {{ item.season }}</span>
+  </div>
   
-                <!-- 營業時間 -->
-                <div v-if="item.hours" class="flex items-center">
-                  <span class="text-gray-400 mr-2">🕒</span>
-                  <span class="text-sm text-gray-600">{{ item.hours }}</span>
-                </div>
-  
-                <!-- 描述 -->
-                <div v-if="item.description" class="text-sm text-gray-600 line-clamp-3">
-                  {{ item.description }}
-                </div>
-  
-                <!-- 特殊欄位 (根據不同 API 顯示不同內容) -->
-                <div v-if="selectedCategory === 'aquaculture'" class="space-y-2">
-                  <div v-if="item.gameType" class="flex items-center">
-                    <span class="text-gray-400 mr-2">🎮</span>
-                    <span class="text-sm text-gray-600">遊戲類型: {{ item.gameType }}</span>
-                  </div>
-                </div>
+  <!-- 最小出貨量 -->
+  <div v-if="item.shipments_min" class="flex items-center">
+    <span class="text-gray-400 mr-2">▫️</span>
+    <span class="text-sm text-gray-600">最小出貨量: {{ item.shipments_min }}kg</span>
+  </div>
+</div>
+
+<div v-if="selectedCategory === 'aquaculture'" class="space-y-2">
+  <div v-if="item.gameType" class="flex items-center">
+    <span class="text-gray-400 mr-2">��</span>
+    <span class="text-sm text-gray-600">遊戲類型: {{ item.gameType }}</span>
+  </div>
+</div>
+
+<!-- ... 其他分類的顯示邏輯 ... -->
   
                 <div v-if="selectedCategory === 'varieties'" class="space-y-2">
                   <div v-if="item.cropType" class="flex items-center">
@@ -216,22 +209,27 @@
               </div>
   
               <!-- 操作按鈕 -->
-              <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
-                <button 
-                  v-if="item.website || item.url"
-                  @click="openWebsite(item.website || item.url)"
-                  class="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  🌐 查看網站
-                </button>
-                <button 
-                  v-if="item.coordinates"
-                  @click="showOnMap(item)"
-                  class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  🗺️ 查看地圖
-                </button>
-              </div>
+<div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
+  <!-- 產品分類的「我有興趣」按鈕 -->
+  <button 
+    v-if="selectedCategory === 'product' && item.url"
+    @click="openWebsite(item.url)"
+    class="flex-1 px-3 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
+  >
+    🛒 我有興趣
+  </button>
+  
+ 
+  
+  <!-- 地圖按鈕 -->
+  <button 
+    v-if="item.coordinates && item.coordinates.longitude !== 0 && item.coordinates.latitude !== 0"
+    @click="showOnMap(item)"
+    class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+  >
+    ��️ 查看地圖
+  </button>
+</div>
             </div>
           </div>
   
@@ -285,51 +283,35 @@
   const currentPage = ref(1)
   const itemsPerPage = 12
   
-  // 各分類的資料
-  const marketData = ref([])
-  const productData = ref([])
-  const aquacultureData = ref([])
-  const varietiesData = ref([])
-  const wasteData = ref([])
-  
-  // 教育資源分類定義
-  const educationCategories = ref([
-    {
-      id: 'market',
-      name: '農民學院找通路',
-      icon: '🏪',
-      description: '農民市集與通路資訊',
-      apiUrl: 'https://data.moa.gov.tw/Service/OpenData/MarketUnitData.aspx?IsTransData=1&UnitId=178'
-    },
-    {
-      id: 'product',
-      name: '農民學院找產品',
-      icon: '🌾',
-      description: '農民產品與農產資訊',
-      apiUrl: 'https://data.moa.gov.tw/Service/OpenData/MemberProductData.aspx?IsTransData=1&UnitId=173'
-    },
-    {
-      id: 'aquaculture',
-      name: '水產知識淺說',
-      icon: '🐟',
-      description: '水產知識小遊戲',
-      apiUrl: 'https://data.moa.gov.tw/Service/OpenData/Tfrin.aspx?key=1200&IsTransData=1&UnitId=373'
-    },
-    {
-      id: 'varieties',
-      name: '農業試驗所品種介紹',
-      icon: '🌱',
-      description: '農作品種介紹與資訊',
-      apiUrl: 'https://data.moa.gov.tw/Service/OpenData/Tarivariety.aspx?IsTransData=1&UnitId=356'
-    },
-    {
-      id: 'waste',
-      name: '農業廢棄物再利用',
-      icon: '♻️',
-      description: '廢棄物再利用機構',
-      apiUrl: 'https://data.moenv.gov.tw/api/v2/wr_p_56?api_key=540e2ca4-41e1-4186-8497-fdd67024ac44&limit=1000&sort=ImportDate%20desc&format=JSON'
-    }
-  ])
+ // 各分類的資料
+const productData = ref([])
+const aquacultureData = ref([])
+const varietiesData = ref([])
+
+// 教育資源分類定義
+const educationCategories = ref([
+  {
+    id: 'product',
+    name: '農民學院找產品',
+    icon: '🌾',
+    description: '農民產品與農產資訊',
+    apiUrl: 'https://data.moa.gov.tw/Service/OpenData/MemberProductData.aspx?IsTransData=1&UnitId=173'
+  },
+  {
+    id: 'aquaculture',
+    name: '水產知識淺說',
+    icon: '🐟',
+    description: '水產知識小遊戲',
+    apiUrl: 'https://data.moa.gov.tw/Service/OpenData/Tfrin.aspx?key=1200&IsTransData=1&UnitId=373'
+  },
+  {
+    id: 'varieties',
+    name: '農業試驗所品種介紹',
+    icon: '🌱',
+    description: '農作品種介紹與資訊',
+    apiUrl: 'https://data.moa.gov.tw/Service/OpenData/Tarivariety.aspx?IsTransData=1&UnitId=356'
+  }
+])
 
   // 教育資源分類定義
   // const educationCategories = ref([])
@@ -378,28 +360,59 @@
     return filteredData.value.slice(start, end)
   })
   
-  // 方法
-  const getCurrentData = () => {
-    switch (selectedCategory.value) {
-      case 'market': return marketData.value
-      case 'product': return productData.value
-      case 'aquaculture': return aquacultureData.value
-      case 'varieties': return varietiesData.value
-      case 'waste': return wasteData.value
-      default: return []
-    }
+// 方法
+const getCurrentData = () => {
+  switch (selectedCategory.value) {
+    case 'product': return productData.value
+    case 'aquaculture': return aquacultureData.value
+    case 'varieties': return varietiesData.value
+    default: return []
   }
+}
+
+const getCategoryCount = (categoryId) => {
+  switch (categoryId) {
+    case 'product': return productData.value.length
+    case 'aquaculture': return aquacultureData.value.length
+    case 'varieties': return varietiesData.value.length
+    default: return 0
+  }
+}
+
+// 在 loadCategoryData 函數中
+const loadCategoryData = async (categoryId) => {
+  loading.value = true
+  error.value = ''
   
-  const getCategoryCount = (categoryId) => {
-    switch (categoryId) {
-      case 'market': return marketData.value.length
-      case 'product': return productData.value.length
-      case 'aquaculture': return aquacultureData.value.length
-      case 'varieties': return varietiesData.value.length
-      case 'waste': return wasteData.value.length
-      default: return 0
+  try {
+    const result = await getEducationData(categoryId)
+    
+    if (!result.success) {
+      throw new Error(result.message)
     }
+    
+    // 儲存到對應的資料陣列
+    switch (categoryId) {
+      case 'product':
+        productData.value = result.data
+        break
+      case 'aquaculture':
+        aquacultureData.value = result.data
+        break
+      case 'varieties':
+        varietiesData.value = result.data
+        break
+    }
+    
+  } catch (err) {
+    error.value = `載入 ${getCategoryInfo(categoryId).name} 資料失敗: ${err.message}`
+    console.error('載入資料失敗:', err)
+  } finally {
+    loading.value = false
   }
+}
+  
+ 
   
   const getCategoryInfo = (categoryId) => {
     return educationCategories.value.find(cat => cat.id === categoryId) || {}
@@ -417,43 +430,7 @@
     }
   }
   
-  const loadCategoryData = async (categoryId) => {
-    loading.value = true
-    error.value = ''
-    
-    try {
-    const result = await getEducationData(categoryId)
-    
-    if (!result.success) {
-      throw new Error(result.message)
-    }
-    
-    // 儲存到對應的資料陣列
-    switch (categoryId) {
-      case 'market':
-        marketData.value = result.data
-        break
-      case 'product':
-        productData.value = result.data
-        break
-      case 'aquaculture':
-        aquacultureData.value = result.data
-        break
-      case 'varieties':
-        varietiesData.value = result.data
-        break
-      case 'waste':
-        wasteData.value = result.data
-        break
-    }
-    
-  } catch (err) {
-    error.value = `載入 ${getCategoryInfo(categoryId).name} 資料失敗: ${err.message}`
-    console.error('載入資料失敗:', err)
-  } finally {
-    loading.value = false
-  }
-}
+
   
   const filterData = () => {
     currentPage.value = 1
