@@ -7,7 +7,7 @@
     <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
       <!-- 頁面標題 -->
       <div class="bg-white px-8 py-12 text-center border-b border-gray-200 shadow-sm">
-        <h1 class="text-green-800 font-bold text-5xl mb-4">�� 農業教育資源</h1>
+        <h1 class="text-green-800 font-bold text-5xl mb-4">📚 農業教育資源</h1>
         <p class="text-gray-600 text-xl mb-2">探索豐富的農業知識與學習資源</p>
         <p class="text-gray-500 text-base max-w-4xl mx-auto">
           提供農民學院、水產知識、品種介紹、廢棄物再利用等多元化教育內容
@@ -45,7 +45,7 @@
   
         <!-- 篩選器 -->
         <div v-if="selectedCategory" class="bg-white rounded-xl p-6 mb-8 shadow-sm border border-gray-200">
-          <h3 class="text-green-800 font-semibold text-xl mb-4">�� 篩選條件</h3>
+          <h3 class="text-green-800 font-semibold text-xl mb-4">🔍 篩選條件</h3>
           <div class="flex gap-6 items-end flex-wrap">
             <div class="flex-1 min-w-[200px]">
               <label class="block font-semibold text-gray-700 mb-2">縣市</label>
@@ -85,7 +85,7 @@
                 class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors"
                 :disabled="loading"
               >
-                🔄 刷新資料
+                �� 刷新資料
               </button>
             </div>
           </div>
@@ -126,111 +126,29 @@
   
           <!-- 資料卡片網格 -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div 
+            <!-- 品種介紹卡片 -->
+            <VarietiesCard 
+              v-if="selectedCategory === 'varieties'"
               v-for="(item, index) in paginatedData" 
               :key="item.id || index"
-              class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
-            >
-             <!-- 卡片標題 -->
-<div class="flex items-start justify-between mb-4">
-  <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
-    {{ selectedCategory === 'product' ? (item.crop || '未命名') : (item.name || item.title || '未命名') }}
-  </h4>
-  <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-    {{ getCategoryInfo(selectedCategory).name }}
-  </span>
-</div>
-  
-              <!-- 卡片內容 -->
-              <div class="space-y-3">          
-
-<div v-if="selectedCategory === 'product'" class="space-y-2">
-  <!-- 生產者 -->
-  <div v-if="item.member_name" class="flex items-center">
-    <span class="text-gray-400 mr-2">👤</span>
-    <span class="text-sm text-gray-600">生產者: {{ item.member_name }}</span>
-  </div>
-  
-  <!-- 安全等級/驗證標章 -->
-  <div v-if="item.verify_marker" class="flex items-center">
-    <span class="text-gray-400 mr-2">🏷️</span>
-    <span class="text-sm text-gray-600">安全等級: {{ item.verify_marker }}</span>
-  </div>
-  
-  <!-- 月供貨量 -->
-  <div v-if="item.yield" class="flex items-center">
-    <span class="text-gray-400 mr-2">📦</span>
-    <span class="text-sm text-gray-600">月供貨量: {{ item.yield }}kg</span>
-  </div>
-  
-  <!-- 產季 -->
-  <div v-if="item.season" class="flex items-center">
-    <span class="text-gray-400 mr-2">📅</span>
-    <span class="text-sm text-gray-600">產季: {{ item.season }}</span>
-  </div>
-  
-  <!-- 最小出貨量 -->
-  <div v-if="item.shipments_min" class="flex items-center">
-    <span class="text-gray-400 mr-2">▫️</span>
-    <span class="text-sm text-gray-600">最小出貨量: {{ item.shipments_min }}kg</span>
-  </div>
-</div>
-
-<div v-if="selectedCategory === 'aquaculture'" class="space-y-2">
-  <div v-if="item.gameType" class="flex items-center">
-    <span class="text-gray-400 mr-2">��</span>
-    <span class="text-sm text-gray-600">遊戲類型: {{ item.gameType }}</span>
-  </div>
-</div>
-
-<!-- ... 其他分類的顯示邏輯 ... -->
-  
-                <div v-if="selectedCategory === 'varieties'" class="space-y-2">
-                  <div v-if="item.cropType" class="flex items-center">
-                    <span class="text-gray-400 mr-2">🌾</span>
-                    <span class="text-sm text-gray-600">作物類型: {{ item.cropType }}</span>
-                  </div>
-                  <div v-if="item.varietyName" class="flex items-center">
-                    <span class="text-gray-400 mr-2">🌱</span>
-                    <span class="text-sm text-gray-600">品種: {{ item.varietyName }}</span>
-                  </div>
-                </div>
-  
-                <div v-if="selectedCategory === 'waste'" class="space-y-2">
-                  <div v-if="item.organizationType" class="flex items-center">
-                    <span class="text-gray-400 mr-2">🏢</span>
-                    <span class="text-sm text-gray-600">機構類型: {{ item.organizationType }}</span>
-                  </div>
-                  <div v-if="item.wasteType" class="flex items-center">
-                    <span class="text-gray-400 mr-2">♻️</span>
-                    <span class="text-sm text-gray-600">廢棄物類型: {{ item.wasteType }}</span>
-                  </div>
-                </div>
-              </div>
-  
-              <!-- 操作按鈕 -->
-<div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
-  <!-- 產品分類的「我有興趣」按鈕 -->
-  <button 
-    v-if="selectedCategory === 'product' && item.url"
-    @click="openWebsite(item.url)"
-    class="flex-1 px-3 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
-  >
-    🛒 我有興趣
-  </button>
-  
- 
-  
-  <!-- 地圖按鈕 -->
-  <button 
-    v-if="item.coordinates && item.coordinates.longitude !== 0 && item.coordinates.latitude !== 0"
-    @click="showOnMap(item)"
-    class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
-  >
-    ��️ 查看地圖
-  </button>
-</div>
-            </div>
+              :item="item"
+            />
+            
+            <!-- 水產知識卡片 -->
+            <AquacultureCard 
+              v-if="selectedCategory === 'aquaculture'"
+              v-for="(item, index) in paginatedData" 
+              :key="item.id || index"
+              :item="item"
+            />
+            
+            <!-- 農民學院產品卡片 -->
+            <ProductCard 
+              v-if="selectedCategory === 'product'"
+              v-for="(item, index) in paginatedData" 
+              :key="item.id || index"
+              :item="item"
+            />
           </div>
   
           <!-- 分頁 -->
@@ -255,14 +173,14 @@
   
         <!-- 無資料狀態 -->
         <div v-else-if="selectedCategory && !loading" class="text-center py-12">
-          <div class="text-gray-400 text-6xl mb-4">��</div>
+          <div class="text-gray-400 text-6xl mb-4">📭</div>
           <h3 class="text-gray-600 font-semibold text-xl mb-2">暫無相關資料</h3>
           <p class="text-gray-500">請嘗試調整篩選條件或選擇其他分類</p>
         </div>
   
         <!-- 未選擇分類狀態 -->
         <div v-else class="text-center py-12">
-          <div class="text-green-400 text-6xl mb-4">��</div>
+          <div class="text-green-400 text-6xl mb-4">🌱</div>
           <h3 class="text-gray-600 font-semibold text-xl mb-2">選擇教育資源分類</h3>
           <p class="text-gray-500">請點擊上方分類卡片開始探索農業教育資源</p>
         </div>
@@ -273,6 +191,9 @@
   <script setup>
   import { ref, computed, onMounted, watch } from 'vue'
   import { getEducationCategories, getEducationData } from '../services/api.js'
+  import VarietiesCard from '../components/education/VarietiesCard.vue'
+  import AquacultureCard from '../components/education/AquacultureCard.vue'
+  import ProductCard from '../components/education/ProductCard.vue'
   
   // 響應式資料
   const selectedCategory = ref('')
@@ -283,35 +204,32 @@
   const currentPage = ref(1)
   const itemsPerPage = 12
   
- // 各分類的資料
-const productData = ref([])
-const aquacultureData = ref([])
-const varietiesData = ref([])
-
-// 教育資源分類定義
-const educationCategories = ref([
-  {
-    id: 'product',
-    name: '農民學院找產品',
-    icon: '🌾',
-    description: '農民產品與農產資訊',
-  },
-  {
-    id: 'aquaculture',
-    name: '水產知識淺說',
-    icon: '🐠',
-    description: '水產知識小遊戲',
-  },
-  {
-    id: 'varieties',
-    name: '農業試驗所品種介紹',
-    icon: '🌱',
-    description: '農作品種介紹與資訊',
-  }
-])
-
+  // 各分類的資料
+  const productData = ref([])
+  const aquacultureData = ref([])
+  const varietiesData = ref([])
+  
   // 教育資源分類定義
-  // const educationCategories = ref([])
+  const educationCategories = ref([
+    {
+      id: 'product',
+      name: '農民學院找產品',
+      icon: '🌾',
+      description: '農民產品與農產資訊',
+    },
+    {
+      id: 'aquaculture',
+      name: '水產知識淺說',
+      icon: '🐟',
+      description: '水產知識小遊戲',
+    },
+    {
+      id: 'varieties',
+      name: '農業試驗所品種介紹',
+      icon: '🌱',
+      description: '農作品種介紹與資訊',
+    }
+  ])
   
   // 計算屬性
   const availableCounties = computed(() => {
@@ -357,59 +275,56 @@ const educationCategories = ref([
     return filteredData.value.slice(start, end)
   })
   
-// 方法
-const getCurrentData = () => {
-  switch (selectedCategory.value) {
-    case 'product': return productData.value
-    case 'aquaculture': return aquacultureData.value
-    case 'varieties': return varietiesData.value
-    default: return []
-  }
-}
-
-const getCategoryCount = (categoryId) => {
-  switch (categoryId) {
-    case 'product': return productData.value.length
-    case 'aquaculture': return aquacultureData.value.length
-    case 'varieties': return varietiesData.value.length
-    default: return 0
-  }
-}
-
-// 在 loadCategoryData 函數中
-const loadCategoryData = async (categoryId) => {
-  loading.value = true
-  error.value = ''
-  
-  try {
-    const result = await getEducationData(categoryId)
-    
-    if (!result.success) {
-      throw new Error(result.message)
+  // 方法
+  const getCurrentData = () => {
+    switch (selectedCategory.value) {
+      case 'product': return productData.value
+      case 'aquaculture': return aquacultureData.value
+      case 'varieties': return varietiesData.value
+      default: return []
     }
-    
-    // 儲存到對應的資料陣列
+  }
+  
+  const getCategoryCount = (categoryId) => {
     switch (categoryId) {
-      case 'product':
-        productData.value = result.data
-        break
-      case 'aquaculture':
-        aquacultureData.value = result.data
-        break
-      case 'varieties':
-        varietiesData.value = result.data
-        break
+      case 'product': return productData.value.length
+      case 'aquaculture': return aquacultureData.value.length
+      case 'varieties': return varietiesData.value.length
+      default: return 0
     }
-    
-  } catch (err) {
-    error.value = `載入 ${getCategoryInfo(categoryId).name} 資料失敗: ${err.message}`
-    console.error('載入資料失敗:', err)
-  } finally {
-    loading.value = false
   }
-}
   
- 
+  const loadCategoryData = async (categoryId) => {
+    loading.value = true
+    error.value = ''
+    
+    try {
+      const result = await getEducationData(categoryId)
+      
+      if (!result.success) {
+        throw new Error(result.message)
+      }
+      
+      // 儲存到對應的資料陣列
+      switch (categoryId) {
+        case 'product':
+          productData.value = result.data
+          break
+        case 'aquaculture':
+          aquacultureData.value = result.data
+          break
+        case 'varieties':
+          varietiesData.value = result.data
+          break
+      }
+      
+    } catch (err) {
+      error.value = `載入 ${getCategoryInfo(categoryId).name} 資料失敗: ${err.message}`
+      console.error('載入資料失敗:', err)
+    } finally {
+      loading.value = false
+    }
+  }
   
   const getCategoryInfo = (categoryId) => {
     return educationCategories.value.find(cat => cat.id === categoryId) || {}
@@ -426,8 +341,6 @@ const loadCategoryData = async (categoryId) => {
       await loadCategoryData(categoryId)
     }
   }
-  
-
   
   const filterData = () => {
     currentPage.value = 1
@@ -451,44 +364,27 @@ const loadCategoryData = async (categoryId) => {
     }
   }
   
-  const openWebsite = (url) => {
-    if (url) {
-      window.open(url, '_blank')
-    }
-  }
-  
-  const showOnMap = (item) => {
-    if (item.coordinates) {
-      const { latitude, longitude } = item.coordinates
-      const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`
-      window.open(mapUrl, '_blank')
-    }
-  }
-  
   // 監聽分頁變化
   watch(currentPage, () => {
     // 可以添加滾動到頂部的邏輯
   })
-
-// 載入教育資源分類
-const loadEducationCategories = async () => {
-  try {
-    const result = await getEducationCategories()
-    if (result.success) {
-      educationCategories.value = result.data
-    }
-  } catch (error) {
-    console.error('載入教育資源分類失敗:', error)
-  }
-}
-
-// 組件掛載時載入預設資料
-onMounted(() => {
-  loadEducationCategories()
-})
-
   
- 
+  // 載入教育資源分類
+  const loadEducationCategories = async () => {
+    try {
+      const result = await getEducationCategories()
+      if (result.success) {
+        educationCategories.value = result.data
+      }
+    } catch (error) {
+      console.error('載入教育資源分類失敗:', error)
+    }
+  }
+  
+  // 組件掛載時載入預設資料
+  onMounted(() => {
+    loadEducationCategories()
+  })
   </script>
   
   <style scoped>
