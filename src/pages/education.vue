@@ -151,11 +151,52 @@
             />
           </div>
   
-          <!-- 分頁 -->
+                     <!-- 分頁 -->
           <div v-if="totalPages > 1" class="flex justify-center mt-8">
-            <div class="flex gap-2">
+            <div class="flex gap-2 items-center">
+              <!-- 第一頁按鈕 -->
               <button 
-                v-for="page in totalPages" 
+                v-if="currentPage > 1"
+                @click="currentPage = 1"
+                :class="[
+                  'px-3 py-2 rounded-lg text-sm transition-colors',
+                  currentPage === 1 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ]"
+              >
+                ⏮ 第一頁
+              </button>
+
+              <!-- 上一頁按鈕 -->
+              <button 
+                @click="currentPage = Math.max(1, currentPage - 1)"
+                :disabled="currentPage === 1"
+                :class="[
+                  'px-3 py-2 rounded-lg text-sm transition-colors',
+                  currentPage === 1 
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                    : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ]"
+              >
+                ← 上一頁
+              </button>
+
+              <!-- 第一頁數字 -->
+              <button 
+                v-if="currentPage > 3"
+                @click="currentPage = 1"
+                class="px-3 py-2 rounded-lg text-sm bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 transition-colors"
+              >
+                1
+              </button>
+
+              <!-- 省略號 -->
+              <span v-if="currentPage > 4" class="px-2 text-gray-400">...</span>
+
+              <!-- 當前頁前後頁碼 -->
+              <button 
+                v-for="page in visiblePages" 
                 :key="page"
                 @click="currentPage = page"
                 :class="[
@@ -166,6 +207,46 @@
                 ]"
               >
                 {{ page }}
+              </button>
+
+              <!-- 省略號 -->
+              <span v-if="currentPage < totalPages - 3" class="px-2 text-gray-400">...</span>
+
+              <!-- 最後一頁數字 -->
+              <button 
+                v-if="currentPage < totalPages - 2"
+                @click="currentPage = totalPages"
+                class="px-3 py-2 rounded-lg text-sm bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 transition-colors"
+              >
+                {{ totalPages }}
+              </button>
+
+              <!-- 下一頁按鈕 -->
+              <button 
+                @click="currentPage = Math.min(totalPages, currentPage + 1)"
+                :disabled="currentPage === totalPages"
+                :class="[
+                  'px-3 py-2 rounded-lg text-sm transition-colors',
+                  currentPage === totalPages 
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                    : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ]"
+              >
+                下一頁 →
+              </button>
+
+              <!-- 最後一頁按鈕 -->
+              <button 
+                v-if="currentPage < totalPages"
+                @click="currentPage = totalPages"
+                :class="[
+                  'px-3 py-2 rounded-lg text-sm transition-colors',
+                  currentPage === totalPages 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                ]"
+              >
+                最後一頁 ⏭
               </button>
             </div>
           </div>
@@ -231,14 +312,27 @@
     }
   ])
   
-  // 計算屬性
-  const availableCounties = computed(() => {
+ // 計算屬性
+ const availableCounties = computed(() => {
     const counties = new Set()
     const currentData = getCurrentData()
     currentData.forEach(item => {
       if (item.county) counties.add(item.county)
     })
     return Array.from(counties).sort()
+  })
+
+  // 新增：計算可見的頁碼
+  const visiblePages = computed(() => {
+    const pages = []
+    const start = Math.max(1, currentPage.value - 2)
+    const end = Math.min(totalPages.value, currentPage.value + 2)
+    
+    for (let i = start; i <= end; i++) {
+      pages.push(i)
+    }
+    
+    return pages
   })
   
   const filteredData = computed(() => {
