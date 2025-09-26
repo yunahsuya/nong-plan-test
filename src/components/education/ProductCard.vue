@@ -1,17 +1,17 @@
 <template>
-  <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+  <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col h-full">
     <!-- 卡片標題 -->
     <div class="flex items-start justify-between mb-4">
       <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
         {{ item.crop || item.name || '未命名產品' }}
       </h4>
-      <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
+      <!-- <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
         農民學院找產品
-      </span>
+      </span> -->
     </div>
     
-    <!-- 卡片內容 -->
-    <div class="space-y-2">
+    <!-- 卡片內容 - 使用 flex-1 讓內容區域自動擴展 -->
+    <div class="space-y-2 flex-1">
       <!-- 生產者 -->
       <div v-if="item.member_name" class="flex items-center">
         <span class="text-gray-400 mr-2">👤</span>
@@ -20,7 +20,7 @@
       
       <!-- 安全等級/驗證標章 -->
       <div v-if="item.verify_marker" class="flex items-center">
-        <span class="text-gray-400 mr-2">��️</span>
+        <span class="text-gray-400 mr-2">🏆️</span>
         <span class="text-sm text-gray-600">安全等級: {{ item.verify_marker }}</span>
       </div>
       
@@ -43,7 +43,7 @@
       </div>
     </div>
     
-    <!-- 操作按鈕 -->
+    <!-- 操作按鈕 - 固定在底部 -->
     <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
       <!-- 我有興趣按鈕 -->
       <button 
@@ -65,6 +65,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 defineProps({

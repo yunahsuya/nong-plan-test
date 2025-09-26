@@ -1,17 +1,14 @@
 <template>
-  <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+  <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex flex-col h-full">
     <!-- 卡片標題 -->
     <div class="flex items-start justify-between mb-4">
-      <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
+      <h4 class="font-semibold text-lg text-gray-800 line-clamp-1">
         {{ item.title || item.name || '未命名' }}
       </h4>
-      <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-        水產知識淺說
-      </span>
     </div>
     
-    <!-- 卡片內容 -->
-    <div class="space-y-3">
+    <!-- 卡片內容 - 使用 flex-1 讓內容區域自動擴展 -->
+    <div class="space-y-3 flex-1">
       <!-- 遊戲類型 -->
       <div v-if="item.gameType" class="flex items-center">
         <span class="text-gray-400 mr-2">🎮</span>
@@ -24,7 +21,7 @@
       </div>
     </div>
     
-    <!-- 操作按鈕 -->
+    <!-- 操作按鈕 - 固定在底部 -->
     <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
       <!-- 閱讀更多 -->
       <button 
@@ -37,6 +34,8 @@
     </div>
   </div>
 </template>
+
+
 
 <script setup>
 defineProps({
