@@ -1,13 +1,13 @@
 <template>
   <div class="w-full bg-blue-600">
     <!-- 分類選擇器 -->
-    <div class="bg-white border-b border-gray-200">
-      <div class="p-8 max-w-7xl mx-auto">
-        <h5 class="text-center mb-8 text-green-800 font-semibold text-2xl">選擇您要探索的項目</h5>
+    <!-- <div class="bg-white border-b border-gray-200">
+      <div class="p-8 max-w-7xl mx-auto"> -->
+        <!-- <h5 class="text-center mb-8 text-green-800 font-semibold text-2xl">選擇您要探索的項目</h5> -->
         
 
 <!-- 水平排列的按鈕 -->
-<div class="flex flex-wrap gap-2 justify-center">
+<!-- <div class="flex flex-wrap gap-2 justify-center">
   <button
     v-for="category in categories"
     :key="category.id"
@@ -23,10 +23,10 @@
     <i :class="category.icon" class="text-lg mb-1"></i>
     <span class="font-semibold text-sm text-center">{{ category.name }}</span>
   </button>
-</div>
+</div> -->
 
-      </div>
-    </div>
+      <!-- </div>
+    </div> -->
 
     <!-- 篩選器 -->
     <div v-if="selectedCategory" class="bg-white border-b border-gray-200">

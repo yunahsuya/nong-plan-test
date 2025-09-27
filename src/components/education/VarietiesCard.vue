@@ -5,6 +5,11 @@
       <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
         {{ item.title || '未命名品種' }}
       </h4>
+
+      <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"> 
+        發佈: {{ item.pubDate }}
+      </span>
+
       <!-- <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
         農業試驗所品種介紹
       </span> -->
@@ -13,10 +18,10 @@
     <!-- 卡片內容 - 使用 flex-1 讓內容區域自動擴展 -->
     <div class="space-y-3 flex-1">
       <!-- 發布日期 -->
-      <div v-if="item.pubDate" class="flex items-center">
+      <!-- <div v-if="item.pubDate" class="flex items-center">
         <span class="text-gray-400 mr-2">📅</span>
         <span class="text-sm text-gray-600">發布日期: {{ item.pubDate }}</span>
-      </div>
+      </div> -->
       
       <!-- 品種權證號 -->
       <div v-if="parsedInfo.certificateNumber" class="text-sm text-gray-600">
@@ -33,10 +38,10 @@
         <span class="font-medium">權利起迄期間：</span>{{ parsedInfo.rightPeriod }}
       </div>
       
-      <!-- 品種特性簡介 -->
-      <div v-if="parsedInfo.characteristics" class="text-sm text-gray-600">
+            <!-- 品種特性簡介 -->
+            <div v-if="parsedInfo.characteristics" class="text-sm text-gray-600">
         <span class="font-medium">品種特性簡介：</span>
-        <div class="mt-1 whitespace-pre-wrap">{{ parsedInfo.characteristics }}</div>
+        <div class="mt-1 line-clamp-3">{{ parsedInfo.characteristics }}</div>
       </div>
     </div>
     
@@ -98,6 +103,13 @@ const openLink = (url) => {
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

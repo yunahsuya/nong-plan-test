@@ -18,8 +18,8 @@
       <div class="max-w-7xl mx-auto px-8 py-12">
         <!-- 教育資源分類導航 -->
         <div class="mb-12">
-          <h2 class="text-center text-green-800 font-semibold text-3xl mb-8">📚 教育資源分類</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <!-- <h2 class="text-center text-green-800 font-semibold text-3xl mb-8">📚 教育資源分類</h2> -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
             <div 
               v-for="category in educationCategories" 
               :key="category.id"
@@ -78,14 +78,14 @@
                 class="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white hover:bg-gray-50 transition-colors"
                 :disabled="loading"
               >
-                🔄 重置
+              🔃 重置
               </button>
               <button 
                 @click="refreshData" 
                 class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors"
                 :disabled="loading"
               >
-                �� 刷新資料
+              🔄 刷新資料
               </button>
             </div>
           </div>
@@ -464,20 +464,23 @@
   })
   
   // 載入教育資源分類
-  const loadEducationCategories = async () => {
-    try {
-      const result = await getEducationCategories()
-      if (result.success) {
-        educationCategories.value = result.data
-      }
-    } catch (error) {
-      console.error('載入教育資源分類失敗:', error)
-    }
-  }
+  // const loadEducationCategories = async () => {
+  //   try {
+  //     const result = await getEducationCategories()
+  //     if (result.success) {
+  //       educationCategories.value = result.data
+  //     }
+  //   } catch (error) {
+  //     console.error('載入教育資源分類失敗:', error)
+  //   }
+  // }
   
+
   // 組件掛載時載入預設資料
-  onMounted(() => {
-    loadEducationCategories()
+  onMounted(async () => {
+    // await loadEducationCategories()
+    // 設定「農民學院找產品」為預設選項
+    await selectCategory('product')
   })
   </script>
   

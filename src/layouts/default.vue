@@ -10,11 +10,15 @@
       </router-link>
     </div>
     <!-- 桌機版選單 -->
-    <div class="flex-none hidden md:block">
-      <ul class="menu menu-horizontal px-1">
+    <div class="flex-none hidden md:block ">
+      <ul class="menu menu-horizontal px-1 gap-1">
         <template v-for="item in navItems" :key="item.to">
           <li v-if="item.show">
-            <router-link :to="item.to" class="btn btn-ghost">
+            <router-link 
+              :to="item.to" 
+              class="btn btn-ghost "
+              :class="{ 'btn-active': $route.path === item.to }"
+            >
               {{ item.title }}
             </router-link>
           </li>
@@ -36,6 +40,7 @@
               <router-link
                 :to="item.to"
                 class="btn btn-ghost rounded-lg text-base py-2 px-4 w-full justify-start"
+                :class="{ 'btn-active': $route.path === item.to }"
               >
                 {{ item.title }}
               </router-link>
@@ -71,7 +76,10 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { PhPlant, PhList } from '@phosphor-icons/vue'
+
+const $route = useRoute()
 
 const navItems = computed(() => [
   { title: '首頁', to: '/', show: true },
