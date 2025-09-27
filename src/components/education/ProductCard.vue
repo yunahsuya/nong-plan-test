@@ -24,10 +24,10 @@
       </div>
       
       <!-- 安全等級/驗證標章 -->
-      <div v-if="item.verify_marker" class="flex items-center">
+      <!-- <div v-if="item.verify_marker" class="flex items-center">
         <span class="text-gray-400 mr-2">🏆️</span>
         <span class="text-sm text-gray-600">安全等級: {{ item.verify_marker }}</span>
-      </div>
+      </div> -->
       
       <!-- 月供貨量 -->
       <div v-if="item.yield" class="flex items-center">
