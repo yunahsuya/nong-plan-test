@@ -7,7 +7,7 @@
       </h4>
 
       <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"> 
-        發佈: {{ item.pubDate }}
+        發佈：{{ item.pubDate }}
       </span>
 
       <!-- <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">

@@ -5,6 +5,11 @@
       <h4 class="font-semibold text-lg text-gray-800 line-clamp-2">
         {{ item.crop || item.name || '未命名產品' }}
       </h4>
+
+      <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full"> 
+        等級：{{ item.verify_marker }}
+      </span>
+
       <!-- <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
         農民學院找產品
       </span> -->
