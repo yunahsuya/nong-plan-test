@@ -43,21 +43,21 @@
           </div>
         </div>
   
-        <!-- 篩選器 -->
-        <div v-if="selectedCategory" class="bg-white rounded-xl p-6 mb-8 shadow-sm border border-gray-200">
+               <!-- 篩選器 -->
+               <div v-if="selectedCategory" class="bg-white rounded-xl p-6 mb-8 shadow-sm border border-gray-200">
           <h3 class="text-green-800 font-semibold text-xl mb-4">🔍 篩選條件</h3>
           <div class="flex gap-6 items-end flex-wrap">
             <div class="flex-1 min-w-[200px]">
-              <label class="block font-semibold text-gray-700 mb-2">縣市</label>
+              <label class="block font-semibold text-gray-700 mb-2">安全等級</label>
               <select 
-                v-model="selectedCounty" 
+                v-model="selectedSafetyLevel" 
                 @change="filterData" 
                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 :disabled="loading"
               >
-                <option value="">全部縣市</option>
-                <option v-for="county in availableCounties" :key="county" :value="county">
-                  {{ county }}
+                <option value="">全部安全等級</option>
+                <option v-for="level in availableSafetyLevels" :key="level.value" :value="level.value">
+                  {{ level.label }}
                 </option>
               </select>
             </div>
@@ -276,212 +276,224 @@
   import AquacultureCard from '../components/education/AquacultureCard.vue'
   import ProductCard from '../components/education/ProductCard.vue'
   
-  // 響應式資料
-  const selectedCategory = ref('')
-  const selectedCounty = ref('')
-  const searchKeyword = ref('')
-  const loading = ref(false)
-  const error = ref('')
-  const currentPage = ref(1)
-  const itemsPerPage = 12
-  
-  // 各分類的資料
-  const productData = ref([])
-  const aquacultureData = ref([])
-  const varietiesData = ref([])
-  
-  // 教育資源分類定義
-  const educationCategories = ref([
-    {
-      id: 'product',
-      name: '農民學院找產品',
-      icon: '🌾',
-      description: '農民產品與農產資訊',
-    },
-    {
-      id: 'aquaculture',
-      name: '水產知識淺說',
-      icon: '🐟',
-      description: '水產知識小遊戲',
-    },
-    {
-      id: 'varieties',
-      name: '農業試驗所品種介紹',
-      icon: '🌱',
-      description: '農作品種介紹與資訊',
-    }
-  ])
-  
- // 計算屬性
- const availableCounties = computed(() => {
-    const counties = new Set()
-    const currentData = getCurrentData()
-    currentData.forEach(item => {
-      if (item.county) counties.add(item.county)
-    })
-    return Array.from(counties).sort()
-  })
+// 響應式資料
+const selectedCategory = ref('')
+const selectedSafetyLevel = ref('')
+const searchKeyword = ref('')
+const loading = ref(false)
+const error = ref('')
+const currentPage = ref(1)
+const itemsPerPage = 12
 
-  // 新增：計算可見的頁碼
-  const visiblePages = computed(() => {
-    const pages = []
-    const start = Math.max(1, currentPage.value - 2)
-    const end = Math.min(totalPages.value, currentPage.value + 2)
-    
-    for (let i = start; i <= end; i++) {
-      pages.push(i)
-    }
-    
-    return pages
+// 各分類的資料
+const productData = ref([])
+const aquacultureData = ref([])
+const varietiesData = ref([])
+
+// 教育資源分類定義
+const educationCategories = ref([
+  {
+    id: 'product',
+    name: '農民學院找產品',
+    icon: '🌾',
+    description: '農民產品與農產資訊',
+  },
+  {
+    id: 'aquaculture',
+    name: '水產知識淺說',
+    icon: '🐟',
+    description: '水產知識小遊戲',
+  },
+  {
+    id: 'varieties',
+    name: '農業試驗所品種介紹',
+    icon: '🌱',
+    description: '農作品種介紹與資訊',
+  }
+])
+
+// 計算屬性
+const availableSafetyLevels = computed(() => {
+  const levels = new Set()
+  const currentData = getCurrentData()
+  currentData.forEach(item => {
+    if (item.verify_marker) levels.add(item.verify_marker)
   })
   
-  const filteredData = computed(() => {
-    let data = getCurrentData()
-    
-    // 縣市篩選
-    if (selectedCounty.value) {
-      data = data.filter(item => 
-        item.county && item.county.includes(selectedCounty.value)
-      )
-    }
-    
-    // 關鍵字篩選
-    if (searchKeyword.value) {
-      const keyword = searchKeyword.value.toLowerCase()
-      data = data.filter(item => 
-        (item.name && item.name.toLowerCase().includes(keyword)) ||
-        (item.title && item.title.toLowerCase().includes(keyword)) ||
-        (item.address && item.address.toLowerCase().includes(keyword)) ||
-        (item.description && item.description.toLowerCase().includes(keyword))
-      )
-    }
-    
-    return data
-  })
-  
-  const totalPages = computed(() => {
-    return Math.ceil(filteredData.value.length / itemsPerPage)
-  })
-  
-  const paginatedData = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage
-    const end = start + itemsPerPage
-    return filteredData.value.slice(start, end)
-  })
-  
-  // 方法
-  const getCurrentData = () => {
-    switch (selectedCategory.value) {
-      case 'product': return productData.value
-      case 'aquaculture': return aquacultureData.value
-      case 'varieties': return varietiesData.value
-      default: return []
-    }
+  // 安全等級對應表 - 中文與英文
+  const levelMap = {
+    'TAP': '產銷履歷認證 (TAP)',
+    'organic': '有機認證 (Organic)',
+    'preorganic': '有機轉型期 (Pre-Organic)',
+    'NOpesticide': '無農藥 (No Pesticide)'
   }
   
-  const getCategoryCount = (categoryId) => {
+  return Array.from(levels).map(level => ({
+    value: level,
+    label: levelMap[level] || level
+  })).sort((a, b) => a.label.localeCompare(b.label))
+})
+
+// 新增：計算可見的頁碼
+const visiblePages = computed(() => {
+  const pages = []
+  const start = Math.max(1, currentPage.value - 2)
+  const end = Math.min(totalPages.value, currentPage.value + 2)
+  
+  for (let i = start; i <= end; i++) {
+    pages.push(i)
+  }
+  
+  return pages
+})
+
+const filteredData = computed(() => {
+  let data = getCurrentData()
+  
+  // 安全等級篩選
+  if (selectedSafetyLevel.value) {
+    data = data.filter(item => 
+      item.verify_marker && item.verify_marker === selectedSafetyLevel.value
+    )
+  }
+  
+  // 關鍵字篩選
+  if (searchKeyword.value) {
+    const keyword = searchKeyword.value.toLowerCase()
+    data = data.filter(item => 
+      (item.name && item.name.toLowerCase().includes(keyword)) ||
+      (item.title && item.title.toLowerCase().includes(keyword)) ||
+      (item.address && item.address.toLowerCase().includes(keyword)) ||
+      (item.description && item.description.toLowerCase().includes(keyword))
+    )
+  }
+  
+  return data
+})
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredData.value.length / itemsPerPage)
+})
+
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return filteredData.value.slice(start, end)
+})
+
+// 方法
+const getCurrentData = () => {
+  switch (selectedCategory.value) {
+    case 'product': return productData.value
+    case 'aquaculture': return aquacultureData.value
+    case 'varieties': return varietiesData.value
+    default: return []
+  }
+}
+
+const getCategoryCount = (categoryId) => {
+  switch (categoryId) {
+    case 'product': return productData.value.length
+    case 'aquaculture': return aquacultureData.value.length
+    case 'varieties': return varietiesData.value.length
+    default: return 0
+  }
+}
+
+const loadCategoryData = async (categoryId) => {
+  loading.value = true
+  error.value = ''
+  
+  try {
+    const result = await getEducationData(categoryId)
+    
+    if (!result.success) {
+      throw new Error(result.message)
+    }
+    
+    // 儲存到對應的資料陣列
     switch (categoryId) {
-      case 'product': return productData.value.length
-      case 'aquaculture': return aquacultureData.value.length
-      case 'varieties': return varietiesData.value.length
-      default: return 0
+      case 'product':
+        productData.value = result.data
+        break
+      case 'aquaculture':
+        aquacultureData.value = result.data
+        break
+      case 'varieties':
+        varietiesData.value = result.data
+        break
     }
-  }
-  
-  const loadCategoryData = async (categoryId) => {
-    loading.value = true
-    error.value = ''
     
-    try {
-      const result = await getEducationData(categoryId)
-      
-      if (!result.success) {
-        throw new Error(result.message)
-      }
-      
-      // 儲存到對應的資料陣列
-      switch (categoryId) {
-        case 'product':
-          productData.value = result.data
-          break
-        case 'aquaculture':
-          aquacultureData.value = result.data
-          break
-        case 'varieties':
-          varietiesData.value = result.data
-          break
-      }
-      
-    } catch (err) {
-      error.value = `載入 ${getCategoryInfo(categoryId).name} 資料失敗: ${err.message}`
-      console.error('載入資料失敗:', err)
-    } finally {
-      loading.value = false
-    }
+  } catch (err) {
+    error.value = `載入 ${getCategoryInfo(categoryId).name} 資料失敗: ${err.message}`
+    console.error('載入資料失敗:', err)
+  } finally {
+    loading.value = false
   }
-  
-  const getCategoryInfo = (categoryId) => {
-    return educationCategories.value.find(cat => cat.id === categoryId) || {}
-  }
-  
-  const selectCategory = async (categoryId) => {
-    selectedCategory.value = categoryId
-    currentPage.value = 1
-    selectedCounty.value = ''
-    searchKeyword.value = ''
-    
-    // 如果該分類還沒有資料，則載入
-    if (getCategoryCount(categoryId) === 0) {
-      await loadCategoryData(categoryId)
-    }
-  }
-  
-  const filterData = () => {
-    currentPage.value = 1
-  }
-  
-  const resetFilter = () => {
-    selectedCounty.value = ''
-    searchKeyword.value = ''
-    currentPage.value = 1
-  }
-  
-  const refreshData = async () => {
-    if (selectedCategory.value) {
-      await loadCategoryData(selectedCategory.value)
-    }
-  }
-  
-  const loadData = async () => {
-    if (selectedCategory.value) {
-      await loadCategoryData(selectedCategory.value)
-    }
-  }
-  
-  // 監聽分頁變化
-  watch(currentPage, () => {
-    // 可以添加滾動到頂部的邏輯
-  })
-  
-  // 載入教育資源分類
-  // const loadEducationCategories = async () => {
-  //   try {
-  //     const result = await getEducationCategories()
-  //     if (result.success) {
-  //       educationCategories.value = result.data
-  //     }
-  //   } catch (error) {
-  //     console.error('載入教育資源分類失敗:', error)
-  //   }
-  // }
-  
+}
 
-  // 組件掛載時載入預設資料
-  onMounted(async () => {
-    // await loadEducationCategories()
-    // 設定「農民學院找產品」為預設選項
-    await selectCategory('product')
-  })
+const getCategoryInfo = (categoryId) => {
+  return educationCategories.value.find(cat => cat.id === categoryId) || {}
+}
+
+const selectCategory = async (categoryId) => {
+  selectedCategory.value = categoryId
+  currentPage.value = 1
+  selectedSafetyLevel.value = ''
+  searchKeyword.value = ''
+  
+  // 如果該分類還沒有資料，則載入
+  if (getCategoryCount(categoryId) === 0) {
+    await loadCategoryData(categoryId)
+  }
+}
+
+const filterData = () => {
+  currentPage.value = 1
+}
+
+const resetFilter = () => {
+  selectedSafetyLevel.value = ''
+  searchKeyword.value = ''
+  currentPage.value = 1
+}
+
+const refreshData = async () => {
+  if (selectedCategory.value) {
+    await loadCategoryData(selectedCategory.value)
+  }
+}
+
+const loadData = async () => {
+  if (selectedCategory.value) {
+    await loadCategoryData(selectedCategory.value)
+  }
+}
+
+// 監聽分頁變化
+watch(currentPage, () => {
+  // 可以添加滾動到頂部的邏輯
+})
+
+// 載入教育資源分類
+// const loadEducationCategories = async () => {
+//   try {
+//     const result = await getEducationCategories()
+//     if (result.success) {
+//       educationCategories.value = result.data
+//     }
+//   } catch (error) {
+//     console.error('載入教育資源分類失敗:', error)
+//   }
+// }
+
+
+// 組件掛載時載入預設資料
+onMounted(async () => {
+  // await loadEducationCategories()
+  // 設定「農民學院找產品」為預設選項
+  await selectCategory('product')
+})
   </script>
   
   <style scoped>
