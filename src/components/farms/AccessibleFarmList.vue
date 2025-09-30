@@ -178,8 +178,16 @@
           </div>
         </div>
 
-        <!-- 分頁控制 -->
-        <div v-if="totalPages > 1" class="mt-8 flex justify-center items-center gap-2 flex-wrap">
+                <!-- 分頁控制 -->
+                <div v-if="totalPages > 1" class="mt-8 flex justify-center items-center gap-2 flex-wrap">
+          <button 
+            @click="goToPage(1)" 
+            :disabled="currentPage === 1"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            ⏮️ 第一頁
+          </button>
+          
           <button 
             @click="previousPage" 
             :disabled="currentPage === 1"
@@ -210,6 +218,14 @@
             class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             下一頁 →
+          </button>
+          
+          <button 
+            @click="goToPage(totalPages)" 
+            :disabled="currentPage === totalPages"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            最後一頁 ⏭️
           </button>
         </div>
       </div>
