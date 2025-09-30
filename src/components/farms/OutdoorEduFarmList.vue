@@ -195,47 +195,51 @@
     <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div 
-            v-for="item in paginatedData" 
-            :key="item.id" 
-            class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
-          >
-            <div class="p-6">
-              <h5 class="text-green-800 font-semibold mb-4">{{ item.name }}</h5>
-              <p class="text-gray-600 leading-relaxed mb-4">
-                <strong>地址：</strong>{{ item.address }}<br>
-                <span v-if="item.tel"><strong>電話：</strong>{{ item.tel }}<br></span>
-                <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span>
-                <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br></span>
-              </p>
-              
-              <!-- 服務項目標籤 - 可點擊篩選 -->
-              <div class="mb-4 min-h-[60px]">
-                <div v-if="item.serveItems && item.serveItems.length > 0">
-                  <small class="text-green-600 font-semibold">🎓 服務項目：</small><br>
-                  <span 
-                    v-for="(feature, index) in item.serveItems" 
-                    :key="index"
-                    @click="filterByServeItem(feature)"
-                    :class="[
-                      'inline-block px-2 py-1 rounded text-xs m-0.5 cursor-pointer transition-all duration-200',
-                      selectedServeItem === feature
-                        ? 'bg-green-500 text-white shadow-md'
-                        : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm'
-                    ]"
-                    :title="`點擊篩選「${feature}」`"
-                  >
-                    {{ feature }}
-                  </span>
-                </div>
-                <div v-else class="text-gray-400 text-sm">
-                  <small>🎓 服務項目：</small><br>
-                  <span class="text-gray-400">暫無資料</span>
-                </div>
-              </div>
 
-              <!-- 行動按鈕 -->
-              <div class="flex gap-2 flex-wrap">
+
+<div 
+  v-for="item in paginatedData" 
+  :key="item.id" 
+  class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
+>
+  <div class="p-6 flex flex-col h-full">
+    <h5 class="text-green-800 font-semibold mb-4">{{ item.name }}</h5>
+    <p class="text-gray-600 leading-relaxed mb-4 flex-grow">
+      <strong>地址：</strong>{{ item.address }}<br>
+      <span v-if="item.tel"><strong>電話：</strong>{{ item.tel }}<br></span>
+      <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span>
+      <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br></span>
+    </p>
+    
+    <!-- 服務項目標籤 - 可點擊篩選 -->
+    <div class="mb-4 mt-auto">
+      <div v-if="item.serveItems && item.serveItems.length > 0">
+        <small class="text-green-600 font-semibold">🎓 服務項目：</small><br>
+        <span 
+          v-for="(feature, index) in item.serveItems" 
+          :key="index"
+          @click="filterByServeItem(feature)"
+          :class="[
+            'inline-block px-2 py-1 rounded text-xs m-0.5 cursor-pointer transition-all duration-200',
+            selectedServeItem === feature
+              ? 'bg-green-500 text-white shadow-md'
+              : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm'
+          ]"
+          :title="`點擊篩選「${feature}」`"
+        >
+          {{ feature }}
+        </span>
+      </div>
+      <div v-else class="text-gray-400 text-sm">
+        <small>🎓 服務項目：</small><br>
+        <span class="text-gray-400">暫無資料</span>
+      </div>
+    </div>
+
+    <!-- 行動按鈕 -->
+    <div class="flex gap-2 flex-wrap">
+
+
                 <button 
                   @click="viewOnMap(item)" 
                   class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
