@@ -196,7 +196,7 @@
       <div class="p-8 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div 
-            v-for="item in filteredData" 
+            v-for="item in paginatedData" 
             :key="item.id" 
             class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
           >
@@ -266,6 +266,41 @@
             </div>
           </div>
         </div>
+
+        <!-- 分頁控制 -->
+        <div v-if="totalPages > 1" class="mt-8 flex justify-center items-center gap-2 flex-wrap">
+          <button 
+            @click="previousPage" 
+            :disabled="currentPage === 1"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            ← 上一頁
+          </button>
+          
+          <div class="flex gap-1 flex-wrap">
+            <button 
+              v-for="page in totalPages" 
+              :key="page"
+              @click="goToPage(page)"
+              :class="[
+                'px-3 py-2 border rounded-md text-sm transition-colors',
+                currentPage === page
+                  ? 'bg-green-600 text-white border-green-600'
+                  : 'bg-white border-gray-300 hover:bg-gray-50'
+              ]"
+            >
+              {{ page }}
+            </button>
+          </div>
+          
+          <button 
+            @click="nextPage" 
+            :disabled="currentPage === totalPages"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            下一頁 →
+          </button>
+        </div>
       </div>
     </div>
 
@@ -281,7 +316,7 @@
     <div v-if="filteredData.length > 0" class="bg-green-100 text-green-800 border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <h5>📊 統計資訊</h5>
-        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆戶外教育農場資料</p>
+        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆戶外教育農場資料（目前顯示第 <strong>{{ currentPage }}</strong> 頁，共 <strong>{{ totalPages }}</strong> 頁）</p>
         <div v-if="selectedCounty || selectedServeItem" class="text-sm mt-2">
           <span class="font-semibold">篩選條件：</span>
           <span v-if="selectedCounty" class="inline-block bg-green-200 px-2 py-1 rounded text-xs mr-1">📍 {{ selectedCounty }}</span>
@@ -321,7 +356,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { getOutdoorEduFarms } from '@/services/api.js'
 
 export default {
@@ -334,7 +369,9 @@ export default {
     const error = ref('')
     const rawData = ref([])
     const favorites = ref([])
-    const filterSection = ref(null) // 篩選區域的 ref
+    const filterSection = ref(null)
+    const currentPage = ref(1)
+    const itemsPerPage = 10
 
     // 計算屬性：篩選後的資料
     const filteredData = computed(() => {
@@ -375,6 +412,42 @@ export default {
       return filtered
     })
 
+    // 計算總頁數
+    const totalPages = computed(() => {
+      return Math.ceil(filteredData.value.length / itemsPerPage)
+    })
+
+    // 當前頁的資料
+    const paginatedData = computed(() => {
+      const start = (currentPage.value - 1) * itemsPerPage
+      const end = start + itemsPerPage
+      return filteredData.value.slice(start, end)
+    })
+
+    // 監聽篩選條件變化，重置到第一頁
+    watch([selectedCounty, selectedServeItem, searchKeyword], () => {
+      currentPage.value = 1
+    })
+
+    // 換頁
+    const goToPage = (page) => {
+      if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page
+        // 滾動到頁面頂部
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+
+    // 上一頁
+    const previousPage = () => {
+      goToPage(currentPage.value - 1)
+    }
+
+    // 下一頁
+    const nextPage = () => {
+      goToPage(currentPage.value + 1)
+    }
+
     // 載入資料
     const loadData = async (forceRefresh = false) => {
       loading.value = true
@@ -414,6 +487,7 @@ export default {
       selectedCounty.value = ''
       selectedServeItem.value = ''
       searchKeyword.value = ''
+      currentPage.value = 1
     }
 
     // 點擊服務項目標籤進行篩選
@@ -483,6 +557,9 @@ export default {
       loading,
       error,
       filteredData,
+      paginatedData,
+      currentPage,
+      totalPages,
       favorites,
       filterSection,
       loadData,
@@ -493,7 +570,10 @@ export default {
       viewOnMap,
       openWebsite,
       addToFavorites,
-      removeFromFavorites
+      removeFromFavorites,
+      goToPage,
+      previousPage,
+      nextPage
     }
   }
 }

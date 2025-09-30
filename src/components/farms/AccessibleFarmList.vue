@@ -110,8 +110,8 @@
       </button>
     </div>
 
-   <!-- 資料列表 -->
-   <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
+    <!-- 資料列表 -->
+    <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div 
@@ -177,6 +177,41 @@
             </div>
           </div>
         </div>
+
+        <!-- 分頁控制 -->
+        <div v-if="totalPages > 1" class="mt-8 flex justify-center items-center gap-2 flex-wrap">
+          <button 
+            @click="previousPage" 
+            :disabled="currentPage === 1"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            ← 上一頁
+          </button>
+          
+          <div class="flex gap-1 flex-wrap">
+            <button 
+              v-for="page in totalPages" 
+              :key="page"
+              @click="goToPage(page)"
+              :class="[
+                'px-3 py-2 border rounded-md text-sm transition-colors',
+                currentPage === page
+                  ? 'bg-green-600 text-white border-green-600'
+                  : 'bg-white border-gray-300 hover:bg-gray-50'
+              ]"
+            >
+              {{ page }}
+            </button>
+          </div>
+          
+          <button 
+            @click="nextPage" 
+            :disabled="currentPage === totalPages"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            下一頁 →
+          </button>
+        </div>
       </div>
     </div>
 
@@ -192,7 +227,7 @@
     <div v-if="filteredData.length > 0" class="bg-green-100 text-green-800 border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <h5>📊 統計資訊</h5>
-        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆無障礙休閒農場資料</p>
+        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆無障礙休閒農場資料（目前顯示第 <strong>{{ currentPage }}</strong> 頁，共 <strong>{{ totalPages }}</strong> 頁）</p>
         <div v-if="selectedCounty || selectedAccessibleItem" class="text-sm mt-2">
           <span class="font-semibold">篩選條件：</span>
           <span v-if="selectedCounty" class="inline-block bg-green-200 px-2 py-1 rounded text-xs mr-1">📍 {{ selectedCounty }}</span>
@@ -249,7 +284,6 @@ export default {
     const currentPage = ref(1)
     const itemsPerPage = 10
 
-
     // 計算屬性：篩選後的資料
     const filteredData = computed(() => {
       let filtered = rawData.value
@@ -264,7 +298,7 @@ export default {
         })
       }
 
-       // 無障礙設施篩選
+      // 無障礙設施篩選
       if (selectedAccessibleItem.value) {
         filtered = filtered.filter(item => {
           if (!item.accessibleItems || item.accessibleItems.length === 0) {
@@ -289,8 +323,8 @@ export default {
       return filtered
     })
 
-     // 計算總頁數
-     const totalPages = computed(() => {
+    // 計算總頁數
+    const totalPages = computed(() => {
       return Math.ceil(filteredData.value.length / itemsPerPage)
     })
 
@@ -306,8 +340,8 @@ export default {
       currentPage.value = 1
     })
 
-     // 換頁
-     const goToPage = (page) => {
+    // 換頁
+    const goToPage = (page) => {
       if (page >= 1 && page <= totalPages.value) {
         currentPage.value = page
         // 滾動到頁面頂部
@@ -349,11 +383,8 @@ export default {
       }
     }
 
-
-   
-
-   // 刷新資料
-   const refreshData = () => {
+    // 刷新資料
+    const refreshData = () => {
       loadData(true)
     }
 
@@ -370,9 +401,8 @@ export default {
       currentPage.value = 1
     }
 
-
-     // 點擊無障礙設施標籤進行篩選
-     const filterByAccessibleItem = (accessibleItem) => {
+    // 點擊無障礙設施標籤進行篩選
+    const filterByAccessibleItem = (accessibleItem) => {
       // 如果點擊的是已選中的項目，則取消篩選
       if (selectedAccessibleItem.value === accessibleItem) {
         selectedAccessibleItem.value = ''
@@ -386,8 +416,8 @@ export default {
       }
     }
 
-     // 在地圖上查看
-     const viewOnMap = (item) => {
+    // 在地圖上查看
+    const viewOnMap = (item) => {
       const address = item.address?.chinese
       if (address) {
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
@@ -401,7 +431,6 @@ export default {
     const openWebsite = (url) => {
       window.open(url, '_blank')
     }
-
 
     // 加入收藏
     const addToFavorites = (item) => {
