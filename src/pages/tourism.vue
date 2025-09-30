@@ -3,7 +3,7 @@
     <!-- 頁面標題 -->
     <div class="bg-white px-8 py-12 text-center border-b border-gray-200">
       <h1 class="text-green-800 font-semibold text-4xl mb-4">🌾 農遊體驗</h1>
-      <p class="text-gray-600 text-xl mb-2">探索台灣無障礙休閒農場，享受自然農遊樂趣</p>
+      <p class="text-gray-600 text-xl mb-2">探索台灣休閒農場，享受自然農遊樂趣</p>
       <p class="text-gray-500 text-base max-w-4xl mx-auto mb-8">
         提供完整的農遊資訊服務，包含農場、步道、老街、市集、美食、伴手禮、停車場、廁所等一條龍服務
       </p>
@@ -29,30 +29,39 @@
     </div>
 
     <!-- 主要內容區域 -->
-    <div class="flex min-h-[calc(100vh-200px)]">
-      <!-- 左側選單 -->
+    <div v-if="selectedCategory === 'farms'" class="flex min-h-[calc(100vh-200px)]">
+      <!-- 左側選單 - 只在農場分類時顯示 -->
       <div class="w-[350px] bg-white border-r border-gray-200 p-8 overflow-y-auto shadow-lg lg:w-[300px] md:w-full md:border-r-0 md:border-b md:p-4 sm:p-3">
         <div class="mb-8 text-center border-b-2 border-gray-200 pb-4">
           <h3 class="text-green-800 font-semibold text-2xl mb-2">🌱 農場分類</h3>
           <p class="text-gray-500 text-sm">選擇您想探索的農場類型</p>
         </div>
         
-        <!-- 農遊項目選單 -->
+        <!-- 農場類型選單 -->
         <div class="pt-0">
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-3">
             <div 
-              v-for="category in otherCategories" 
-              :key="category.id"
               :class="[
-                'flex items-center px-4 py-3 border rounded-lg  cursor-pointer transition-all duration-300',
-                selectedOtherCategory === category.id 
-  ? 'border-green-500 bg-green-600 text-white shadow-lg' 
-  : 'border-gray-200 bg-white hover:border-green-500 hover:bg-green-50'
+                'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
+                selectedFarmType === 'accessible' 
+                  ? 'border-green-500 bg-green-500 text-white shadow-lg' 
+                  : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
               ]"
-              @click="selectOtherCategory(category.id)"
+              @click="selectFarmType('accessible')"
             >
-              <i :class="category.icon" class="text-xl mr-3 w-5 text-center"></i>
-              <span class="font-medium text-sm">{{ category.name }}</span>
+              <span class="font-medium text-base">無障礙休閒農場</span>
+            </div>
+            
+            <div 
+              :class="[
+                'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
+                selectedFarmType === 'outdoor-edu' 
+                  ? 'border-green-500 bg-green-500 text-white shadow-lg' 
+                  : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
+              ]"
+              @click="selectFarmType('outdoor-edu')"
+            >
+              <span class="font-medium text-base">戶外教育農場</span>
             </div>
           </div>
         </div>
@@ -60,11 +69,22 @@
 
       <!-- 右側內容區域 -->
       <div class="flex-1 bg-gray-50 overflow-y-auto">
-        <ComprehensiveTourism 
-          :selected-other-category="selectedOtherCategory"
-          :selected-category="selectedCategory"
-          @category-changed="handleCategoryChange"
+        <!-- 無障礙農場組件 -->
+        <AccessibleFarmList 
+          v-if="selectedFarmType === 'accessible'"
         />
+        
+        <!-- 戶外教育農場組件 -->
+        <OutdoorEduFarmList 
+          v-else-if="selectedFarmType === 'outdoor-edu'"
+        />
+      </div>
+    </div>
+
+    <!-- 其他分類的內容區域（步道、老街等） -->
+    <div v-else class="w-full bg-white p-8">
+      <div class="max-w-7xl mx-auto text-center py-12">
+        <h3 class="text-gray-600 text-xl">{{ getCurrentCategoryName() }} 功能開發中...</h3>
       </div>
     </div>
   </div>
@@ -72,84 +92,39 @@
 
 <script>
 import { ref } from 'vue'
-import ComprehensiveTourism from '@/components/farms/ComprehensiveTourism.vue'
+import AccessibleFarmList from '@/components/farms/AccessibleFarmList.vue'
+import OutdoorEduFarmList from '@/components/farms/OutdoorEduFarmList.vue'
 
 export default {
   name: 'TourismPage',
   components: {
-    ComprehensiveTourism
+    AccessibleFarmList,
+    OutdoorEduFarmList
   },
   setup() {
-    const selectedOtherCategory = ref('trails') // 預設選擇無障礙設施
     const selectedCategory = ref('farms') // 預設選擇農場
+    const selectedFarmType = ref('accessible') // 預設選擇無障礙農場
 
     // 主要分類按鈕
     const categories = ref([
       {
         id: 'farms',
         name: '農場',
-        icon: '🌾',
-        description: '無障礙休閒農場'
+        icon: '🌾'
       },
       {
         id: 'trails',
         name: '步道',
-        icon: '🥾',
-        description: '無障礙步道'
+        icon: '🥾'
       },
       {
         id: 'old-streets',
         name: '老街',
-        icon: '🏮',
-        description: '歷史老街'
-      },
-      {
-        id: 'markets',
-        name: '活動（市集）',
-        icon: '🏪',
-        description: '農民市集活動'
-      },
-      {
-        id: 'food',
-        name: '美食',
-        icon: '🍽️',
-        description: '在地美食'
-      },
-      {
-        id: 'souvenirs',
-        name: '伴手禮',
-        icon: '🎁',
-        description: '特色伴手禮'
-      },
-      {
-        id: 'parking',
-        name: '停車場',
-        icon: '🅿️',
-        description: '無障礙停車'
-      },
-      {
-        id: 'toilets',
-        name: '廁所',
-        icon: '🚻',
-        description: '無障礙廁所'
-      }
-    ])
-
-    // 農遊項目分類
-    const otherCategories = ref([
-      {
-        id: 'trails',
-        name: '無障礙設施',
-        icon: '♿'
-      },
-      {
-        id: 'old-streets',
-        name: '體驗',
         icon: '🏮'
       },
       {
         id: 'markets',
-        name: '市集',
+        name: '活動（市集）',
         icon: '🏪'
       },
       {
@@ -179,26 +154,24 @@ export default {
       selectedCategory.value = categoryId
     }
 
-    // 選擇其他分類
-    const selectOtherCategory = (categoryId) => {
-      selectedOtherCategory.value = categoryId
+    // 選擇農場類型
+    const selectFarmType = (typeId) => {
+      selectedFarmType.value = typeId
     }
 
-    // 處理子組件的分類變更
-    const handleCategoryChange = (categoryType, categoryId) => {
-      if (categoryType === 'other') {
-        selectedOtherCategory.value = categoryId
-      }
+    // 獲取當前分類名稱
+    const getCurrentCategoryName = () => {
+      const category = categories.value.find(cat => cat.id === selectedCategory.value)
+      return category ? category.name : ''
     }
 
     return {
-      selectedOtherCategory,
       selectedCategory,
+      selectedFarmType,
       categories,
-      otherCategories,
       selectCategory,
-      selectOtherCategory,
-      handleCategoryChange
+      selectFarmType,
+      getCurrentCategoryName
     }
   }
 }

@@ -75,6 +75,26 @@ export const getFarmsByCounty = async (county, forceRefresh = false) => {
   }
 }
 
+
+// 取得戶外教育農場
+export const getOutdoorEduFarms = async (forceRefresh = false) => {
+  try {
+    const url = forceRefresh ? '/api/outdoor-edu-farms?refresh=true' : '/api/outdoor-edu-farms'
+    const response = await api.get(url)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得戶外教育農場資料失敗',
+      error: error.message
+    }
+  }
+}
+
 // 取得快取狀態
 export const getCacheStatus = async () => {
   try {

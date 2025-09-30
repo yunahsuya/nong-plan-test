@@ -39,21 +39,102 @@
             </select>
           </div>
           
-          <!-- 無障礙設施篩選 -->
+          <!-- 服務項目篩選 -->
           <div class="flex-1 min-w-[200px]">
-            <label for="accessibleItemSelect" class="block font-semibold text-gray-700 mb-2">無障礙設施</label>
+            <label for="serveItemSelect" class="block font-semibold text-gray-700 mb-2">服務項目</label>
             <select 
-              id="accessibleItemSelect"
-              v-model="selectedAccessibleItem" 
+              id="serveItemSelect"
+              v-model="selectedServeItem" 
               @change="filterData" 
               class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               :disabled="loading"
             >
-              <option value="">全部設施項目</option>
+              <option value="">全部服務項目</option>
               
-              <!-- 無障礙設施分類 -->
-                <option value="無障礙坡道">無障礙坡道</option>
-                <option value="無障礙廁所">無障礙廁所</option>             
+              <!-- 教育類 -->
+              <optgroup label="🎓 教育導覽">
+                <option value="環境教育">環境教育</option>
+                <option value="生態導覽">生態導覽</option>
+                <option value="園區導覽">園區導覽</option>
+                <option value="導覽解說">導覽解說</option>
+                <option value="產業解說">產業解說</option>
+                <option value="文化導覽">文化導覽</option>
+                <option value="夜間導覽">夜間導覽</option>
+                <option value="夜間觀察">夜間觀察</option>
+              </optgroup>
+              
+              <!-- 手作DIY類 -->
+              <optgroup label="🎨 手作DIY">
+                <option value="餅乾製作">餅乾製作</option>
+                <option value="薑餅製作">薑餅製作</option>
+                <option value="香皂製作">香皂製作</option>
+                <option value="蜜蠟製作">蜜蠟製作</option>
+                <option value="湯圓製作">湯圓製作</option>
+                <option value="手工湯圓">手工湯圓</option>
+                <option value="醬菜製作">醬菜製作</option>
+                <option value="橘餅製作">橘餅製作</option>
+                <option value="披薩製作">披薩製作</option>
+                <option value="手工披薩">手工披薩</option>
+                <option value="窯烤披薩">窯烤披薩</option>
+                <option value="筆筒製作">筆筒製作</option>
+                <option value="壓花製作">壓花製作</option>
+              </optgroup>
+              
+              <!-- 竹製品類 -->
+              <optgroup label="🎋 竹製品體驗">
+                <option value="竹玩製作">竹玩製作</option>
+                <option value="竹製茶杯">竹製茶杯</option>
+                <option value="竹製水槍">竹製水槍</option>
+                <option value="竹耙彩繪">竹耙彩繪</option>
+                <option value="竹笛製作">竹笛製作</option>
+                <option value="竹筒飯">竹筒飯</option>
+              </optgroup>
+              
+              <!-- 彩繪類 -->
+              <optgroup label="🎨 彩繪體驗">
+                <option value="乳牛彩繪">乳牛彩繪</option>
+                <option value="彩繪甲蟲">彩繪甲蟲</option>
+                <option value="竹耙彩繪">竹耙彩繪</option>
+              </optgroup>
+              
+              <!-- 農事體驗類 -->
+              <optgroup label="🌾 農事體驗">
+                <option value="採果體驗">採果體驗</option>
+                <option value="扦插採果">扦插採果</option>
+                <option value="種子體驗">種子體驗</option>
+                <option value="稻田採收">稻田採收</option>
+                <option value="地瓜體驗">地瓜體驗</option>
+                <option value="鳳梨體驗">鳳梨體驗</option>
+                <option value="茶業體驗">茶業體驗</option>
+              </optgroup>
+              
+              <!-- 米食類 -->
+              <optgroup label="🍚 米食體驗">
+                <option value="碾米體驗">碾米體驗</option>
+                <option value="製米體驗">製米體驗</option>
+                <option value="香米製作">香米製作</option>
+              </optgroup>
+              
+              <!-- 自然生態類 -->
+              <optgroup label="🌳 自然生態">
+                <option value="森林探索">森林探索</option>
+                <option value="溪流生態">溪流生態</option>
+                <option value="水圳巡禮">水圳巡禮</option>
+              </optgroup>
+              
+              <!-- 盆栽園藝類 -->
+              <optgroup label="🪴 盆栽園藝">
+                <option value="創意盆栽">創意盆栽</option>
+                <option value="香草盆栽">香草盆栽</option>
+              </optgroup>
+              
+              <!-- 文化體驗類 -->
+              <optgroup label="🏮 文化體驗">
+                <option value="天燈釋放">天燈釋放</option>
+                <option value="陀螺文化">陀螺文化</option>
+                <option value="藍染體驗">藍染體驗</option>
+                <option value="葉拓體驗">葉拓體驗</option>
+              </optgroup>
             </select>
           </div>
           
@@ -98,7 +179,7 @@
       <div class="inline-block w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" role="status">
         <span class="sr-only">載入中...</span>
       </div>
-      <p class="mt-3 text-gray-600">正在載入無障礙休閒農場資料...</p>
+      <p class="mt-3 text-gray-600">正在載入戶外教育農場資料...</p>
     </div>
 
     <!-- 錯誤訊息 -->
@@ -110,34 +191,35 @@
       </button>
     </div>
 
-   <!-- 資料列表 -->
-   <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
+    <!-- 資料列表 -->
+    <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div 
-            v-for="item in paginatedData" 
+            v-for="item in filteredData" 
             :key="item.id" 
             class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
           >
             <div class="p-6">
               <h5 class="text-green-800 font-semibold mb-4">{{ item.name }}</h5>
               <p class="text-gray-600 leading-relaxed mb-4">
-                <strong>地址：</strong>{{ item.address.chinese }}<br>
-                <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br></span>
+                <strong>地址：</strong>{{ item.address }}<br>
+                <span v-if="item.tel"><strong>電話：</strong>{{ item.tel }}<br></span>
                 <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span>
+                <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br></span>
               </p>
               
-              <!-- 無障礙設施標籤 - 可點擊篩選 -->
+              <!-- 服務項目標籤 - 可點擊篩選 -->
               <div class="mb-4 min-h-[60px]">
-                <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
-                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br>
+                <div v-if="item.serveItems && item.serveItems.length > 0">
+                  <small class="text-green-600 font-semibold">🎓 服務項目：</small><br>
                   <span 
-                    v-for="(feature, index) in item.accessibleItems" 
+                    v-for="(feature, index) in item.serveItems" 
                     :key="index"
-                    @click="filterByAccessibleItem(feature)"
+                    @click="filterByServeItem(feature)"
                     :class="[
                       'inline-block px-2 py-1 rounded text-xs m-0.5 cursor-pointer transition-all duration-200',
-                      selectedAccessibleItem === feature
+                      selectedServeItem === feature
                         ? 'bg-green-500 text-white shadow-md'
                         : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm'
                     ]"
@@ -147,7 +229,7 @@
                   </span>
                 </div>
                 <div v-else class="text-gray-400 text-sm">
-                  <small>♿ 無障礙設施：</small><br>
+                  <small>🎓 服務項目：</small><br>
                   <span class="text-gray-400">暫無資料</span>
                 </div>
               </div>
@@ -168,6 +250,13 @@
                   🌐 網站
                 </button>
                 <button 
+                  v-if="item.facebook" 
+                  @click="openWebsite(item.facebook)" 
+                  class="px-3 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-50 hover:bg-blue-100 transition-colors"
+                >
+                  📘 Facebook
+                </button>
+                <button 
                   @click="addToFavorites(item)" 
                   class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors"
                 >
@@ -184,7 +273,7 @@
     <div v-if="!loading && !error && filteredData.length === 0" class="bg-blue-100 text-blue-800 py-12 px-8 text-center border-b border-gray-200">
       <div class="max-w-7xl mx-auto">
         <h4>ℹ️ 沒有找到資料</h4>
-        <p>找不到符合條件的無障礙休閒農場，請嘗試其他篩選條件。</p>
+        <p>找不到符合條件的戶外教育農場，請嘗試其他篩選條件。</p>
       </div>
     </div>
 
@@ -192,11 +281,11 @@
     <div v-if="filteredData.length > 0" class="bg-green-100 text-green-800 border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <h5>📊 統計資訊</h5>
-        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆無障礙休閒農場資料</p>
-        <div v-if="selectedCounty || selectedAccessibleItem" class="text-sm mt-2">
+        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆戶外教育農場資料</p>
+        <div v-if="selectedCounty || selectedServeItem" class="text-sm mt-2">
           <span class="font-semibold">篩選條件：</span>
           <span v-if="selectedCounty" class="inline-block bg-green-200 px-2 py-1 rounded text-xs mr-1">📍 {{ selectedCounty }}</span>
-          <span v-if="selectedAccessibleItem" class="inline-block bg-blue-200 px-2 py-1 rounded text-xs">♿ {{ selectedAccessibleItem }}</span>
+          <span v-if="selectedServeItem" class="inline-block bg-blue-200 px-2 py-1 rounded text-xs">🎓 {{ selectedServeItem }}</span>
         </div>
       </div>
     </div>
@@ -232,23 +321,20 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue'
-import { getAccessibleFarms } from '@/services/api.js'
+import { ref, onMounted, computed } from 'vue'
+import { getOutdoorEduFarms } from '@/services/api.js'
 
 export default {
-  name: 'AccessibleFarmList',
+  name: 'OutdoorEduFarmList',
   setup() {
     const selectedCounty = ref('')
-    const selectedAccessibleItem = ref('')
+    const selectedServeItem = ref('')
     const searchKeyword = ref('')
     const loading = ref(false)
     const error = ref('')
     const rawData = ref([])
     const favorites = ref([])
-    const filterSection = ref(null)
-    const currentPage = ref(1)
-    const itemsPerPage = 10
-
+    const filterSection = ref(null) // 篩選區域的 ref
 
     // 計算屬性：篩選後的資料
     const filteredData = computed(() => {
@@ -258,20 +344,20 @@ export default {
       if (selectedCounty.value) {
         filtered = filtered.filter(item => {
           const countyName = item.countyName || item.county || ''
-          const address = item.address?.chinese || ''
+          const address = item.address || ''
           return countyName.includes(selectedCounty.value) || 
                  address.includes(selectedCounty.value)
         })
       }
 
-       // 無障礙設施篩選
-      if (selectedAccessibleItem.value) {
+      // 服務項目篩選
+      if (selectedServeItem.value) {
         filtered = filtered.filter(item => {
-          if (!item.accessibleItems || item.accessibleItems.length === 0) {
+          if (!item.serveItems || item.serveItems.length === 0) {
             return false
           }
-          return item.accessibleItems.some(accessibleItem => 
-            accessibleItem.includes(selectedAccessibleItem.value)
+          return item.serveItems.some(serveItem => 
+            serveItem.includes(selectedServeItem.value)
           )
         })
       }
@@ -281,49 +367,13 @@ export default {
         const keyword = searchKeyword.value.toLowerCase()
         filtered = filtered.filter(item => 
           item.name?.toLowerCase().includes(keyword) ||
-          item.address?.chinese?.toLowerCase().includes(keyword) ||
-          item.accessibleItems?.some(item => item.toLowerCase().includes(keyword))
+          item.address?.toLowerCase().includes(keyword) ||
+          item.serveItems?.some(item => item.toLowerCase().includes(keyword))
         )
       }
 
       return filtered
     })
-
-     // 計算總頁數
-     const totalPages = computed(() => {
-      return Math.ceil(filteredData.value.length / itemsPerPage)
-    })
-
-    // 當前頁的資料
-    const paginatedData = computed(() => {
-      const start = (currentPage.value - 1) * itemsPerPage
-      const end = start + itemsPerPage
-      return filteredData.value.slice(start, end)
-    })
-
-    // 監聽篩選條件變化，重置到第一頁
-    watch([selectedCounty, selectedAccessibleItem, searchKeyword], () => {
-      currentPage.value = 1
-    })
-
-     // 換頁
-     const goToPage = (page) => {
-      if (page >= 1 && page <= totalPages.value) {
-        currentPage.value = page
-        // 滾動到頁面頂部
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }
-    }
-
-    // 上一頁
-    const previousPage = () => {
-      goToPage(currentPage.value - 1)
-    }
-
-    // 下一頁
-    const nextPage = () => {
-      goToPage(currentPage.value + 1)
-    }
 
     // 載入資料
     const loadData = async (forceRefresh = false) => {
@@ -331,13 +381,13 @@ export default {
       error.value = ''
 
       try {
-        console.log(`正在載入無障礙休閒農場資料...`)
+        console.log(`正在載入戶外教育農場資料...`)
         
-        const result = await getAccessibleFarms(forceRefresh)
+        const result = await getOutdoorEduFarms(forceRefresh)
         
         if (result.success) {
           rawData.value = result.data
-          console.log(`✅ 載入無障礙休閒農場資料成功:`, rawData.value.length, '筆')
+          console.log(`✅ 載入戶外教育農場資料成功:`, rawData.value.length, '筆')
         } else {
           error.value = result.message || '載入資料失敗'
         }
@@ -349,11 +399,8 @@ export default {
       }
     }
 
-
-   
-
-   // 刷新資料
-   const refreshData = () => {
+    // 刷新資料
+    const refreshData = () => {
       loadData(true)
     }
 
@@ -365,19 +412,17 @@ export default {
     // 重置篩選
     const resetFilter = () => {
       selectedCounty.value = ''
-      selectedAccessibleItem.value = ''
+      selectedServeItem.value = ''
       searchKeyword.value = ''
-      currentPage.value = 1
     }
 
-
-     // 點擊無障礙設施標籤進行篩選
-     const filterByAccessibleItem = (accessibleItem) => {
+    // 點擊服務項目標籤進行篩選
+    const filterByServeItem = (serveItem) => {
       // 如果點擊的是已選中的項目，則取消篩選
-      if (selectedAccessibleItem.value === accessibleItem) {
-        selectedAccessibleItem.value = ''
+      if (selectedServeItem.value === serveItem) {
+        selectedServeItem.value = ''
       } else {
-        selectedAccessibleItem.value = accessibleItem
+        selectedServeItem.value = serveItem
       }
       
       // 滾動到篩選區域
@@ -386,9 +431,9 @@ export default {
       }
     }
 
-     // 在地圖上查看
-     const viewOnMap = (item) => {
-      const address = item.address?.chinese
+    // 在地圖上查看
+    const viewOnMap = (item) => {
+      const address = item.address
       if (address) {
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
         window.open(mapUrl, '_blank')
@@ -402,16 +447,15 @@ export default {
       window.open(url, '_blank')
     }
 
-
     // 加入收藏
     const addToFavorites = (item) => {
       const existingIndex = favorites.value.findIndex(fav => fav.id === item.id)
       if (existingIndex === -1) {
         favorites.value.push({
-          id: item.id || item.name,
+          id: item.id,
           name: item.name,
-          category: '無障礙休閒農場',
-          address: item.address?.chinese
+          category: '戶外教育農場',
+          address: item.address
         })
         alert(`已將 ${item.name} 加入收藏`)
       } else {
@@ -434,28 +478,22 @@ export default {
 
     return {
       selectedCounty,
-      selectedAccessibleItem,
+      selectedServeItem,
       searchKeyword,
       loading,
       error,
       filteredData,
-      paginatedData,
-      currentPage,
-      totalPages,
       favorites,
       filterSection,
       loadData,
       refreshData,
       filterData,
       resetFilter,
-      filterByAccessibleItem,
+      filterByServeItem,
       viewOnMap,
       openWebsite,
       addToFavorites,
-      removeFromFavorites,
-      goToPage,
-      previousPage,
-      nextPage
+      removeFromFavorites
     }
   }
 }
