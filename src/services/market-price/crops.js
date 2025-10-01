@@ -1,87 +1,69 @@
 /**
- * 農產品市場行情 API 服務
- * 簡單、直接、無廢話的 HTTP 調用層
+ * 農產品市場行情 API
+ *
+ * Linus says: "Talk is cheap. Show me the code."
+ * 對應真實後端 API: /api/prices/*
  */
+import axios from 'axios'
 
-const API_BASE = 'http://localhost:4000/api/crops'
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000/api/prices',
+  timeout: 10000,
+})
 
-export class CropsService {
-  /**
-   * 獲取農產品分類清單
-   * @returns {Promise<Object>} { categories, summary }
-   */
-  static async getCategories() {
-    try {
-      const response = await fetch(`${API_BASE}/categories`)
-
-      // 檢查 HTTP 狀態
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: 後端 API 不可用`)
-      }
-
-      // 檢查回應是否為 JSON
-      const contentType = response.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('後端回傳非 JSON 格式，請檢查 API 服務是否正常運行')
-      }
-
-      const data = await response.json()
-
-      // 支援兩種回應格式: { status: 'success' } 或 { success: true }
-      const isSuccess = data.status === 'success' || data.success === true
-
-      if (!isSuccess) {
-        throw new Error(data.message || 'API 呼叫失敗')
-      }
-
-      return data.data
-    } catch (error) {
-      if (error instanceof SyntaxError) {
-        throw new Error('後端 API 不存在或未啟動，請確認 nong-plan-back-test 服務正在運行')
-      }
-      throw error
-    }
+/**
+ * 統一錯誤處理
+ */
+async function handleRequest(requestFn) {
+  try {
+    const { data } = await requestFn()
+    return data.success ? data.data : null
+  } catch (error) {
+    throw new Error(error.response?.data?.message || error.message || 'API 請求失敗')
   }
+}
+
+export const CropsService = {
+  /**
+   * 獲取所有價格資料
+   * GET /api/prices
+   * @param {boolean} refresh - 是否強制刷新快取
+   */
+  getAllPrices: (refresh = false) => handleRequest(() => api.get('/', { params: { refresh } })),
 
   /**
-   * 獲取特定作物的各地價格
-   * @param {string} crop - 作物名稱
-   * @param {Object} options - 選項 { market?, sort? }
-   * @returns {Promise<Object>} { cropName, locations, statistics, pagination }
+   * 根據作物名稱查詢
+   * GET /api/prices/crop/:crop
+   * @param {string} crop - 作物名稱（支援模糊搜尋）
+   * @param {boolean} refresh - 是否強制刷新快取
    */
-  static async getCropPrices(crop, options = {}) {
-    try {
-      const params = new URLSearchParams({ crop })
+  getPricesByCrop: (crop, refresh = false) =>
+    handleRequest(() => api.get(`/crop/${encodeURIComponent(crop)}`, { params: { refresh } })),
 
-      if (options.market) params.append('market', options.market)
-      if (options.sort) params.append('sort', options.sort)
+  /**
+   * 根據市場名稱查詢
+   * GET /api/prices/market/:market
+   * @param {string} market - 市場名稱（支援模糊搜尋）
+   * @param {boolean} refresh - 是否強制刷新快取
+   */
+  getPricesByMarket: (market, refresh = false) =>
+    handleRequest(() => api.get(`/market/${encodeURIComponent(market)}`, { params: { refresh } })),
 
-      const response = await fetch(`${API_BASE}/locations?${params}`)
+  /**
+   * 獲取快取狀態
+   * GET /api/prices/cache/status
+   */
+  getCacheStatus: () => handleRequest(() => api.get('/cache/status')),
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: 後端 API 不可用`)
-      }
+  /**
+   * 清除快取
+   * DELETE /api/prices/cache
+   */
+  clearCache: () => handleRequest(() => api.delete('/cache')),
 
-      const contentType = response.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('後端回傳非 JSON 格式，請檢查 API 服務是否正常運行')
-      }
-
-      const data = await response.json()
-
-      // 支援兩種回應格式: { status: 'success' } 或 { success: true }
-      const isSuccess = data.status === 'success' || data.success === true
-
-      if (!isSuccess) {
-        throw new Error(data.message || 'API 呼叫失敗')
-      }
-
-      return data.data
-    } catch (error) {
-      if (error instanceof SyntaxError) {
-        throw new Error('後端 API 不存在或未啟動，請確認 nong-plan-back-test 服務正在運行')
-      }
-      throw error
-    }
-  }
+  /**
+   * 強制刷新快取
+   * POST /api/prices/cache/refresh
+   */
+  refreshCache: () => handleRequest(() => api.post('/cache/refresh')),
 }
