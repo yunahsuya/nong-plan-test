@@ -149,7 +149,9 @@ meta:
               <div class="grid grid-cols-3 gap-2 text-center">
                 <div class="bg-error/10 rounded-lg p-2">
                   <div class="text-xs opacity-70">上價</div>
-                  <div class="text-lg font-bold text-error">{{ item.prices.high.toFixed(1) }}</div>
+                  <div class="text-lg font-bold text-error">
+                    {{ item.prices.high.toFixed(1) }}
+                  </div>
                 </div>
                 <div class="bg-warning/10 rounded-lg p-2">
                   <div class="text-xs opacity-70">中價</div>
@@ -159,18 +161,10 @@ meta:
                 </div>
                 <div class="bg-success/10 rounded-lg p-2">
                   <div class="text-xs opacity-70">下價</div>
-                  <div class="text-lg font-bold text-success">{{ item.prices.low.toFixed(1) }}</div>
+                  <div class="text-lg font-bold text-success">
+                    {{ item.prices.low.toFixed(1) }}
+                  </div>
                 </div>
-              </div>
-
-              <!-- Price Trend Chart -->
-              <div class="divider my-2 text-sm">價格趨勢</div>
-              <div class="bg-base-200 rounded-lg p-4 h-48">
-                <PriceBarChart
-                  :crop-name="item.cropName"
-                  :market-name="item.marketName"
-                  :all-data="priceData"
-                />
               </div>
 
               <!-- Additional Info -->
@@ -218,7 +212,6 @@ meta:
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { CropsService } from '@/services/market-price/crops.js'
-import PriceBarChart from '@/components/market-price/PriceBarChart.vue'
 import {
   PhMagnifyingGlass,
   PhListBullets,
