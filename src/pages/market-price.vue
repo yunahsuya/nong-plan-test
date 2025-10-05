@@ -29,5 +29,5 @@ meta:
 </template>
 
 <script setup>
-import FarmProduce from '@/components/market-price/farm-produce/farm-produce.vue'
+import FarmProduce from '@/components/market-price/farm-produce.vue'
 </script>

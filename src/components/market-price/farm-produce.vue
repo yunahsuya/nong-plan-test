@@ -62,11 +62,11 @@
 <script setup>
 import { ref } from 'vue'
 import { PhWarning, PhInfo, PhPlant } from '@phosphor-icons/vue'
-import SearchBar from './search-bar.vue'
-import StatsSummary from './stats-summary.vue'
-import ProduceCard from './produce-card.vue'
-import { usePriceData } from '../composables/usePriceData.js'
-import { useInfiniteScroll } from '../composables/useInfiniteScroll.js'
+import SearchBar from './farm-produce/search-bar.vue'
+import StatsSummary from './farm-produce/stats-summary.vue'
+import ProduceCard from './farm-produce/produce-card.vue'
+import { usePriceData } from './composables/usePriceData.js'
+import { useInfiniteScroll } from './composables/useInfiniteScroll.js'
 
 const searchQuery = ref('')
 
