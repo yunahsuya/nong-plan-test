@@ -358,7 +358,8 @@ export const fetchMemberProducts = async (forceRefresh = false) => {
   }
 }
 
-// ==================== 停車場、廁所相關 API ====================
+// ==================== 停車場 API ====================
+
 
 // 9. 農科園區停車場一覽表
 export const fetchParkingLots = async (forceRefresh = false) => {
@@ -375,20 +376,12 @@ export const fetchParkingLots = async (forceRefresh = false) => {
       IsTransData: 1
     })
     
+    // 根據實際 API 回應格式調整
     const cleanedData = rawData.map(parking => ({
-      id: `parking-${parking.Name}-${parking.County}`.replace(/\s+/g, '-'),
-      name: parking.Name,
-      tel: parking.Tel,
-      county: parking.County,
-      address: parking.Address,
-      coordinates: {
-        longitude: parseFloat(parking.Longitude),
-        latitude: parseFloat(parking.Latitude)
-      },
-      category: '停車場',
-      tags: ['農科園區', '停車場'],
-      accessibleFeatures: ['無障礙停車位']
-    })).filter(parking => parking.name && parking.address)
+      項次: parking.項次,
+      地點: parking.地點,
+      停車格數量: parking.停車格數量
+    }))
     
     await writeCache(cacheKey, cleanedData)
     return cleanedData
@@ -398,6 +391,9 @@ export const fetchParkingLots = async (forceRefresh = false) => {
     throw error
   }
 }
+
+// ==================== 廁所 API ====================
+
 
 // 10. 農科園區公共廁所一覽表
 export const fetchPublicToilets = async (forceRefresh = false) => {

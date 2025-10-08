@@ -81,25 +81,33 @@
       </div>
     </div>
 
-    <!-- 其他分類的內容區域（步道、老街等） -->
-    <div v-else class="w-full bg-white p-8">
-      <div class="max-w-7xl mx-auto text-center py-12">
-        <h3 class="text-gray-600 text-xl">{{ getCurrentCategoryName() }} 功能開發中...</h3>
-      </div>
-    </div>
+   <!-- 停車場分類的內容區域 -->
+<div v-else-if="selectedCategory === 'parking'" class="w-full bg-gray-50 overflow-y-auto">
+  <ParkingList />
+</div>
+
+<!-- 其他分類的內容區域（步道、老街等） -->
+<div v-else class="w-full bg-white p-8">
+  <div class="max-w-7xl mx-auto text-center py-12">
+    <h3 class="text-gray-600 text-xl">{{ getCurrentCategoryName() }} 功能開發中...</h3>
   </div>
+</div>
+</div>
+
 </template>
 
 <script>
 import { ref } from 'vue'
 import AccessibleFarmList from '@/components/farms/AccessibleFarmList.vue'
 import OutdoorEduFarmList from '@/components/farms/OutdoorEduFarmList.vue'
+import ParkingList from '@/components/farms/ParkingList.vue'
 
 export default {
   name: 'TourismPage',
   components: {
     AccessibleFarmList,
-    OutdoorEduFarmList
+    OutdoorEduFarmList,
+    ParkingList
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場

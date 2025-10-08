@@ -313,9 +313,10 @@ export const getMemberProducts = async () => {
 }
 
 // 取得停車場資料
-export const getParkingLots = async () => {
+export const getParkingLots = async (forceRefresh = false) => {
   try {
-    const response = await api.get('/api/parking-lots')
+    const url = forceRefresh ? '/api/parking?refresh=true' : '/api/parking'
+    const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
@@ -325,6 +326,61 @@ export const getParkingLots = async () => {
     return {
       success: false,
       message: error.response?.data?.message || '取得停車場資料失敗',
+      error: error.message
+    }
+  }
+}
+
+// 搜尋停車場
+export const searchParkingLots = async (filters = {}) => {
+  try {
+    const params = new URLSearchParams(filters)
+    const response = await api.get(`/api/parking/search?${params}`)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '搜尋停車場失敗',
+      error: error.message
+    }
+  }
+}
+
+// 取得無障礙停車場
+export const getAccessibleParking = async () => {
+  try {
+    const response = await api.get('/api/parking/accessible')
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得無障礙停車場失敗',
+      error: error.message
+    }
+  }
+}
+
+// 取得停車場統計
+export const getParkingStatistics = async () => {
+  try {
+    const response = await api.get('/api/parking/statistics')
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得停車場統計失敗',
       error: error.message
     }
   }
