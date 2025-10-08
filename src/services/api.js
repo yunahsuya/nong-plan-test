@@ -387,9 +387,10 @@ export const getParkingStatistics = async () => {
 }
 
 // 取得公共廁所資料
-export const getPublicToilets = async () => {
+export const getPublicToilets = async (forceRefresh = false) => {
   try {
-    const response = await api.get('/api/public-toilets')
+    const url = forceRefresh ? '/api/toilets?refresh=true' : '/api/toilets'
+    const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
@@ -403,6 +404,7 @@ export const getPublicToilets = async () => {
     }
   }
 }
+
 
 // ==================== 通用搜尋API ====================
 
