@@ -186,21 +186,47 @@ export const getRuralTourism = async () => {
   }
 }
 
-// 取得步道資料
-export const getTrails = async () => {
+
+
+// 取得步道資料（支援分頁）
+export const getTrails = async (page = 1, limit = 9) => {
   try {
-    const response = await api.get('/api/trails')
-    return {
-      success: true,
-      data: response.data.data,
-      message: response.data.message
-    }
+    const response = await api.get(`/api/trails?page=${page}&limit=${limit}`)
+    return response.data
   } catch (error) {
-    return {
-      success: false,
-      message: error.response?.data?.message || '取得步道資料失敗',
-      error: error.message
-    }
+    console.error('取得步道資料失敗:', error)
+    throw error
+  }
+}
+
+// 根據縣市取得步道（支援分頁）
+export const getTrailsByCounty = async (county, page = 1, limit = 9) => {
+  try {
+    const response = await api.get(`/api/trails/${county}?page=${page}&limit=${limit}`)
+    return response.data
+  } catch (error) {
+    console.error('根據縣市取得步道失敗:', error)
+    throw error
+  }
+}
+
+// 搜尋步道（支援分頁）
+export const searchTrails = async (params) => {
+  try {
+    const { keyword, page = 1, limit = 9, ...otherParams } = params
+    const queryParams = new URLSearchParams({
+      keyword,
+      page,
+      limit,
+      ...otherParams
+    })
+    
+    // 🔧 修正路徑：加上 /api 前綴
+    const response = await api.get(`/api/trails/search?${queryParams}`)
+    return response.data
+  } catch (error) {
+    console.error('搜尋步道失敗:', error)
+    throw error
   }
 }
 

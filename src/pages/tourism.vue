@@ -86,10 +86,17 @@
   <ParkingList />
 </div>
 
+<!-- 步道分類的內容區域 -->
+<div v-else-if="selectedCategory === 'trails'" class="w-full bg-gray-50 overflow-y-auto">
+  <TrailList />
+</div>
+
 <!-- 廁所分類的內容區域 -->
 <div v-else-if="selectedCategory === 'toilets'" class="w-full bg-gray-50 overflow-y-auto">
   <ToiletList />
 </div>
+
+
 
 <!-- 其他分類的內容區域（步道、老街等） -->
 <div v-else class="w-full bg-white p-8">
@@ -106,7 +113,9 @@ import { ref } from 'vue'
 import AccessibleFarmList from '@/components/farms/AccessibleFarmList.vue'
 import OutdoorEduFarmList from '@/components/farms/OutdoorEduFarmList.vue'
 import ParkingList from '@/components/farms/ParkingList.vue'
+import TrailList from '@/components/farms/TrailList.vue'
 import ToiletList from '@/components/farms/ToiletList.vue'
+
 
 
 export default {
@@ -115,7 +124,9 @@ export default {
     AccessibleFarmList,
     OutdoorEduFarmList,
     ParkingList,
+    TrailList,
     ToiletList  // 新增這行
+
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場
