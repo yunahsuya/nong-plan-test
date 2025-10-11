@@ -248,10 +248,13 @@ export const getOldStreets = async () => {
   }
 }
 
+
+
 // 取得農民市集
-export const getFarmerMarkets = async () => {
+export const getFarmerMarkets = async (forceRefresh = false) => {
   try {
-    const response = await api.get('/api/farmer-markets')
+    const url = forceRefresh ? '/api/markets?refresh=true' : '/api/markets'
+    const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
@@ -263,6 +266,122 @@ export const getFarmerMarkets = async () => {
       message: error.response?.data?.message || '取得市集資料失敗',
       error: error.message
     }
+  }
+}
+
+// 根據認證標章篩選市集
+export const getMarketsByCertification = async (certification, forceRefresh = false) => {
+  try {
+    const url = forceRefresh 
+      ? `/api/markets/certification/${encodeURIComponent(certification)}?refresh=true` 
+      : `/api/markets/certification/${encodeURIComponent(certification)}`
+    const response = await api.get(url)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '篩選市集資料失敗',
+      error: error.message
+    }
+  }
+}
+
+// 搜尋市集
+export const searchMarkets = async (filters = {}) => {
+  try {
+    const params = new URLSearchParams(filters)
+    const response = await api.get(`/api/markets/search?${params}`)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '搜尋市集失敗',
+      error: error.message
+    }
+  }
+}
+
+// 取得市集統計資料
+export const getMarketStatistics = async () => {
+  try {
+    const response = await api.get('/api/markets/statistics')
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得市集統計失敗',
+      error: error.message
+    }
+  }
+}
+
+
+
+// 取得縣市列表
+export const getMarketCounties = async () => {
+  try {
+    const response = await api.get('/api/markets/counties')
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得縣市列表失敗',
+      error: error.message
+    }
+  }
+}
+
+// 根據縣市篩選市集
+export const getMarketsByCounty = async (county, forceRefresh = false) => {
+  try {
+    const url = forceRefresh 
+      ? `/api/markets/county/${encodeURIComponent(county)}?refresh=true` 
+      : `/api/markets/county/${encodeURIComponent(county)}`
+    const response = await api.get(url)
+    return {
+      success: true,
+      data: response.data.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '篩選市集資料失敗',
+      error: error.message
+    }
+  }
+}
+
+// 分頁取得農民市集
+export const getPaginatedMarkets = async (params = {}) => {
+  try {
+    const queryParams = new URLSearchParams()
+    if (params.page) queryParams.append('page', params.page)
+    if (params.limit) queryParams.append('limit', params.limit)
+    if (params.keyword) queryParams.append('keyword', params.keyword)
+    if (params.certification) queryParams.append('certification', params.certification)
+    
+    const response = await api.get(`/api/farms/markets/paginated?${queryParams}`)
+    return response.data
+  } catch (error) {
+    console.error('分頁取得市集失敗:', error)
+    throw error
   }
 }
 

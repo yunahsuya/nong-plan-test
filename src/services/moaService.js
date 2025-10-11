@@ -173,20 +173,16 @@ export const fetchFarmerMarkets = async (forceRefresh = false) => {
     })
     
     const cleanedData = rawData.map(market => ({
-      id: `market-${market.Name}-${market.County}`.replace(/\s+/g, '-'),
-      name: market.Name,
-      tel: market.Tel,
-      county: market.County,
-      address: market.Address,
-      website: market.Website,
-      hours: market.Hours,
-      coordinates: {
-        longitude: parseFloat(market.Longitude),
-        latitude: parseFloat(market.Latitude)
-      },
+      id: `market-${market.name?.replace(/\s+/g, '-') || 'unknown'}`,
+      name: market.name || '未知市集',
+      product: market.product || '',
+      verify_marker: market.verify_marker || '',
+      rules: market.rules || '',
       category: '市集',
-      tags: ['農民市集', '農產品', '通路']
-    })).filter(market => market.name && market.address)
+      tags: ['農民市集', '農產品', '通路'],
+      // 根據 verify_marker 生成標籤
+      certificationTags: market.verify_marker ? market.verify_marker.split(',') : []
+    })).filter(market => market.name && market.name !== '未知市集')
     
     await writeCache(cacheKey, cleanedData)
     return cleanedData
