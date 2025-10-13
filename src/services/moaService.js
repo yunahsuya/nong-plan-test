@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { readCache, writeCache, isCacheValid } from './cacheService.js'
 
 // 建立農業部 API 客戶端
 const moaApi = axios.create({
@@ -10,6 +9,40 @@ const moaApi = axios.create({
     'User-Agent': 'NongPlan-Backend/1.0'
   }
 })
+
+// 使用 localStorage 作為快取（瀏覽器兼容）
+const CACHE_PREFIX = 'moa_cache_'
+const CACHE_TTL = 24 * 60 * 60 * 1000 // 24小時
+
+const readCache = (key) => {
+  try {
+    const cached = localStorage.getItem(CACHE_PREFIX + key)
+    if (!cached) return null
+    
+    const { data, timestamp } = JSON.parse(cached)
+    const now = Date.now()
+    
+    if (now - timestamp > CACHE_TTL) {
+      localStorage.removeItem(CACHE_PREFIX + key)
+      return null
+    }
+    
+    return data
+  } catch {
+    return null
+  }
+}
+
+const writeCache = (key, data) => {
+  try {
+    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }))
+  } catch (error) {
+    console.warn('快取寫入失敗:', error)
+  }
+}
 
 // 通用API呼叫函數
 const fetchFromMOA = async (endpoint, params = {}) => {

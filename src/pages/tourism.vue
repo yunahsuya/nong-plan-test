@@ -96,6 +96,11 @@
   <MarketList />
 </div>
 
+<!-- 美食分類的內容區域 -->
+<div v-else-if="selectedCategory === 'food'" class="w-full bg-gray-50 overflow-y-auto">
+  <FoodList />
+</div>
+
 <!-- 廁所分類的內容區域 -->
 <div v-else-if="selectedCategory === 'toilets'" class="w-full bg-gray-50 overflow-y-auto">
   <ToiletList />
@@ -121,7 +126,7 @@ import ParkingList from '@/components/farms/ParkingList.vue'
 import TrailList from '@/components/farms/TrailList.vue'
 import ToiletList from '@/components/farms/ToiletList.vue'
 import MarketList from '@/components/farms/MarketList.vue'
-
+import FoodList from '@/components/farms/FoodList.vue'
 
 export default {
   name: 'TourismPage',
@@ -131,7 +136,8 @@ export default {
     ParkingList,
     TrailList,
     ToiletList,  // 新增這行
-    MarketList
+    MarketList,
+    FoodList
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場
