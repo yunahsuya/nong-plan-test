@@ -138,16 +138,16 @@
         </div>
         
         <div 
-          :class="[
-            'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
-            selectedSouvenirType === 'local-specialty' 
-              ? 'border-green-500 bg-green-500 text-white shadow-lg' 
-              : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
-          ]"
-          @click="selectSouvenirType('local-specialty')"
-        >
-          <span class="font-medium text-base">農民學院找產品</span>
-        </div>
+            :class="[
+              'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
+              selectedSouvenirType === 'member-product' 
+                ? 'border-green-500 bg-green-500 text-white shadow-lg' 
+                : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
+            ]"
+            @click="selectSouvenirType('member-product')"
+          >
+            <span class="font-medium text-base">農民學院找產品</span>
+          </div>
       </div>
     </div>
   </div>
@@ -165,11 +165,10 @@
       v-else-if="selectedSouvenirType === 'rural-goods'"
     />
     
-    <!-- 地方特色農產組件 -->
-    <LocalSpecialtyList 
-      v-else-if="selectedSouvenirType === 'local-specialty'"
-      :souvenir-type="'local-specialty'"
-    />
+    <!-- 農民學院找產品組件 -->
+    <MemberProductList 
+        v-else-if="selectedSouvenirType === 'member-product'"
+      />
   </div>
 </div>
 
@@ -201,6 +200,8 @@ import MarketList from '@/components/farms/MarketList.vue'
 import FoodList from '@/components/farms/FoodList.vue'
 import SouvenirList from '@/components/farms/SouvenirList.vue'
 import AgriBestItemList from '@/components/farms/AgriBestItemList.vue' 
+import MemberProductList from '@/components/farms/MemberProductList.vue' // 新增
+
 
 
 
@@ -215,12 +216,14 @@ export default {
     MarketList,
     FoodList,
     SouvenirList,
-    AgriBestItemList
+    AgriBestItemList,
+    MemberProductList 
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場
     const selectedFarmType = ref('accessible') // 預設選擇無障礙農場
     const selectedSouvenirType = ref('rural-excellent') // 預設選擇推薦農村優良伴手禮
+
 
 
     // 主要分類按鈕
@@ -232,14 +235,10 @@ export default {
       },
       {
         id: 'trails',
-        name: '步道',
+        name: '步道 / 老街  ',
         icon: '🥾'
       },
-      {
-        id: 'old-streets',
-        name: '老街',
-        icon: '🏮'
-      },
+      
       {
         id: 'markets',
         name: '活動（市集）',
