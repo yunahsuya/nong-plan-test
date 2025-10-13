@@ -298,7 +298,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { PhMagnifyingGlass, PhMapPin, PhPhone, PhEnvelopeSimple, PhGlobe } from '@phosphor-icons/vue'
-import { fetchRuralFood } from '@/services/moaService.js'
+import { getRuralFood } from '@/services/api.js'
 
 
 // 響應式資料
@@ -388,8 +388,8 @@ const fetchFoods = async () => {
   error.value = null
   
   try {
-    const response = await fetchRuralFood()
-    foods.value = response || []
+    const response = await getRuralFood()
+    foods.value = response?.data || []
   } catch (err) {
     error.value = err.message || '載入美食資料失敗'
     console.error('載入美食資料失敗:', err)

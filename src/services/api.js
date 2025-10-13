@@ -388,7 +388,7 @@ export const getPaginatedMarkets = async (params = {}) => {
 // 取得農村美食
 export const getRuralFood = async () => {
   try {
-    const response = await api.get('/api/rural-food')
+    const response = await api.get('/api/farms/food')
     return {
       success: true,
       data: response.data.data,
