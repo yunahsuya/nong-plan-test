@@ -101,9 +101,77 @@
   <FoodList />
 </div>
 
-<!-- 伴手禮分類的內容區域 -->
-<div v-else-if="selectedCategory === 'souvenirs'" class="w-full bg-gray-50 overflow-y-auto">
-  <SouvenirList />
+<!-- 在伴手禮分類的內容區域 -->
+<div v-else-if="selectedCategory === 'souvenirs'" class="flex min-h-[calc(100vh-200px)]">
+  <!-- 左側選單 - 伴手禮分類 -->
+  <div class="w-[350px] bg-white border-r border-gray-200 p-8 overflow-y-auto shadow-lg lg:w-[300px] md:w-full md:border-r-0 md:border-b md:p-4 sm:p-3">
+    <div class="mb-8 text-center border-b-2 border-gray-200 pb-4">
+      <h3 class="text-green-800 font-semibold text-2xl mb-2">🎁 伴手禮分類</h3>
+      <p class="text-gray-500 text-sm">選擇您想探索的伴手禮類型</p>
+    </div>
+    
+    <!-- 伴手禮類型選單 -->
+    <div class="pt-0">
+      <div class="flex flex-col gap-3">
+        <div 
+          :class="[
+            'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
+            selectedSouvenirType === 'rural-excellent' 
+              ? 'border-green-500 bg-green-500 text-white shadow-lg' 
+              : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
+          ]"
+          @click="selectSouvenirType('rural-excellent')"
+        >
+          <span class="font-medium text-base">推薦農村優良伴手禮</span>
+        </div>
+        
+        <div 
+          :class="[
+            'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
+            selectedSouvenirType === 'rural-goods' 
+              ? 'border-green-500 bg-green-500 text-white shadow-lg' 
+              : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
+          ]"
+          @click="selectSouvenirType('rural-goods')"
+        >
+          <span class="font-medium text-base">農漁會年度百大農業精品好禮</span>
+        </div>
+        
+        <div 
+          :class="[
+            'flex items-center px-4 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300',
+            selectedSouvenirType === 'local-specialty' 
+              ? 'border-green-500 bg-green-500 text-white shadow-lg' 
+              : 'border-gray-300 bg-white text-gray-800 hover:border-green-500 hover:bg-green-50'
+          ]"
+          @click="selectSouvenirType('local-specialty')"
+        >
+          <span class="font-medium text-base">農民學院找產品</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右側內容區域 -->
+  <div class="flex-1 bg-gray-50 overflow-y-auto">
+    <!-- 推薦農村優良伴手禮組件 -->
+    <SouvenirList 
+      v-if="selectedSouvenirType === 'rural-excellent'"
+      :souvenir-type="'rural-excellent'"
+    />
+    
+    <!-- 農村好物組件 -->
+    <RuralGoodsList 
+      v-else-if="selectedSouvenirType === 'rural-goods'"
+      :souvenir-type="'rural-goods'"
+    />
+    
+    <!-- 地方特色農產組件 -->
+    <LocalSpecialtyList 
+      v-else-if="selectedSouvenirType === 'local-specialty'"
+      :souvenir-type="'local-specialty'"
+    />
+  </div>
 </div>
 
 <!-- 廁所分類的內容區域 -->
@@ -150,6 +218,8 @@ export default {
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場
     const selectedFarmType = ref('accessible') // 預設選擇無障礙農場
+    const selectedSouvenirType = ref('rural-excellent') // 預設選擇推薦農村優良伴手禮
+
 
     // 主要分類按鈕
     const categories = ref([
@@ -211,12 +281,19 @@ export default {
       return category ? category.name : ''
     }
 
+    // 選擇伴手禮類型
+    const selectSouvenirType = (typeId) => {
+      selectedSouvenirType.value = typeId
+    }
+
     return {
       selectedCategory,
       selectedFarmType,
+      selectedSouvenirType,  // 新增
       categories,
       selectCategory,
       selectFarmType,
+      selectSouvenirType,    // 新增
       getCurrentCategoryName
     }
   }
