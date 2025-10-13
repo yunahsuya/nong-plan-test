@@ -160,10 +160,9 @@
       :souvenir-type="'rural-excellent'"
     />
     
-    <!-- 農村好物組件 -->
-    <RuralGoodsList 
+    <!-- 農漁會年度百大農業精品好禮組件 -->
+    <AgriBestItemList 
       v-else-if="selectedSouvenirType === 'rural-goods'"
-      :souvenir-type="'rural-goods'"
     />
     
     <!-- 地方特色農產組件 -->
@@ -201,6 +200,8 @@ import ToiletList from '@/components/farms/ToiletList.vue'
 import MarketList from '@/components/farms/MarketList.vue'
 import FoodList from '@/components/farms/FoodList.vue'
 import SouvenirList from '@/components/farms/SouvenirList.vue'
+import AgriBestItemList from '@/components/farms/AgriBestItemList.vue' 
+
 
 
 export default {
@@ -213,7 +214,8 @@ export default {
     ToiletList,  // 新增這行
     MarketList,
     FoodList,
-    SouvenirList
+    SouvenirList,
+    AgriBestItemList
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場
