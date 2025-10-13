@@ -288,17 +288,23 @@ export const fetchRuralSouvenirs = async (forceRefresh = false) => {
     const cleanedData = rawData.map(item => ({
       id: `souvenir-${item.Name}-${item.County}`.replace(/\s+/g, '-'),
       name: item.Name,
-      tel: item.Tel,
+      feature: item.Feature,
+      salePlace: item.SalePlace,
+      produceOrg: item.ProduceOrg,
+      price: item.SpecAndPrice,
+      contactTel: item.ContactTel,
+      orderUrl: item.OrderUrl,
+      image: item.Column1,
       county: item.County,
-      address: item.Address,
-      website: item.Website,
+      township: item.Township,
       coordinates: {
         longitude: parseFloat(item.Longitude),
         latitude: parseFloat(item.Latitude)
       },
+      website: item.Website,
       category: '伴手禮',
       tags: ['農村伴手禮', '優良產品']
-    })).filter(item => item.name && item.address)
+    })).filter(item => item.name && item.name.trim() !== '')
     
     await writeCache(cacheKey, cleanedData)
     return cleanedData

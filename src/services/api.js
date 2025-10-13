@@ -404,9 +404,54 @@ export const getRuralFood = async () => {
 }
 
 // 取得農村伴手禮
-export const getRuralSouvenirs = async () => {
+export const getRuralSouvenirs = async (forceRefresh = false, page = 1, limit = 12, keyword = '', county = '') => {
   try {
-    const response = await api.get('/api/rural-souvenirs')
+    const params = new URLSearchParams()
+    if (forceRefresh) params.append('refresh', 'true')
+    params.append('page', page.toString())
+    params.append('limit', limit.toString())
+    if (keyword) params.append('keyword', keyword)
+    if (county) params.append('county', county)
+    
+    const url = `/api/souvenirs?${params.toString()}`
+    const response = await api.get(url)
+    return {
+      success: true,
+      data: response.data.data,
+      pagination: response.data.pagination,
+      message: response.data.message,
+      cached: response.data.cached
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '取得伴手禮資料失敗',
+      error: error.message
+    }
+  }
+}
+
+// 清除伴手禮快取
+export const clearSouvenirCache = async () => {
+  try {
+    const response = await api.delete('/api/souvenirs/cache')
+    return {
+      success: true,
+      message: response.data.message
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || '清除伴手禮快取失敗',
+      error: error.message
+    }
+  }
+}
+
+// 取得伴手禮快取狀態
+export const getSouvenirCacheStatus = async () => {
+  try {
+    const response = await api.get('/api/souvenirs/cache/status')
     return {
       success: true,
       data: response.data.data,
@@ -415,7 +460,7 @@ export const getRuralSouvenirs = async () => {
   } catch (error) {
     return {
       success: false,
-      message: error.response?.data?.message || '取得伴手禮資料失敗',
+      message: error.response?.data?.message || '取得快取狀態失敗',
       error: error.message
     }
   }
