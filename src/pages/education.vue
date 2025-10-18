@@ -189,7 +189,7 @@ meta:
                   : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200',
               ]"
             >
-              <PhCaretLineLeft class="w-4 h-4" weight="duotone" />
+              <PhCaretLineLeft class="w-4 h-4" />
               第一頁
             </button>
 
@@ -204,7 +204,7 @@ meta:
                   : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200',
               ]"
             >
-              <PhCaretLeft class="w-4 h-4" weight="duotone" />
+              <PhCaretLeft class="w-4 h-4" />
               上一頁
             </button>
 
@@ -259,7 +259,7 @@ meta:
               ]"
             >
               下一頁
-              <PhCaretRight class="w-4 h-4" weight="duotone" />
+              <PhCaretRight class="w-4 h-4" />
             </button>
 
             <!-- 最後一頁按鈕 -->
@@ -274,7 +274,7 @@ meta:
               ]"
             >
               最後一頁
-              <PhCaretLineRight class="w-4 h-4" weight="duotone" />
+              <PhCaretLineRight class="w-4 h-4" />
             </button>
           </div>
         </div>
