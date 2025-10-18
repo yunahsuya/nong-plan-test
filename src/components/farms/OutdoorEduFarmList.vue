@@ -204,15 +204,15 @@
 >
   <div class="p-6 flex flex-col h-full">
     <h5 class="text-green-800 font-semibold mb-4">{{ item.name }}</h5>
-    <p class="text-gray-600 leading-relaxed mb-4 flex-grow">
+    <p class="text-gray-600 leading-relaxed mb-2 flex-grow">
       <strong>地址：</strong>{{ item.address }}<br>
       <span v-if="item.tel"><strong>電話：</strong>{{ item.tel }}<br></span>
-      <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span>
+      <!-- <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span> -->
       <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br></span>
     </p>
     
     <!-- 服務項目標籤 - 可點擊篩選 -->
-    <div class="mb-4 mt-auto">
+    <div class="mb-8 mt-auto">
       <div v-if="item.serveItems && item.serveItems.length > 0">
         <small class="text-green-600 font-semibold">🎓 服務項目：</small><br>
         <span 

@@ -113,7 +113,7 @@
         <!-- 資料展示區域 -->
         <div v-else-if="selectedCategory && filteredData.length > 0" class="space-y-8">
           <!-- 統計資訊 -->
-          <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <div id="search-results-title" class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
             <div class="flex items-center justify-between">
               <h3 class="text-green-800 font-semibold text-xl">
                 {{ getCategoryInfo(selectedCategory).name }} - 搜尋結果
@@ -270,7 +270,7 @@
   </template>
   
   <script setup>
-  import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
   import { getEducationCategories, getEducationData } from '../services/api.js'
   import VarietiesCard from '../components/education/VarietiesCard.vue'
   import AquacultureCard from '../components/education/AquacultureCard.vue'
@@ -472,7 +472,17 @@ const loadData = async () => {
 
 // 監聽分頁變化
 watch(currentPage, () => {
-  // 可以添加滾動到頂部的邏輯
+  // 使用 nextTick 確保 DOM 更新後再滾動
+  nextTick(() => {
+    // 滾動到搜尋結果標題區域
+    const titleElement = document.getElementById('search-results-title')
+    if (titleElement) {
+      titleElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  })
 })
 
 // 載入教育資源分類

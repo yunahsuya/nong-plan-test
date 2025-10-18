@@ -56,7 +56,7 @@
         @click="openLink(item.url)"
         class="flex-1 px-3 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
       >
-        🛒 我有興趣
+        我有興趣
       </button>
       
       <!-- 地圖按鈕 -->
@@ -65,7 +65,7 @@
         @click="showOnMap(item)"
         class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
       >
-        🗺️ 查看地圖
+         查看地圖
       </button>
     </div>
   </div>
