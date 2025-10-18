@@ -45,15 +45,16 @@
       </div>
     </div>
     
-    <!-- 操作按鈕 - 固定在底部 -->
-    <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
+     <!-- 操作按鈕 - 固定在底部 -->
+     <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
       <!-- 詳細連結 -->
       <button 
         v-if="item.link"
         @click="openLink(item.link)"
-        class="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+        class="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
       >
-        🌐 查看詳細資訊
+        <PhGlobe :size="16" weight="bold" />
+        查看詳細資訊
       </button>
     </div>
   </div>
@@ -62,6 +63,8 @@
 
 <script setup>
 import { computed } from 'vue'
+import { PhGlobe } from '@phosphor-icons/vue'
+
 
 const props = defineProps({
   item: {

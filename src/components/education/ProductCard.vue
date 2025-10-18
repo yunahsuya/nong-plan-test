@@ -46,8 +46,9 @@
       <button
         v-if="item.url"
         @click="openLink(item.url)"
-        class="flex-1 px-3 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors"
+        class="flex-1 px-3 py-2 bg-orange-600 text-white text-sm rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
       >
+        <PhEyes class="w-4 h-4" weight="fill" />
         我有興趣
       </button>
 
@@ -66,7 +67,7 @@
 </template>
 
 <script setup>
-import { PhPackage, PhCalendarDots, PhTruck } from '@phosphor-icons/vue'
+import { PhPackage, PhCalendarDots, PhTruck, PhEyes } from '@phosphor-icons/vue'
 
 defineProps({
   item: {

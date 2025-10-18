@@ -21,15 +21,16 @@
       </div>
     </div>
     
-    <!-- 操作按鈕 - 固定在底部 -->
-    <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
+   <!-- 操作按鈕 - 固定在底部 -->
+   <div class="mt-4 pt-4 border-t border-gray-100 flex gap-2">
       <!-- 閱讀更多 -->
       <button 
         v-if="item.link || item.url"
         @click="openLink(item.link || item.url)"
-        class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+        class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
       >
-      👀 閱讀更多
+        <PhBookOpenText :size="16" weight="duotone" />
+        閱讀更多
       </button>
     </div>
   </div>
@@ -38,6 +39,10 @@
 
 
 <script setup>
+
+import { PhBookOpenText } from '@phosphor-icons/vue'
+
+
 defineProps({
   item: {
     type: Object,
