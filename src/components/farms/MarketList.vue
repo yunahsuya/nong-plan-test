@@ -92,10 +92,6 @@
             <h3 class="card-title">{{ market.name }}</h3>
             
             <!-- 縣市資訊 -->
-            <div v-if="market.county" class="mb-2">
-              <span class="badge badge-info">{{ market.county }}</span>
-            </div>
-            
             <div v-if="market.product" class="mb-2">
               <span class="font-semibold">產品：</span>
               <span class="text-sm">{{ market.product }}</span>

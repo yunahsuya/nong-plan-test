@@ -274,7 +274,7 @@ meta:
               ]"
             >
               最後一頁
-              <PhCaretLineRight class="w-4 h-4" weight="duotone" />
+              <PhCaretLineRight class="w-4 h-4" />
             </button>
           </div>
         </div>
