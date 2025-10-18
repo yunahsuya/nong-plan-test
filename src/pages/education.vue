@@ -96,7 +96,7 @@ meta:
               :disabled="loading"
             >
               <PhArrowCounterClockwise class="w-4 h-4" />
-              重置
+              重置篩選
             </button>
             <button
               @click="refreshData"
@@ -259,7 +259,7 @@ meta:
               ]"
             >
               下一頁
-              <PhCaretRight class="w-4 h-4" />
+              <PhCaretRight class="w-4 h-4"  />
             </button>
 
             <!-- 最後一頁按鈕 -->
@@ -274,7 +274,7 @@ meta:
               ]"
             >
               最後一頁
-              <PhCaretLineRight class="w-4 h-4" />
+              <PhCaretLineRight class="w-4 h-4" weight="duotone" />
             </button>
           </div>
         </div>

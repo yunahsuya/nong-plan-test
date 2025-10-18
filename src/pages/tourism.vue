@@ -2,7 +2,11 @@
   <div class="min-h-screen bg-blue-600 w-full">
     <!-- 頁面標題 -->
     <div class="bg-white px-8 py-12 text-center border-b border-gray-200">
-      <h1 class="text-green-800 font-semibold text-4xl mb-4">🌾 農遊體驗</h1>
+      
+      <h1 class="text-green-800 font-semibold text-4xl mb-4 flex items-center justify-center gap-2">
+        <PhTractor :size="36" weight="duotone"  />
+        農遊體驗
+      </h1>
       <p class="text-gray-600 text-xl mb-2">探索台灣休閒農場，享受自然農遊樂趣</p>
       <p class="text-gray-500 text-base max-w-4xl mx-auto mb-8">
         提供完整的農遊資訊服務，包含農場、步道、老街、市集、美食、伴手禮、停車場、廁所等一條龍服務
@@ -33,7 +37,13 @@
       <!-- 左側選單 - 只在農場分類時顯示 -->
       <div class="w-[350px] bg-white border-r border-gray-200 p-8 overflow-y-auto shadow-lg lg:w-[300px] md:w-full md:border-r-0 md:border-b md:p-4 sm:p-3">
         <div class="mb-8 text-center border-b-2 border-gray-200 pb-4">
-          <h3 class="text-green-800 font-semibold text-2xl mb-2">🌱 農場分類</h3>
+          <div class="mb-8 text-center border-b-2 border-gray-200 pb-4">
+            <h3 class="text-green-800 font-semibold text-2xl mb-2 flex items-center justify-center gap-2">
+              <PhBarn :size="30"  />
+              農場分類
+            </h3>
+            <p class="text-gray-500 text-sm">選擇您想探索的農場類型</p>
+          </div>
           <p class="text-gray-500 text-sm">選擇您想探索的農場類型</p>
         </div>
         
@@ -202,6 +212,7 @@ import SouvenirList from '@/components/farms/SouvenirList.vue'
 import AgriBestItemList from '@/components/farms/AgriBestItemList.vue' 
 import MemberProductList from '@/components/farms/MemberProductList.vue' // 新增
 
+import { PhTractor, PhBarn } from '@phosphor-icons/vue'
 
 
 
@@ -217,7 +228,9 @@ export default {
     FoodList,
     SouvenirList,
     AgriBestItemList,
-    MemberProductList 
+    MemberProductList,
+    PhTractor,
+    PhBarn
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場

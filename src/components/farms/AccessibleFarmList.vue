@@ -74,18 +74,20 @@
             <div class="flex gap-2">
               <button 
                 @click="resetFilter" 
-                class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors"
+                class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors flex items-center gap-2"
                 :disabled="loading"
               >
-                🔄 重置篩選
+                <PhArrowCounterClockwise class="w-4 h-4" />
+                重置篩選
               </button>
               <button 
                 @click="refreshData" 
-                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors"
+                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors flex items-center gap-2"
                 :disabled="loading"
                 title="重新載入最新資料"
               >
-                🔄 刷新
+                <PhArrowsClockwise class="w-4 h-4" />
+                刷新
               </button>
             </div>
           </div>
@@ -312,8 +314,14 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { getAccessibleFarms } from '@/services/api.js'
 
+import { PhArrowCounterClockwise, PhArrowsClockwise } from '@phosphor-icons/vue'
+
 export default {
   name: 'AccessibleFarmList',
+  components: {
+    PhArrowCounterClockwise,
+    PhArrowsClockwise
+  },
   setup() {
     const selectedCounty = ref('')
     const selectedAccessibleItem = ref('')
