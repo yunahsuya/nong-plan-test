@@ -83,7 +83,10 @@
     </div>
 
     <!-- 錯誤訊息 -->
-    <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <div
+      v-else-if="error"
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+    >
       {{ error }}
     </div>
 
@@ -113,7 +116,7 @@
           <h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
             {{ item.name }}
           </h3>
-          
+
           <div class="space-y-2 text-sm text-gray-600">
             <div v-if="item.type" class="flex items-center">
               <span class="font-medium w-16">類型：</span>
@@ -121,17 +124,17 @@
                 {{ item.type }}
               </span>
             </div>
-            
+
             <div v-if="item.organization" class="flex items-center">
               <span class="font-medium w-16">機構：</span>
               <span>{{ item.organization }}</span>
             </div>
-            
+
             <div v-if="item.county" class="flex items-center">
               <span class="font-medium w-16">地區：</span>
               <span>{{ item.county }}{{ item.township ? ` ${item.township}` : '' }}</span>
             </div>
-            
+
             <div v-if="item.price && item.price !== '0'" class="flex items-center">
               <span class="font-medium w-16">價格：</span>
               <span class="text-green-600 font-semibold">NT$ {{ item.price }}</span>
@@ -197,11 +200,11 @@
         >
           上一頁
         </button>
-        
+
         <span class="px-3 py-2 text-sm text-gray-700">
           第 {{ pagination.currentPage }} 頁，共 {{ pagination.totalPages }} 頁
         </span>
-        
+
         <button
           @click="changePage(pagination.currentPage + 1)"
           :disabled="!pagination.hasNextPage"
@@ -248,7 +251,7 @@ export default {
     const loadData = async (forceRefresh = false) => {
       loading.value = true
       error.value = ''
-      
+
       try {
         const result = await agriBestItemService.getAgriBestItems(
           forceRefresh,
@@ -256,9 +259,9 @@ export default {
           itemsPerPage.value,
           searchKeyword.value,
           selectedCounty.value,
-          selectedType.value
+          selectedType.value,
         )
-        
+
         if (result.success) {
           items.value = result.data
           pagination.value = result.pagination
@@ -385,9 +388,9 @@ export default {
       handleImageError,
       callPhone,
       openWebsite,
-      openMap
+      openMap,
     }
-  }
+  },
 }
 </script>
 

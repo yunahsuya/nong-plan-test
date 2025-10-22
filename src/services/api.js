@@ -5,8 +5,8 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000',
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 // 請求攔截器
@@ -18,7 +18,7 @@ api.interceptors.request.use(
   (error) => {
     console.error('❌ 請求錯誤:', error)
     return Promise.reject(error)
-  }
+  },
 )
 
 // 回應攔截器
@@ -30,7 +30,7 @@ api.interceptors.response.use(
   (error) => {
     console.error('❌ 回應錯誤:', error.response?.status, error.message)
     return Promise.reject(error)
-  }
+  },
 )
 
 // ==================== 農場相關 API ====================
@@ -43,13 +43,13 @@ export const getAccessibleFarms = async (forceRefresh = false) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得農場資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -57,24 +57,23 @@ export const getAccessibleFarms = async (forceRefresh = false) => {
 // 根據縣市篩選農場
 export const getFarmsByCounty = async (county, forceRefresh = false) => {
   try {
-    const url = forceRefresh 
-      ? `/api/accessible-farms/${encodeURIComponent(county)}?refresh=true` 
+    const url = forceRefresh
+      ? `/api/accessible-farms/${encodeURIComponent(county)}?refresh=true`
       : `/api/accessible-farms/${encodeURIComponent(county)}`
     const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '篩選農場資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
-
 
 // 取得戶外教育農場
 export const getOutdoorEduFarms = async (forceRefresh = false) => {
@@ -84,13 +83,13 @@ export const getOutdoorEduFarms = async (forceRefresh = false) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得戶外教育農場資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -102,13 +101,13 @@ export const getCacheStatus = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得快取狀態失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -119,13 +118,13 @@ export const clearCache = async () => {
     const response = await api.delete('/api/cache')
     return {
       success: true,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '清除快取失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -137,13 +136,13 @@ export const refreshCache = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '重新整理快取失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -157,13 +156,13 @@ export const getEducationalFarms = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得教育農場資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -175,18 +174,16 @@ export const getRuralTourism = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得農村旅遊資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
-
-
 
 // 取得步道資料（支援分頁）
 export const getTrails = async (page = 1, limit = 9) => {
@@ -218,9 +215,9 @@ export const searchTrails = async (params) => {
       keyword,
       page,
       limit,
-      ...otherParams
+      ...otherParams,
     })
-    
+
     // 🔧 修正路徑：加上 /api 前綴
     const response = await api.get(`/api/trails/search?${queryParams}`)
     return response.data
@@ -237,18 +234,16 @@ export const getOldStreets = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得老街資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
-
-
 
 // 取得農民市集
 export const getFarmerMarkets = async (forceRefresh = false) => {
@@ -258,13 +253,13 @@ export const getFarmerMarkets = async (forceRefresh = false) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得市集資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -272,20 +267,20 @@ export const getFarmerMarkets = async (forceRefresh = false) => {
 // 根據認證標章篩選市集
 export const getMarketsByCertification = async (certification, forceRefresh = false) => {
   try {
-    const url = forceRefresh 
-      ? `/api/markets/certification/${encodeURIComponent(certification)}?refresh=true` 
+    const url = forceRefresh
+      ? `/api/markets/certification/${encodeURIComponent(certification)}?refresh=true`
       : `/api/markets/certification/${encodeURIComponent(certification)}`
     const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '篩選市集資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -298,13 +293,13 @@ export const searchMarkets = async (filters = {}) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '搜尋市集失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -316,18 +311,16 @@ export const getMarketStatistics = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得市集統計失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
-
-
 
 // 取得縣市列表
 export const getMarketCounties = async () => {
@@ -336,13 +329,13 @@ export const getMarketCounties = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得縣市列表失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -350,20 +343,20 @@ export const getMarketCounties = async () => {
 // 根據縣市篩選市集
 export const getMarketsByCounty = async (county, forceRefresh = false) => {
   try {
-    const url = forceRefresh 
-      ? `/api/markets/county/${encodeURIComponent(county)}?refresh=true` 
+    const url = forceRefresh
+      ? `/api/markets/county/${encodeURIComponent(county)}?refresh=true`
       : `/api/markets/county/${encodeURIComponent(county)}`
     const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '篩選市集資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -376,7 +369,7 @@ export const getPaginatedMarkets = async (params = {}) => {
     if (params.limit) queryParams.append('limit', params.limit)
     if (params.keyword) queryParams.append('keyword', params.keyword)
     if (params.certification) queryParams.append('certification', params.certification)
-    
+
     const response = await api.get(`/api/farms/markets/paginated?${queryParams}`)
     return response.data
   } catch (error) {
@@ -392,19 +385,25 @@ export const getRuralFood = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得美食資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
 
 // 取得農村伴手禮
-export const getRuralSouvenirs = async (forceRefresh = false, page = 1, limit = 12, keyword = '', county = '') => {
+export const getRuralSouvenirs = async (
+  forceRefresh = false,
+  page = 1,
+  limit = 12,
+  keyword = '',
+  county = '',
+) => {
   try {
     const params = new URLSearchParams()
     if (forceRefresh) params.append('refresh', 'true')
@@ -412,7 +411,7 @@ export const getRuralSouvenirs = async (forceRefresh = false, page = 1, limit = 
     params.append('limit', limit.toString())
     if (keyword) params.append('keyword', keyword)
     if (county) params.append('county', county)
-    
+
     const url = `/api/souvenirs?${params.toString()}`
     const response = await api.get(url)
     return {
@@ -420,13 +419,13 @@ export const getRuralSouvenirs = async (forceRefresh = false, page = 1, limit = 
       data: response.data.data,
       pagination: response.data.pagination,
       message: response.data.message,
-      cached: response.data.cached
+      cached: response.data.cached,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得伴手禮資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -437,13 +436,13 @@ export const clearSouvenirCache = async () => {
     const response = await api.delete('/api/souvenirs/cache')
     return {
       success: true,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '清除伴手禮快取失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -455,13 +454,13 @@ export const getSouvenirCacheStatus = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得快取狀態失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -473,13 +472,13 @@ export const getAgriBestItems = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得百大精品資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -491,13 +490,13 @@ export const getMemberProducts = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得農民產品資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -510,13 +509,13 @@ export const getParkingLots = async (forceRefresh = false) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得停車場資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -529,13 +528,13 @@ export const searchParkingLots = async (filters = {}) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '搜尋停車場失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -547,13 +546,13 @@ export const getAccessibleParking = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得無障礙停車場失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -565,13 +564,13 @@ export const getParkingStatistics = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得停車場統計失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -584,17 +583,16 @@ export const getPublicToilets = async (forceRefresh = false) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得廁所資料失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
-
 
 // ==================== 通用搜尋API ====================
 
@@ -606,13 +604,13 @@ export const searchTourismData = async (category, filters = {}) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '搜尋失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -620,11 +618,11 @@ export const searchTourismData = async (category, filters = {}) => {
 // 根據分類獲取資料的通用函數
 export const fetchDataByCategory = async (category, forceRefresh = false) => {
   const categoryMap = {
-    'farms': async () => {
+    farms: async () => {
       const result = await getAccessibleFarms(forceRefresh)
       return result.success ? result.data : []
     },
-    'trails': async () => {
+    trails: async () => {
       const trails = await getTrails()
       return trails.success ? trails.data : []
     },
@@ -632,42 +630,42 @@ export const fetchDataByCategory = async (category, forceRefresh = false) => {
       const oldStreets = await getOldStreets()
       return oldStreets.success ? oldStreets.data : []
     },
-    'markets': async () => {
+    markets: async () => {
       const markets = await getFarmerMarkets()
       return markets.success ? markets.data : []
     },
-    'food': async () => {
+    food: async () => {
       const food = await getRuralFood()
       return food.success ? food.data : []
     },
-    'souvenirs': async () => {
+    souvenirs: async () => {
       const [ruralSouvenirs, agriBestItems, memberProducts] = await Promise.all([
         getRuralSouvenirs(),
         getAgriBestItems(),
-        getMemberProducts()
+        getMemberProducts(),
       ])
-      
+
       const allSouvenirs = []
       if (ruralSouvenirs.success) allSouvenirs.push(...ruralSouvenirs.data)
       if (agriBestItems.success) allSouvenirs.push(...agriBestItems.data)
       if (memberProducts.success) allSouvenirs.push(...memberProducts.data)
-      
+
       return allSouvenirs
     },
-    'parking': async () => {
+    parking: async () => {
       const parking = await getParkingLots()
       return parking.success ? parking.data : []
     },
-    'toilets': async () => {
+    toilets: async () => {
       const toilets = await getPublicToilets()
       return toilets.success ? toilets.data : []
-    }
+    },
   }
-  
+
   if (!categoryMap[category]) {
     throw new Error(`不支援的分類: ${category}`)
   }
-  
+
   return await categoryMap[category]()
 }
 
@@ -680,13 +678,13 @@ export const healthCheck = async () => {
     return {
       success: true,
       data: response.data,
-      message: '服務正常'
+      message: '服務正常',
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '服務異常',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -696,15 +694,13 @@ export const healthCheck = async () => {
 // 批次取得多個分類資料
 export const batchFetchData = async (categories, forceRefresh = false) => {
   try {
-    const promises = categories.map(category => 
-      fetchDataByCategory(category, forceRefresh)
-    )
-    
+    const promises = categories.map((category) => fetchDataByCategory(category, forceRefresh))
+
     const results = await Promise.allSettled(promises)
-    
+
     const data = {}
     const errors = {}
-    
+
     results.forEach((result, index) => {
       const category = categories[index]
       if (result.status === 'fulfilled') {
@@ -713,18 +709,18 @@ export const batchFetchData = async (categories, forceRefresh = false) => {
         errors[category] = result.reason.message
       }
     })
-    
+
     return {
       success: Object.keys(errors).length === 0,
       data,
       errors,
-      message: Object.keys(errors).length === 0 ? '批次載入成功' : '部分資料載入失敗'
+      message: Object.keys(errors).length === 0 ? '批次載入成功' : '部分資料載入失敗',
     }
   } catch (error) {
     return {
       success: false,
       message: '批次載入失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -738,48 +734,48 @@ export const getFarmStatistics = async () => {
     if (!farms.success) {
       throw new Error(farms.message)
     }
-    
+
     const statistics = {
       total: farms.data.length,
       byCounty: {},
       byAccessibleItems: {},
       withWebsite: 0,
-      withCoordinates: 0
+      withCoordinates: 0,
     }
-    
-    farms.data.forEach(farm => {
+
+    farms.data.forEach((farm) => {
       // 按縣市統計
       const county = farm.countyName || farm.county || '未知'
       statistics.byCounty[county] = (statistics.byCounty[county] || 0) + 1
-      
+
       // 按無障礙設施統計
       if (farm.accessibleItems && farm.accessibleItems.length > 0) {
-        farm.accessibleItems.forEach(item => {
+        farm.accessibleItems.forEach((item) => {
           statistics.byAccessibleItems[item] = (statistics.byAccessibleItems[item] || 0) + 1
         })
       }
-      
+
       // 有網站的農場
       if (farm.website) {
         statistics.withWebsite++
       }
-      
+
       // 有座標的農場
       if (farm.coordinates && farm.coordinates.latitude && farm.coordinates.longitude) {
         statistics.withCoordinates++
       }
     })
-    
+
     return {
       success: true,
       data: statistics,
-      message: '統計資料載入成功'
+      message: '統計資料載入成功',
     }
   } catch (error) {
     return {
       success: false,
       message: error.message || '統計資料載入失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -793,24 +789,25 @@ export const exportFarmsToCSV = async (filters = {}) => {
     if (!farms.success) {
       throw new Error(farms.message)
     }
-    
+
     let filteredFarms = farms.data
-    
+
     // 應用篩選條件
     if (filters.county) {
-      filteredFarms = filteredFarms.filter(farm => 
-        (farm.countyName || farm.county || '').includes(filters.county)
+      filteredFarms = filteredFarms.filter((farm) =>
+        (farm.countyName || farm.county || '').includes(filters.county),
       )
     }
-    
+
     if (filters.keyword) {
       const keyword = filters.keyword.toLowerCase()
-      filteredFarms = filteredFarms.filter(farm => 
-        farm.name?.toLowerCase().includes(keyword) ||
-        (farm.address?.chinese || farm.address || '').toLowerCase().includes(keyword)
+      filteredFarms = filteredFarms.filter(
+        (farm) =>
+          farm.name?.toLowerCase().includes(keyword) ||
+          (farm.address?.chinese || farm.address || '').toLowerCase().includes(keyword),
       )
     }
-    
+
     // 轉換為 CSV 格式
     const csvHeaders = [
       '農場名稱',
@@ -821,10 +818,10 @@ export const exportFarmsToCSV = async (filters = {}) => {
       '網站',
       '經度',
       '緯度',
-      '無障礙設施'
+      '無障礙設施',
     ]
-    
-    const csvRows = filteredFarms.map(farm => [
+
+    const csvRows = filteredFarms.map((farm) => [
       farm.name || '',
       farm.countyName || farm.county || '',
       farm.township || '',
@@ -833,32 +830,31 @@ export const exportFarmsToCSV = async (filters = {}) => {
       farm.website || '',
       farm.coordinates?.longitude || '',
       farm.coordinates?.latitude || '',
-      (farm.accessibleItems || []).join('、')
+      (farm.accessibleItems || []).join('、'),
     ])
-    
+
     const csvContent = [
       csvHeaders.join(','),
-      ...csvRows.map(row => row.map(cell => `"${cell}"`).join(','))
+      ...csvRows.map((row) => row.map((cell) => `"${cell}"`).join(',')),
     ].join('\n')
-    
+
     return {
       success: true,
       data: {
         content: csvContent,
         filename: `無障礙農場資料_${new Date().toISOString().split('T')[0]}.csv`,
-        count: filteredFarms.length
+        count: filteredFarms.length,
       },
-      message: `成功匯出 ${filteredFarms.length} 筆農場資料`
+      message: `成功匯出 ${filteredFarms.length} 筆農場資料`,
     }
   } catch (error) {
     return {
       success: false,
       message: error.message || '匯出失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
-
 
 // ==================== 教育資源 API ====================
 
@@ -869,13 +865,13 @@ export const getEducationCategories = async () => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '取得教育資源分類失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -883,20 +879,20 @@ export const getEducationCategories = async () => {
 // 取得特定分類的教育資源資料
 export const getEducationData = async (category, forceRefresh = false) => {
   try {
-    const url = forceRefresh 
-      ? `/api/education/data/${category}?refresh=true` 
+    const url = forceRefresh
+      ? `/api/education/data/${category}?refresh=true`
       : `/api/education/data/${category}`
     const response = await api.get(url)
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || `取得 ${category} 教育資源資料失敗`,
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -907,13 +903,13 @@ export const clearEducationCache = async () => {
     const response = await api.delete('/api/education/cache')
     return {
       success: true,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '清除教育資源快取失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
@@ -921,29 +917,29 @@ export const clearEducationCache = async () => {
 // 重新整理教育資源快取
 export const refreshEducationCache = async (category = null) => {
   try {
-    const url = category 
-      ? `/api/education/cache/refresh/${category}` 
+    const url = category
+      ? `/api/education/cache/refresh/${category}`
       : '/api/education/cache/refresh'
     const response = await api.post(url)
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message
+      message: response.data.message,
     }
   } catch (error) {
     return {
       success: false,
       message: error.response?.data?.message || '重新整理教育資源快取失敗',
-      error: error.message
+      error: error.message,
     }
   }
 }
 
 // ==================== 預設匯出 ====================
 
-export default { 
-  api, 
-  getAccessibleFarms, 
+export default {
+  api,
+  getAccessibleFarms,
   getFarmsByCounty,
   getCacheStatus,
   clearCache,
@@ -970,5 +966,5 @@ export default {
   getEducationCategories,
   getEducationData,
   clearEducationCache,
-  refreshEducationCache
+  refreshEducationCache,
 }

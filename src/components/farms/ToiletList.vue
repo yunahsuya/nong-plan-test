@@ -4,7 +4,7 @@
     <!-- 標題和搜尋區域 -->
     <div class="mb-8">
       <h2 class="text-2xl font-bold text-green-800 mb-4">🚻 農科園區公共廁所</h2>
-      
+
       <!-- 搜尋和篩選 -->
       <div class="flex flex-wrap gap-4 mb-6">
         <div class="flex-1 min-w-[300px]">
@@ -16,19 +16,19 @@
             @input="handleSearch"
           />
         </div>
-        
+
         <button
           @click="toggleAccessibleFilter"
           :class="[
             'px-6 py-2 rounded-lg font-medium transition-all duration-300',
-            showAccessibleOnly 
-              ? 'bg-green-500 text-white shadow-lg' 
-              : 'bg-white text-green-500 border-2 border-green-500 hover:bg-green-50'
+            showAccessibleOnly
+              ? 'bg-green-500 text-white shadow-lg'
+              : 'bg-white text-green-500 border-2 border-green-500 hover:bg-green-50',
           ]"
         >
           ♿ 無障礙廁所
         </button>
-        
+
         <button
           @click="refreshData"
           class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300"
@@ -64,18 +64,21 @@
             <h3 class="text-lg font-semibold text-gray-800">{{ toilet.地點 }}</h3>
             <span class="text-sm text-gray-500">#{{ toilet.項次 }}</span>
           </div>
-          
+
           <div class="space-y-2">
             <div class="flex items-center text-gray-600">
               <span class="font-medium">容納人數：</span>
               <span>{{ toilet.容納人數 }}</span>
             </div>
-            
-            <div v-if="toilet.accessibleFeatures?.length > 0" class="flex items-center text-green-600">
+
+            <div
+              v-if="toilet.accessibleFeatures?.length > 0"
+              class="flex items-center text-green-600"
+            >
               <span class="mr-1">♿</span>
               <span class="text-sm">{{ toilet.accessibleFeatures.join('、') }}</span>
             </div>
-            
+
             <div class="flex flex-wrap gap-1 mt-3">
               <span
                 v-for="tag in toilet.tags"
@@ -135,15 +138,15 @@ export default {
 
       // 搜尋篩選
       if (searchQuery.value) {
-        filtered = filtered.filter(toilet =>
-          toilet.地點.toLowerCase().includes(searchQuery.value.toLowerCase())
+        filtered = filtered.filter((toilet) =>
+          toilet.地點.toLowerCase().includes(searchQuery.value.toLowerCase()),
         )
       }
 
       // 無障礙篩選
       if (showAccessibleOnly.value) {
-        filtered = filtered.filter(toilet =>
-          toilet.accessibleFeatures && toilet.accessibleFeatures.length > 0
+        filtered = filtered.filter(
+          (toilet) => toilet.accessibleFeatures && toilet.accessibleFeatures.length > 0,
         )
       }
 
@@ -151,10 +154,11 @@ export default {
     })
 
     const totalToilets = computed(() => toilets.value.length)
-    const accessibleToilets = computed(() =>
-      toilets.value.filter(toilet => 
-        toilet.accessibleFeatures && toilet.accessibleFeatures.length > 0
-      ).length
+    const accessibleToilets = computed(
+      () =>
+        toilets.value.filter(
+          (toilet) => toilet.accessibleFeatures && toilet.accessibleFeatures.length > 0,
+        ).length,
     )
 
     // 載入廁所資料
@@ -164,7 +168,7 @@ export default {
 
       try {
         const result = await getPublicToilets(forceRefresh)
-        
+
         if (result.success) {
           toilets.value = result.data
           console.log(`✅ 成功載入 ${result.data.length} 筆廁所資料`)
@@ -211,9 +215,9 @@ export default {
       loadToilets,
       handleSearch,
       toggleAccessibleFilter,
-      refreshData
+      refreshData,
     }
-  }
+  },
 }
 </script>
 

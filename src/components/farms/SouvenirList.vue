@@ -22,7 +22,9 @@
                 placeholder="搜尋伴手禮名稱、縣市或特色..."
                 class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />
-              <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <i
+                class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              ></i>
             </div>
           </div>
 
@@ -99,13 +101,18 @@
 
       <div class="mb-6 flex justify-between items-center">
         <div class="text-sm text-gray-600">
-          顯示第 {{ pagination.startItem }}-{{ pagination.endItem }} 項，共 {{ pagination.totalItems }} 項
+          顯示第 {{ pagination.startItem }}-{{ pagination.endItem }} 項，共
+          {{ pagination.totalItems }} 項
         </div>
-        
+
         <!-- 每頁顯示數量選擇 -->
         <div class="flex items-center gap-2">
           <span class="text-sm text-gray-600">每頁顯示：</span>
-          <select v-model="itemsPerPage" @change="changeItemsPerPage" class="px-2 py-1 border rounded">
+          <select
+            v-model="itemsPerPage"
+            @change="changeItemsPerPage"
+            class="px-2 py-1 border rounded"
+          >
             <option value="12">12</option>
             <option value="24">24</option>
             <option value="48">48</option>
@@ -113,16 +120,16 @@
         </div>
       </div>
 
-     
-
       <!-- 伴手禮網格 -->
-      <div v-if="paginatedSouvenirs.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div
+        v-if="paginatedSouvenirs.length > 0"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
         <div
           v-for="souvenir in paginatedSouvenirs"
           :key="souvenir.id"
           class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
         >
-        
           <!-- 產品圖片 -->
           <div class="h-48 bg-gray-200 flex items-center justify-center">
             <img
@@ -139,7 +146,7 @@
           <!-- 產品資訊 -->
           <div class="p-4">
             <h3 class="font-bold text-lg text-gray-800 mb-2 line-clamp-2">{{ souvenir.name }}</h3>
-            
+
             <!-- 特色描述 -->
             <p v-if="souvenir.feature" class="text-gray-600 text-sm mb-3 line-clamp-3">
               {{ souvenir.feature }}
@@ -198,55 +205,53 @@
         </div>
       </div>
 
-
-    <!-- 分頁導航 - 移到底部 -->
-    <div v-if="pagination.totalPages > 1" class="flex justify-center mt-8">
-      <nav class="flex items-center gap-2">
-        <button 
-          @click="goToPage(1)"
-          :disabled="pagination.currentPage === 1"
-          class="px-3 py-2 border rounded disabled:opacity-50"
-        >
-          首頁
-        </button>
-        <button 
-          @click="goToPage(pagination.currentPage - 1)"
-          :disabled="!pagination.hasPrevPage"
-          class="px-3 py-2 border rounded disabled:opacity-50"
-        >
-          上一頁
-        </button>
-        
-        <!-- 頁碼 -->
-        <template v-for="page in visiblePages" :key="page">
-          <button 
-            @click="goToPage(page)"
-            :class="[
-              'px-3 py-2 border rounded',
-              page === pagination.currentPage ? 'bg-green-600 text-white' : 'hover:bg-gray-100'
-            ]"
+      <!-- 分頁導航 - 移到底部 -->
+      <div v-if="pagination.totalPages > 1" class="flex justify-center mt-8">
+        <nav class="flex items-center gap-2">
+          <button
+            @click="goToPage(1)"
+            :disabled="pagination.currentPage === 1"
+            class="px-3 py-2 border rounded disabled:opacity-50"
           >
-            {{ page }}
+            首頁
           </button>
-        </template>
-        
-        <button 
-          @click="goToPage(pagination.currentPage + 1)"
-          :disabled="!pagination.hasNextPage"
-          class="px-3 py-2 border rounded disabled:opacity-50"
-        >
-          下一頁
-        </button>
-        <button 
-          @click="goToPage(pagination.totalPages)"
-          :disabled="pagination.currentPage === pagination.totalPages"
-          class="px-3 py-2 border rounded disabled:opacity-50"
-        >
-          末頁
-        </button>
-      </nav>
-    </div>
+          <button
+            @click="goToPage(pagination.currentPage - 1)"
+            :disabled="!pagination.hasPrevPage"
+            class="px-3 py-2 border rounded disabled:opacity-50"
+          >
+            上一頁
+          </button>
 
+          <!-- 頁碼 -->
+          <template v-for="page in visiblePages" :key="page">
+            <button
+              @click="goToPage(page)"
+              :class="[
+                'px-3 py-2 border rounded',
+                page === pagination.currentPage ? 'bg-green-600 text-white' : 'hover:bg-gray-100',
+              ]"
+            >
+              {{ page }}
+            </button>
+          </template>
+
+          <button
+            @click="goToPage(pagination.currentPage + 1)"
+            :disabled="!pagination.hasNextPage"
+            class="px-3 py-2 border rounded disabled:opacity-50"
+          >
+            下一頁
+          </button>
+          <button
+            @click="goToPage(pagination.totalPages)"
+            :disabled="pagination.currentPage === pagination.totalPages"
+            class="px-3 py-2 border rounded disabled:opacity-50"
+          >
+            末頁
+          </button>
+        </nav>
+      </div>
 
       <!-- 無結果 -->
       <div v-else class="text-center py-12">
@@ -281,23 +286,22 @@ export default {
       hasNextPage: false,
       hasPrevPage: false,
       startItem: 1,
-      endItem: 12
+      endItem: 12,
     })
-    
 
-     // 載入伴手禮資料
+    // 載入伴手禮資料
     const loadSouvenirs = async (forceRefresh = false) => {
       loading.value = true
       error.value = null
 
       try {
         const result = await getRuralSouvenirs(
-          forceRefresh, 
-          currentPage.value, 
+          forceRefresh,
+          currentPage.value,
           itemsPerPage.value,
           searchKeyword.value,
-          selectedCounty.value
-        )        
+          selectedCounty.value,
+        )
 
         if (result.success) {
           souvenirs.value = result.data
@@ -325,7 +329,7 @@ export default {
     // 計算縣市列表
     const counties = computed(() => {
       const countySet = new Set()
-      souvenirs.value.forEach(item => {
+      souvenirs.value.forEach((item) => {
         if (item.county) {
           countySet.add(item.county)
         }
@@ -338,26 +342,26 @@ export default {
       return souvenirs.value
     })
 
-// 計算分頁資料
-const paginatedSouvenirs = computed(() => {
-  // 直接返回後端返回的資料，不再進行前端分頁
-  return souvenirs.value
-})
+    // 計算分頁資料
+    const paginatedSouvenirs = computed(() => {
+      // 直接返回後端返回的資料，不再進行前端分頁
+      return souvenirs.value
+    })
 
-// 計算可見頁碼
-const visiblePages = computed(() => {
-  const total = pagination.value.totalPages
-  const current = pagination.value.currentPage
-  const pages = []
-  
-  let start = Math.max(1, current - 2)
-  let end = Math.min(total, current + 2)
-  
-  for (let i = start; i <= end; i++) {
-    pages.push(i)
-  }
-  return pages
-})
+    // 計算可見頁碼
+    const visiblePages = computed(() => {
+      const total = pagination.value.totalPages
+      const current = pagination.value.currentPage
+      const pages = []
+
+      let start = Math.max(1, current - 2)
+      let end = Math.min(total, current + 2)
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i)
+      }
+      return pages
+    })
 
     // 開啟網站
     const openWebsite = (url) => {
@@ -408,19 +412,19 @@ const visiblePages = computed(() => {
       selectedCounty,
       counties,
       filteredSouvenirs,
-      paginatedSouvenirs,  // 新增
-      pagination,          // 新增
-      visiblePages,        // 新增
-      currentPage,         // 新增
-      itemsPerPage,        // 新增
+      paginatedSouvenirs, // 新增
+      pagination, // 新增
+      visiblePages, // 新增
+      currentPage, // 新增
+      itemsPerPage, // 新增
       loadSouvenirs,
       refreshData,
       openWebsite,
       showOnMap,
-      goToPage,            // 新增
-      changeItemsPerPage   // 新增
+      goToPage, // 新增
+      changeItemsPerPage, // 新增
     }
-  }
+  },
 }
 </script>
 

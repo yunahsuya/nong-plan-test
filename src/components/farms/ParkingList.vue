@@ -5,36 +5,40 @@
       <div class="p-8 max-w-7xl mx-auto">
         <div class="flex gap-8 items-end flex-wrap">
           <div class="flex-1 min-w-[200px]">
-            <label for="locationSearch" class="block font-semibold text-gray-700 mb-2">地點搜尋</label>
-            <input 
+            <label for="locationSearch" class="block font-semibold text-gray-700 mb-2"
+              >地點搜尋</label
+            >
+            <input
               id="locationSearch"
-              v-model="searchLocation" 
+              v-model="searchLocation"
               @input="filterData"
-              type="text" 
+              type="text"
               class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               placeholder="輸入地點關鍵字..."
               :disabled="loading"
-            >
+            />
           </div>
-          
+
           <div class="flex-1 min-w-[200px]">
-            <label for="minCapacity" class="block font-semibold text-gray-700 mb-2">最小停車格數</label>
-            <input 
+            <label for="minCapacity" class="block font-semibold text-gray-700 mb-2"
+              >最小停車格數</label
+            >
+            <input
               id="minCapacity"
-              v-model="minCapacity" 
+              v-model="minCapacity"
               @input="filterData"
-              type="number" 
+              type="number"
               class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               placeholder="停車格數"
               :disabled="loading"
-            >
+            />
           </div>
-          
+
           <div class="flex-1 min-w-[200px]">
             <label class="block font-semibold text-gray-700 mb-2">無障礙設施</label>
-            <select 
-              v-model="accessibleOnly" 
-              @change="filterData" 
+            <select
+              v-model="accessibleOnly"
+              @change="filterData"
               class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
               :disabled="loading"
             >
@@ -42,18 +46,18 @@
               <option value="true">僅無障礙停車場</option>
             </select>
           </div>
-          
+
           <div class="flex-1 min-w-[200px]">
             <div class="flex gap-2">
-              <button 
-                @click="resetFilter" 
+              <button
+                @click="resetFilter"
                 class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors"
                 :disabled="loading"
               >
                 🔄 重置篩選
               </button>
-              <button 
-                @click="refreshData" 
+              <button
+                @click="refreshData"
                 class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors"
                 :disabled="loading"
                 title="重新載入最新資料"
@@ -68,17 +72,26 @@
 
     <!-- 載入狀態 -->
     <div v-if="loading" class="bg-white py-12 px-8 text-center border-b border-gray-200">
-      <div class="inline-block w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" role="status">
+      <div
+        class="inline-block w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        role="status"
+      >
         <span class="sr-only">載入中...</span>
       </div>
       <p class="mt-3 text-gray-600">正在載入停車場資料...</p>
     </div>
 
     <!-- 錯誤訊息 -->
-    <div v-if="error" class="bg-red-100 text-red-800 py-12 px-8 text-center border-b border-gray-200">
+    <div
+      v-if="error"
+      class="bg-red-100 text-red-800 py-12 px-8 text-center border-b border-gray-200"
+    >
       <h4>❌ 載入失敗</h4>
       <p>{{ error }}</p>
-      <button @click="loadData" class="mt-4 px-4 py-2 border border-red-500 text-red-500 rounded-md text-sm bg-white hover:bg-red-50 transition-colors">
+      <button
+        @click="loadData"
+        class="mt-4 px-4 py-2 border border-red-500 text-red-500 rounded-md text-sm bg-white hover:bg-red-50 transition-colors"
+      >
         🔄 重新載入
       </button>
     </div>
@@ -87,36 +100,36 @@
     <div v-if="filteredData.length > 0 && !loading" class="bg-white border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div 
-            v-for="item in paginatedData" 
-            :key="item.id" 
+          <div
+            v-for="item in paginatedData"
+            :key="item.id"
             class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
           >
             <div class="p-6">
               <h5 class="text-green-800 font-semibold mb-4">🅿️ {{ item.location }}</h5>
               <p class="text-gray-600 leading-relaxed mb-4">
-                <strong>地點：</strong>{{ item.location }}<br>
-                <strong>總停車格：</strong>{{ item.totalSpaces }} 格<br>
+                <strong>地點：</strong>{{ item.location }}<br />
+                <strong>總停車格：</strong>{{ item.totalSpaces }} 格<br />
               </p>
-              
+
               <!-- 停車格詳細資訊 -->
               <div class="mb-4 min-h-[60px]">
-                <small class="text-green-600 font-semibold">🚗 停車格分布：</small><br>
+                <small class="text-green-600 font-semibold">🚗 停車格分布：</small><br />
                 <div class="grid grid-cols-2 gap-2 mt-2">
                   <div class="bg-blue-50 p-2 rounded text-xs">
-                    <span class="font-semibold text-blue-800">小客車</span><br>
+                    <span class="font-semibold text-blue-800">小客車</span><br />
                     <span class="text-blue-600">{{ item.parkingSpaces.car }} 格</span>
                   </div>
                   <div class="bg-green-50 p-2 rounded text-xs">
-                    <span class="font-semibold text-green-800">身心障礙</span><br>
+                    <span class="font-semibold text-green-800">身心障礙</span><br />
                     <span class="text-green-600">{{ item.parkingSpaces.disabled }} 格</span>
                   </div>
                   <div class="bg-yellow-50 p-2 rounded text-xs">
-                    <span class="font-semibold text-yellow-800">摩托車</span><br>
+                    <span class="font-semibold text-yellow-800">摩托車</span><br />
                     <span class="text-yellow-600">{{ item.parkingSpaces.motorcycle }} 格</span>
                   </div>
                   <div class="bg-purple-50 p-2 rounded text-xs">
-                    <span class="font-semibold text-purple-800">遊覽車</span><br>
+                    <span class="font-semibold text-purple-800">遊覽車</span><br />
                     <span class="text-purple-600">{{ item.parkingSpaces.bus }} 格</span>
                   </div>
                 </div>
@@ -125,9 +138,9 @@
               <!-- 無障礙設施標籤 -->
               <div class="mb-4 min-h-[40px]">
                 <div v-if="item.accessibleFeatures && item.accessibleFeatures.length > 0">
-                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br>
-                  <span 
-                    v-for="(feature, index) in item.accessibleFeatures" 
+                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br />
+                  <span
+                    v-for="(feature, index) in item.accessibleFeatures"
                     :key="index"
                     class="inline-block px-2 py-1 rounded text-xs m-0.5 bg-green-100 text-green-800"
                   >
@@ -135,21 +148,21 @@
                   </span>
                 </div>
                 <div v-else class="text-gray-400 text-sm">
-                  <small>♿ 無障礙設施：</small><br>
+                  <small>♿ 無障礙設施：</small><br />
                   <span class="text-gray-400">暫無資料</span>
                 </div>
               </div>
 
               <!-- 行動按鈕 -->
               <div class="flex gap-2 flex-wrap">
-                <button 
-                  @click="viewOnMap(item)" 
+                <button
+                  @click="viewOnMap(item)"
                   class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
                 >
                   🗺️ 地圖
                 </button>
-                <button 
-                  @click="addToFavorites(item)" 
+                <button
+                  @click="addToFavorites(item)"
                   class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors"
                 >
                   ⭐ 收藏
@@ -161,48 +174,48 @@
 
         <!-- 分頁控制 -->
         <div v-if="totalPages > 1" class="mt-8 flex justify-center items-center gap-2 flex-wrap">
-          <button 
-            @click="goToPage(1)" 
+          <button
+            @click="goToPage(1)"
             :disabled="currentPage === 1"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             ⏮️ 第一頁
           </button>
-          
-          <button 
-            @click="previousPage" 
+
+          <button
+            @click="previousPage"
             :disabled="currentPage === 1"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             ← 上一頁
           </button>
-          
+
           <div class="flex gap-1 flex-wrap">
-            <button 
-              v-for="page in totalPages" 
+            <button
+              v-for="page in totalPages"
               :key="page"
               @click="goToPage(page)"
               :class="[
                 'px-3 py-2 border rounded-md text-sm transition-colors',
                 currentPage === page
                   ? 'bg-green-600 text-white border-green-600'
-                  : 'bg-white border-gray-300 hover:bg-gray-50'
+                  : 'bg-white border-gray-300 hover:bg-gray-50',
               ]"
             >
               {{ page }}
             </button>
           </div>
-          
-          <button 
-            @click="nextPage" 
+
+          <button
+            @click="nextPage"
             :disabled="currentPage === totalPages"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             下一頁 →
           </button>
-          
-          <button 
-            @click="goToPage(totalPages)" 
+
+          <button
+            @click="goToPage(totalPages)"
             :disabled="currentPage === totalPages"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -213,7 +226,10 @@
     </div>
 
     <!-- 無資料 -->
-    <div v-if="!loading && !error && filteredData.length === 0" class="bg-blue-100 text-blue-800 py-12 px-8 text-center border-b border-gray-200">
+    <div
+      v-if="!loading && !error && filteredData.length === 0"
+      class="bg-blue-100 text-blue-800 py-12 px-8 text-center border-b border-gray-200"
+    >
       <div class="max-w-7xl mx-auto">
         <h4>ℹ️ 沒有找到資料</h4>
         <p>找不到符合條件的停車場，請嘗試其他篩選條件。</p>
@@ -221,15 +237,27 @@
     </div>
 
     <!-- 統計資訊 -->
-    <div v-if="filteredData.length > 0" class="bg-green-100 text-green-800 border-b border-gray-200">
+    <div
+      v-if="filteredData.length > 0"
+      class="bg-green-100 text-green-800 border-b border-gray-200"
+    >
       <div class="p-8 max-w-7xl mx-auto">
         <h5>📊 統計資訊</h5>
-        <p>共找到 <strong>{{ filteredData.length }}</strong> 筆停車場資料（目前顯示第 <strong>{{ currentPage }}</strong> 頁，共 <strong>{{ totalPages }}</strong> 頁）</p>
+        <p>
+          共找到 <strong>{{ filteredData.length }}</strong> 筆停車場資料（目前顯示第
+          <strong>{{ currentPage }}</strong> 頁，共 <strong>{{ totalPages }}</strong> 頁）
+        </p>
         <div v-if="searchLocation || minCapacity || accessibleOnly" class="text-sm mt-2">
           <span class="font-semibold">篩選條件：</span>
-          <span v-if="searchLocation" class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">地點: {{ searchLocation }}</span>
-          <span v-if="minCapacity" class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">最小格數: {{ minCapacity }}</span>
-          <span v-if="accessibleOnly" class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">僅無障礙</span>
+          <span v-if="searchLocation" class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2"
+            >地點: {{ searchLocation }}</span
+          >
+          <span v-if="minCapacity" class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2"
+            >最小格數: {{ minCapacity }}</span
+          >
+          <span v-if="accessibleOnly" class="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2"
+            >僅無障礙</span
+          >
         </div>
       </div>
     </div>
@@ -246,12 +274,12 @@ export default {
     const data = ref([])
     const loading = ref(false)
     const error = ref('')
-    
+
     // 篩選條件
     const searchLocation = ref('')
     const minCapacity = ref('')
     const accessibleOnly = ref('')
-    
+
     // 分頁
     const currentPage = ref(1)
     const itemsPerPage = 12
@@ -263,30 +291,26 @@ export default {
       // 地點搜尋
       if (searchLocation.value) {
         const location = searchLocation.value.toLowerCase()
-        filtered = filtered.filter(item => 
-          item.location.toLowerCase().includes(location)
-        )
+        filtered = filtered.filter((item) => item.location.toLowerCase().includes(location))
       }
 
       // 最小容量篩選
       if (minCapacity.value) {
         const min = parseInt(minCapacity.value)
-        filtered = filtered.filter(item => item.totalSpaces >= min)
+        filtered = filtered.filter((item) => item.totalSpaces >= min)
       }
 
       // 無障礙設施篩選
       if (accessibleOnly.value === 'true') {
-        filtered = filtered.filter(item => 
-          item.accessibleFeatures && item.accessibleFeatures.length > 0
+        filtered = filtered.filter(
+          (item) => item.accessibleFeatures && item.accessibleFeatures.length > 0,
         )
       }
 
       return filtered
     })
 
-    const totalPages = computed(() => 
-      Math.ceil(filteredData.value.length / itemsPerPage)
-    )
+    const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage))
 
     const paginatedData = computed(() => {
       const start = (currentPage.value - 1) * itemsPerPage
@@ -298,7 +322,7 @@ export default {
     const loadData = async (forceRefresh = false) => {
       loading.value = true
       error.value = ''
-      
+
       try {
         const response = await getParkingLots(forceRefresh)
         if (response.success) {
@@ -386,9 +410,9 @@ export default {
       previousPage,
       nextPage,
       viewOnMap,
-      addToFavorites
+      addToFavorites,
     }
-  }
+  },
 }
 </script>
 
@@ -422,7 +446,9 @@ export default {
 }
 
 .hover\:shadow-xl:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .animate-spin {

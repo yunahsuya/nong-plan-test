@@ -98,7 +98,10 @@
     </div>
 
     <!-- 錯誤訊息 -->
-    <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <div
+      v-else-if="error"
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+    >
       {{ error }}
     </div>
 
@@ -118,7 +121,7 @@
               {{ item.memberName }}
             </h3>
           </div>
-          
+
           <!-- 作物名稱 -->
           <div class="mb-4">
             <h4 class="text-xl font-bold text-green-700 flex items-center">
@@ -129,10 +132,10 @@
 
           <!-- 驗證標章 -->
           <div class="mb-4">
-            <span 
+            <span
               :class="[
                 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
-                getVerifyMarkerClass(item.verifyMarker)
+                getVerifyMarkerClass(item.verifyMarker),
               ]"
             >
               <span class="mr-1">{{ getVerifyMarkerIcon(item.verifyMarker) }}</span>
@@ -156,18 +159,18 @@
           <div class="mb-4">
             <div class="flex items-center mb-2">
               <span class="text-sm text-gray-600 mr-2">供應季節：</span>
-              <span 
+              <span
                 :class="[
                   'px-2 py-1 rounded text-xs font-medium',
-                  item.isAvailable ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'
+                  item.isAvailable ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600',
                 ]"
               >
                 {{ item.isAvailable ? '目前可供應' : '非供應季節' }}
               </span>
             </div>
             <div class="flex flex-wrap gap-1">
-              <span 
-                v-for="season in item.season" 
+              <span
+                v-for="season in item.season"
                 :key="season"
                 class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs"
               >
@@ -179,8 +182,8 @@
           <!-- 標籤 -->
           <div class="mb-4">
             <div class="flex flex-wrap gap-1">
-              <span 
-                v-for="tag in item.tags" 
+              <span
+                v-for="tag in item.tags"
                 :key="tag"
                 class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
               >
@@ -217,11 +220,11 @@
         >
           上一頁
         </button>
-        
+
         <span class="px-3 py-2 text-sm text-gray-700">
           第 {{ pagination.currentPage }} 頁，共 {{ pagination.totalPages }} 頁
         </span>
-        
+
         <button
           @click="changePage(pagination.currentPage + 1)"
           :disabled="!pagination.hasNextPage"
@@ -270,7 +273,7 @@ export default {
     const loadData = async (forceRefresh = false) => {
       loading.value = true
       error.value = ''
-      
+
       try {
         const result = await memberProductService.getMemberProducts(
           forceRefresh,
@@ -279,9 +282,9 @@ export default {
           searchKeyword.value,
           selectedMember.value,
           selectedCrop.value,
-          selectedVerifyMarker.value
+          selectedVerifyMarker.value,
         )
-        
+
         if (result.success) {
           items.value = result.data
           pagination.value = result.pagination
@@ -371,10 +374,10 @@ export default {
     // 取得驗證標章名稱
     const getVerifyMarkerName = (marker) => {
       const names = {
-        'TAP': '產銷履歷',
-        'organic': '有機認證',
-        'preorganic': '有機轉型期',
-        'NOpesticide': '無農藥'
+        TAP: '產銷履歷',
+        organic: '有機認證',
+        preorganic: '有機轉型期',
+        NOpesticide: '無農藥',
       }
       return names[marker] || marker
     }
@@ -382,10 +385,10 @@ export default {
     // 取得驗證標章圖示
     const getVerifyMarkerIcon = (marker) => {
       const icons = {
-        'TAP': '🏷️',
-        'organic': '🌿',
-        'preorganic': '🌱',
-        'NOpesticide': '🛡️'
+        TAP: '🏷️',
+        organic: '🌿',
+        preorganic: '🌱',
+        NOpesticide: '🛡️',
       }
       return icons[marker] || '📋'
     }
@@ -393,10 +396,10 @@ export default {
     // 取得驗證標章樣式
     const getVerifyMarkerClass = (marker) => {
       const classes = {
-        'TAP': 'bg-blue-100 text-blue-800',
-        'organic': 'bg-green-100 text-green-800',
-        'preorganic': 'bg-yellow-100 text-yellow-800',
-        'NOpesticide': 'bg-purple-100 text-purple-800'
+        TAP: 'bg-blue-100 text-blue-800',
+        organic: 'bg-green-100 text-green-800',
+        preorganic: 'bg-yellow-100 text-yellow-800',
+        NOpesticide: 'bg-purple-100 text-purple-800',
       }
       return classes[marker] || 'bg-gray-100 text-gray-800'
     }
@@ -445,8 +448,8 @@ export default {
       getVerifyMarkerName,
       getVerifyMarkerIcon,
       getVerifyMarkerClass,
-      formatYield
+      formatYield,
     }
-  }
+  },
 }
 </script>

@@ -121,13 +121,13 @@
       <!-- 分頁控制 -->
       <div v-if="pagination && pagination.totalPages > 1" class="flex justify-center">
         <div class="join">
-          <!-- 第一頁按鈕 -->
-          <button 
+                    <!-- 第一頁按鈕 -->
+                    <button 
             @click="goToPage(1)"
             class="join-item btn"
             :disabled="pagination.currentPage === 1"
           >
-            第一頁
+            <PhCaretLineLeft class="w-5 h-5" />
           </button>
           
           <!-- 上一頁按鈕 -->
@@ -136,7 +136,7 @@
             class="join-item btn"
             :disabled="!pagination.hasPreviousPage"
           >
-            «
+            <PhCaretLeft class="w-5 h-5" />
           </button>
           
           <!-- 頁碼按鈕 -->
@@ -156,7 +156,7 @@
             class="join-item btn"
             :disabled="!pagination.hasNextPage"
           >
-            »
+            <PhCaretRight class="w-5 h-5" />
           </button>
           
           <!-- 最後一頁按鈕 -->
@@ -165,7 +165,7 @@
             class="join-item btn"
             :disabled="pagination.currentPage === pagination.totalPages"
           >
-            最後一頁
+            <PhCaretLineRight class="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -182,6 +182,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { getPaginatedMarkets, getMarketStatistics } from '@/services/api.js'
+
+import { PhCaretLineLeft, PhCaretLeft, PhCaretRight, PhCaretLineRight } from '@phosphor-icons/vue'
+
 
 // 固定的縣市列表
 const counties = ref([
