@@ -172,6 +172,31 @@
                 </div>
               </div> -->
 
+              <!-- 無障礙設施標籤 - 可點擊篩選 -->
+              <div class="mt-4 mb-4 min-h-[60px]">
+                <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
+                  <!-- <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br> -->
+                  <span
+                    v-for="(feature, index) in item.accessibleItems"
+                    :key="index"
+                    @click="filterByAccessibleItem(feature)"
+                    :class="[
+                      'inline-block px-2 py-1 rounded text-xs m-0.5 cursor-pointer transition-all duration-200',
+                      selectedAccessibleItem === feature
+                        ? 'bg-green-500 text-white shadow-md'
+                        : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm',
+                    ]"
+                    :title="`點擊篩選「${feature}」`"
+                  >
+                    {{ feature }}
+                  </span>
+                </div>
+                <div v-else class="text-gray-400 text-sm">
+                  <small>♿ 無障礙設施：</small><br />
+                  <span class="text-gray-400">暫無資料</span>
+                </div>
+              </div>
+
               <!-- 行動按鈕 -->
               <div class="mt-4 flex gap-2 flex-wrap">
                 <button
@@ -196,31 +221,6 @@
                   <PhBookmarkSimple class="w-4 h-4" weight="bold" />
                   收藏
                 </button>
-              </div>
-
-              <!-- 無障礙設施標籤 - 可點擊篩選 -->
-              <div class="mt-4 mb-4 min-h-[60px]">
-                <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
-                  <!-- <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br> -->
-                  <span
-                    v-for="(feature, index) in item.accessibleItems"
-                    :key="index"
-                    @click="filterByAccessibleItem(feature)"
-                    :class="[
-                      'inline-block px-2 py-1 rounded text-xs m-0.5 cursor-pointer transition-all duration-200',
-                      selectedAccessibleItem === feature
-                        ? 'bg-green-500 text-white shadow-md'
-                        : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm',
-                    ]"
-                    :title="`點擊篩選「${feature}」`"
-                  >
-                    {{ feature }}
-                  </span>
-                </div>
-                <div v-else class="text-gray-400 text-sm">
-                  <small>♿ 無障礙設施：</small><br />
-                  <span class="text-gray-400">暫無資料</span>
-                </div>
               </div>
             </div>
           </div>
