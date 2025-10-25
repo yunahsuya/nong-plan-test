@@ -3,8 +3,9 @@
     <!-- 篩選器 -->
     <div ref="filterSection" class="bg-white border-b border-gray-200">
       <div class="p-8 max-w-7xl mx-auto">
-        <div class="flex gap-8 items-end flex-wrap">
-          <div class="flex-1 min-w-[200px]">
+        <div class="flex gap-4 items-end flex-wrap">
+          <!-- 縣市篩選 -->
+          <div class="flex-1 min-w-[180px]">
             <label for="countySelect" class="block font-semibold text-gray-700 mb-2">縣市</label>
             <select
               id="countySelect"
@@ -40,7 +41,7 @@
           </div>
 
           <!-- 服務項目篩選 -->
-          <div class="flex-1 min-w-[200px]">
+          <div class="flex-1 min-w-[180px]">
             <label for="serveItemSelect" class="block font-semibold text-gray-700 mb-2"
               >服務項目</label
             >
@@ -140,7 +141,8 @@
             </select>
           </div>
 
-          <div class="flex-1 min-w-[200px]">
+          <!-- 關鍵字搜尋 -->
+          <div class="flex-1 min-w-[180px]">
             <label for="keywordInput" class="block font-semibold text-gray-700 mb-2"
               >關鍵字搜尋</label
             >
@@ -155,26 +157,29 @@
             />
           </div>
 
-          <div class="flex-1 min-w-[200px]">
-            <div class="flex gap-2">
-              <button
-                @click="resetFilter"
-                class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors flex items-center gap-2"
-                :disabled="loading"
-              >
-                <PhArrowCounterClockwise class="w-4 h-4" />
-                重置篩選
-              </button>
-              <button
-                @click="refreshData"
-                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors flex items-center gap-2"
-                :disabled="loading"
-                title="重新載入最新資料"
-              >
-                <PhArrowsClockwise class="w-4 h-4" />
-                刷新
-              </button>
-            </div>
+          <!-- 重置篩選按鈕 -->
+          <div class="flex-shrink-0">
+            <button
+              @click="resetFilter"
+              class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors flex items-center gap-2"
+              :disabled="loading"
+            >
+              <PhArrowCounterClockwise class="w-4 h-4" />
+              重置篩選
+            </button>
+          </div>
+
+          <!-- 刷新按鈕 -->
+          <div class="flex-shrink-0">
+            <button
+              @click="refreshData"
+              class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors flex items-center gap-2"
+              :disabled="loading"
+              title="重新載入最新資料"
+            >
+              <PhArrowsClockwise class="w-4 h-4" />
+              刷新
+            </button>
           </div>
         </div>
       </div>
