@@ -20,7 +20,9 @@
       <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+            <h2
+              class="text-green-900 text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2"
+            >
               <PhOnigiri :size="32" weight="duotone" />
               美食探索
             </h2>

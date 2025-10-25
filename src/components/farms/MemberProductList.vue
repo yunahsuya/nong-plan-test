@@ -3,7 +3,7 @@
   <div class="p-8">
     <!-- 標題和統計 -->
     <div class="mb-8">
-      <h2 class="text-3xl font-bold text-green-800 mb-4">🎓 農民學院找產品</h2>
+      <!-- <h2 class="text-3xl font-bold text-green-800 mb-4">🎓 農民學院找產品</h2> -->
       <div class="flex flex-wrap gap-4 text-sm text-gray-600">
         <span>總計：{{ statistics.total || 0 }} 項</span>
         <span>有機認證：{{ statistics.byVerifyMarker?.organic || 0 }} 項</span>

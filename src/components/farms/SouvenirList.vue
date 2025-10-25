@@ -2,12 +2,12 @@
 <template>
   <div class="w-full bg-gray-50 min-h-screen">
     <!-- 標題區域 -->
-    <div class="bg-white px-8 py-6 border-b border-gray-200">
+    <!-- <div class="bg-white px-8 py-6 border-b border-gray-200">
       <div class="max-w-7xl mx-auto">
         <h2 class="text-green-800 font-bold text-3xl mb-2">農村伴手禮</h2>
         <p class="text-gray-600 text-lg">精選台灣各地優質農產品伴手禮</p>
       </div>
-    </div>
+    </div> -->
 
     <!-- 篩選和控制區域 -->
     <div class="bg-white px-8 py-4 border-b border-gray-200">
@@ -16,6 +16,9 @@
           <!-- 搜尋欄 -->
           <div class="flex-1 min-w-[300px]">
             <div class="relative">
+              <label for="keywordInput" class="block font-semibold text-gray-700 mb-2"
+                >關鍵字搜尋</label
+              >
               <input
                 v-model="searchKeyword"
                 type="text"
@@ -30,6 +33,8 @@
 
           <!-- 縣市篩選 -->
           <div class="min-w-[200px]">
+            <label for="countySelect" class="block font-semibold text-gray-700 mb-2">縣市</label>
+
             <select
               v-model="selectedCounty"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
@@ -45,7 +50,7 @@
           <button
             @click="refreshData"
             :disabled="loading"
-            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors mt-8"
           >
             <i class="fas fa-sync-alt mr-2" :class="{ 'animate-spin': loading }"></i>
             重新整理
