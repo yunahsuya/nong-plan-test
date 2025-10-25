@@ -20,7 +20,10 @@
       <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">🍽️ 美食探索</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+              <PhOnigiri :size="32" weight="duotone" />
+              美食探索
+            </h2>
             <p class="text-gray-600">發現台灣各地的特色美食與休閒農場餐廳</p>
           </div>
           <div class="mt-4 lg:mt-0">
@@ -302,6 +305,7 @@ import {
   PhPhone,
   PhEnvelopeSimple,
   PhGlobe,
+  PhOnigiri,
 } from '@phosphor-icons/vue'
 import { getRuralFood } from '@/services/api.js'
 

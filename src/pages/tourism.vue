@@ -41,7 +41,7 @@
           <h3
             class="text-green-800 font-semibold text-2xl mb-2 flex items-center justify-center gap-2"
           >
-            <PhBarn :size="30" />
+            <PhBarn :size="30" weight="duotone" />
             農場分類
           </h3>
           <p class="text-gray-500 text-sm">選擇您想探索的農場類型</p>
@@ -114,7 +114,12 @@
         class="w-[350px] bg-white border-r border-gray-200 p-8 overflow-y-auto shadow-lg lg:w-[300px] md:w-full md:border-r-0 md:border-b md:p-4 sm:p-3"
       >
         <div class="mb-8 text-center border-b-2 border-gray-200 pb-4">
-          <h3 class="text-green-800 font-semibold text-2xl mb-2">🎁 伴手禮分類</h3>
+          <h3
+            class="text-green-800 font-semibold text-2xl mb-2 flex items-center justify-center gap-2"
+          >
+            <PhGift :size="30" weight="duotone" />
+            伴手禮分類
+          </h3>
           <p class="text-gray-500 text-sm">選擇您想探索的伴手禮類型</p>
         </div>
 
@@ -203,7 +208,7 @@ import SouvenirList from '@/components/farms/SouvenirList.vue'
 import AgriBestItemList from '@/components/farms/AgriBestItemList.vue'
 import MemberProductList from '@/components/farms/MemberProductList.vue' // 新增
 
-import { PhTractor, PhBarn } from '@phosphor-icons/vue'
+import { PhTractor, PhBarn, PhGift } from '@phosphor-icons/vue'
 
 export default {
   name: 'TourismPage',
@@ -220,6 +225,7 @@ export default {
     MemberProductList,
     PhTractor,
     PhBarn,
+    PhGift,
   },
   setup() {
     const selectedCategory = ref('farms') // 預設選擇農場

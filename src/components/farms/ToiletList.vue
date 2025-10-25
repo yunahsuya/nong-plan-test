@@ -3,7 +3,10 @@
   <div class="toilet-list-container p-6">
     <!-- 標題和搜尋區域 -->
     <div class="mb-8">
-      <h2 class="text-2xl font-bold text-green-800 mb-4">🚻 農科園區公共廁所</h2>
+      <h2 class="text-2xl font-bold text-green-800 mb-4 flex items-center gap-2">
+        <PhToiletPaper :size="32" weight="duotone" />
+        農科園區公共廁所
+      </h2>
 
       <!-- 搜尋和篩選 -->
       <div class="flex flex-wrap gap-4 mb-6">
@@ -123,8 +126,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { getPublicToilets } from '@/services/api.js'
 
+import { PhToiletPaper } from '@phosphor-icons/vue'
+
 export default {
   name: 'ToiletList',
+  components: {
+    PhToiletPaper,
+  },
   setup() {
     const toilets = ref([])
     const loading = ref(false)

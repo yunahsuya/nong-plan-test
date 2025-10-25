@@ -3,7 +3,10 @@
     <div class="max-w-7xl mx-auto">
       <!-- 標題和搜尋 -->
       <div class="mb-8">
-        <h2 class="text-3xl font-bold text-green-800 mb-4">🥾 步道探索</h2>
+        <h2 class="text-3xl font-bold text-green-800 mb-4 flex items-center gap-2">
+          <PhPersonSimpleHike :size="30" weight="duotone" />
+          步道探索
+        </h2>
         <p class="text-gray-600 mb-6">探索台灣美麗的農村步道，享受自然風光</p>
 
         <!-- 搜尋和篩選 -->
@@ -222,6 +225,7 @@ import {
   PhCaretLineRight,
   PhCaretLeft,
   PhCaretRight,
+  PhPersonSimpleHike,
 } from '@phosphor-icons/vue'
 
 export default {
@@ -233,6 +237,7 @@ export default {
     PhCaretLineRight,
     PhArrowCounterClockwise,
     PhArrowsClockwise,
+    PhPersonSimpleHike,
   },
   setup() {
     const trails = ref([])

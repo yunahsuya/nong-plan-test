@@ -4,7 +4,7 @@
     <!-- 標題區域 -->
     <div class="bg-white px-8 py-6 border-b border-gray-200">
       <div class="max-w-7xl mx-auto">
-        <h2 class="text-green-800 font-bold text-3xl mb-2">🎁 農村伴手禮</h2>
+        <h2 class="text-green-800 font-bold text-3xl mb-2">農村伴手禮</h2>
         <p class="text-gray-600 text-lg">精選台灣各地優質農產品伴手禮</p>
       </div>
     </div>
@@ -269,6 +269,7 @@ import { getRuralSouvenirs } from '@/services/api'
 
 export default {
   name: 'SouvenirList',
+
   setup() {
     const souvenirs = ref([])
     const loading = ref(false)
