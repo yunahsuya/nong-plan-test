@@ -8,6 +8,20 @@
         農科園區公共廁所
       </h2>
 
+      <!-- 統計資訊 -->
+      <div v-if="!loading && !error" class="bg-gray-50 rounded-lg p-4">
+        <div class="flex flex-wrap gap-6 text-center">
+          <div>
+            <div class="text-2xl font-bold text-green-600">{{ totalToilets }}</div>
+            <div class="text-sm text-gray-600">總廁所數</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-blue-600">{{ accessibleToilets }}</div>
+            <div class="text-sm text-gray-600">無障礙廁所</div>
+          </div>
+        </div>
+      </div>
+
       <!-- 搜尋和篩選 -->
       <div class="flex flex-wrap gap-4 mb-6">
         <div class="flex-1 min-w-[300px]">
