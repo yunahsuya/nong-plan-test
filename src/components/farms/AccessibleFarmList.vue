@@ -141,25 +141,25 @@
           >
             <div class="p-6">
               <h5 class="text-green-800 font-semibold mb-4">{{ item.name }}</h5>
-              <p class="text-gray-600 leading-relaxed mb-4">
+              <p class="text-gray-600 leading-relaxed">
                 <strong>地址：</strong>{{ item.address.chinese }}<br />
                 <span v-if="item.township"><strong>鄉鎮：</strong>{{ item.township }}<br /></span>
                 <!-- <span v-if="item.website"><strong>網站：</strong><a :href="item.website" target="_blank" class="text-blue-600 hover:underline break-all">{{ item.website.length > 40 ? item.website.substring(0, 30) + '...' : item.website }}</a><br></span> -->
               </p>
 
               <!-- 無障礙設施標籤 - 可點擊篩選 -->
-              <!-- <div class="mb-4 min-h-[60px]">
+              <!-- <div class="mb-4 min-h-[60px] mt-2">
                 <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
-                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br>
-                  <span 
-                    v-for="(feature, index) in item.accessibleItems" 
+                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br />
+                  <span
+                    v-for="(feature, index) in item.accessibleItems"
                     :key="index"
                     @click="filterByAccessibleItem(feature)"
                     :class="[
                       'inline-block px-2 py-1 rounded text-xs m-0.5 cursor-pointer transition-all duration-200',
                       selectedAccessibleItem === feature
                         ? 'bg-green-500 text-white shadow-md'
-                        : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm'
+                        : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm',
                     ]"
                     :title="`點擊篩選「${feature}」`"
                   >
@@ -167,7 +167,7 @@
                   </span>
                 </div>
                 <div v-else class="text-gray-400 text-sm">
-                  <small>♿ 無障礙設施：</small><br>
+                  <small>♿ 無障礙設施：</small><br />
                   <span class="text-gray-400">暫無資料</span>
                 </div>
               </div> -->
@@ -175,7 +175,7 @@
               <!-- 無障礙設施標籤 - 可點擊篩選 -->
               <div class="mt-4 mb-4 min-h-[60px]">
                 <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
-                  <!-- <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br> -->
+                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br />
                   <span
                     v-for="(feature, index) in item.accessibleItems"
                     :key="index"
@@ -198,10 +198,10 @@
               </div>
 
               <!-- 行動按鈕 -->
-              <div class="mt-4 flex gap-2 flex-wrap">
+              <div class="mt-4 flex gap-2">
                 <button
                   @click="viewOnMap(item)"
-                  class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhMapPinLine class="w-4 h-4" weight="bold" />
                   地圖
@@ -209,14 +209,14 @@
                 <button
                   v-if="item.website"
                   @click="openWebsite(item.website)"
-                  class="px-3 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-50 hover:bg-blue-100 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-50 hover:bg-blue-100 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhGlobe class="w-4 h-4" weight="bold" />
                   網站
                 </button>
                 <button
                   @click="addToFavorites(item)"
-                  class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhBookmarkSimple class="w-4 h-4" weight="bold" />
                   收藏

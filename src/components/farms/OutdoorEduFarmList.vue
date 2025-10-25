@@ -255,10 +255,10 @@
               </div>
 
               <!-- 行動按鈕 -->
-              <div class="flex gap-2 flex-wrap">
+              <div class="flex gap-2">
                 <button
                   @click="viewOnMap(item)"
-                  class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhMapPinLine class="w-4 h-4" weight="bold" />
                   地圖
@@ -266,7 +266,7 @@
                 <button
                   v-if="item.website"
                   @click="openWebsite(item.website)"
-                  class="px-3 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-100 hover:bg-blue-200 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-100 hover:bg-blue-200 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhGlobe class="w-4 h-4" weight="bold" />
                   網站
@@ -274,14 +274,14 @@
                 <button
                   v-if="item.facebook"
                   @click="openWebsite(item.facebook)"
-                  class="px-3 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-50 hover:bg-blue-100 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-semibold border border-blue-500 text-blue-500 rounded text-sm bg-blue-50 hover:bg-blue-100 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhFacebookLogo class="w-4 h-4" weight="bold" />
                   Facebook
                 </button>
                 <button
                   @click="addToFavorites(item)"
-                  class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors flex items-center gap-1"
+                  class="flex-1 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors flex items-center justify-center gap-1"
                 >
                   <PhBookmarkSimple class="w-4 h-4" weight="bold" />
                   收藏
