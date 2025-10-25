@@ -1,8 +1,12 @@
 <!-- 市集 -->
 <template>
-  <div class="market-list">
-    <div class="mb-6">
-      <h2 class="text-2xl font-bold mb-4">農民市集</h2>
+  <div class="market-list p-6">
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-orange-600 mb-4 flex items-center gap-2">
+        <PhStorefront :size="30" weight="duotone" />
+        農民市集
+      </h2>
+      <p class="text-gray-600 mb-6">提供農民市集資訊，方便您找到最近的市集</p>
 
       <!-- 搜尋和篩選 -->
       <div class="flex flex-wrap gap-4 mb-4">
@@ -168,7 +172,13 @@
 import { ref, onMounted, computed } from 'vue'
 import { getPaginatedMarkets, getMarketStatistics } from '@/services/api.js'
 
-import { PhCaretLineLeft, PhCaretLeft, PhCaretRight, PhCaretLineRight } from '@phosphor-icons/vue'
+import {
+  PhCaretLineLeft,
+  PhCaretLeft,
+  PhCaretRight,
+  PhCaretLineRight,
+  PhStorefront,
+} from '@phosphor-icons/vue'
 
 // 固定的縣市列表
 const counties = ref([

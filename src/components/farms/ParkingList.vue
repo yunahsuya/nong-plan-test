@@ -1,69 +1,78 @@
 <template>
-  <div class="w-full bg-blue-600">
-    <!-- 篩選器 -->
-    <div ref="filterSection" class="bg-white border-b border-gray-200">
-      <div class="p-8 max-w-7xl mx-auto">
-        <div class="flex gap-8 items-end flex-wrap">
-          <div class="flex-1 min-w-[200px]">
-            <label for="locationSearch" class="block font-semibold text-gray-700 mb-2"
-              >地點搜尋</label
-            >
-            <input
-              id="locationSearch"
-              v-model="searchLocation"
-              @input="filterData"
-              type="text"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-              placeholder="輸入地點關鍵字..."
-              :disabled="loading"
-            />
-          </div>
+  <div class="w-full p-6">
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-green-800 mb-4 flex items-center gap-2">
+        <PhCar :size="30" weight="duotone" />
+        停車場
+      </h2>
+      <p class="text-gray-600 mb-6">提供停車場資訊，方便您找到最近的停車場</p>
+      <!-- 篩選器 -->
+      <div ref="filterSection" class="bg-white border-b border-gray-200">
+        <div class="p-8 max-w-7xl mx-auto">
+          <div class="flex gap-8 items-end flex-wrap">
+            <div class="flex-1 min-w-[200px]">
+              <label for="locationSearch" class="block font-semibold text-gray-700 mb-2"
+                >地點搜尋</label
+              >
+              <input
+                id="locationSearch"
+                v-model="searchLocation"
+                @input="filterData"
+                type="text"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                placeholder="輸入地點關鍵字..."
+                :disabled="loading"
+              />
+            </div>
 
-          <div class="flex-1 min-w-[200px]">
-            <label for="minCapacity" class="block font-semibold text-gray-700 mb-2"
-              >最小停車格數</label
-            >
-            <input
-              id="minCapacity"
-              v-model="minCapacity"
-              @input="filterData"
-              type="number"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-              placeholder="停車格數"
-              :disabled="loading"
-            />
-          </div>
+            <div class="flex-1 min-w-[200px]">
+              <label for="minCapacity" class="block font-semibold text-gray-700 mb-2"
+                >最小停車格數</label
+              >
+              <input
+                id="minCapacity"
+                v-model="minCapacity"
+                @input="filterData"
+                type="number"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                placeholder="停車格數"
+                :disabled="loading"
+              />
+            </div>
 
-          <div class="flex-1 min-w-[200px]">
-            <label class="block font-semibold text-gray-700 mb-2">無障礙設施</label>
-            <select
-              v-model="accessibleOnly"
-              @change="filterData"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-              :disabled="loading"
-            >
-              <option value="">全部停車場</option>
-              <option value="true">僅無障礙停車場</option>
-            </select>
-          </div>
-
-          <div class="flex-1 min-w-[200px]">
-            <div class="flex gap-2">
-              <button
-                @click="resetFilter"
-                class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors"
+            <div class="flex-1 min-w-[200px]">
+              <label class="block font-semibold text-gray-700 mb-2">無障礙設施</label>
+              <select
+                v-model="accessibleOnly"
+                @change="filterData"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
                 :disabled="loading"
               >
-                🔄 重置篩選
-              </button>
-              <button
-                @click="refreshData"
-                class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors"
-                :disabled="loading"
-                title="重新載入最新資料"
-              >
-                🔄 刷新
-              </button>
+                <option value="">全部停車場</option>
+                <option value="true">僅無障礙停車場</option>
+              </select>
+            </div>
+
+            <div class="flex-1 min-w-[200px]">
+              <div class="flex gap-2">
+                <button
+                  @click="resetFilter"
+                  class="px-4 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 transition-colors flex items-center gap-2"
+                  :disabled="loading"
+                >
+                  <PhArrowCounterClockwise class="w-4 h-4" />
+                  重置篩選
+                </button>
+                <button
+                  @click="refreshData"
+                  class="px-4 py-2 border border-blue-500 text-blue-500 rounded-md text-sm bg-white hover:bg-blue-50 transition-colors flex items-center gap-2"
+                  :disabled="loading"
+                  title="重新載入最新資料"
+                >
+                  <PhArrowsClockwise class="w-4 h-4" />
+                  刷新
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -267,9 +276,14 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { getParkingLots, searchParkingLots } from '@/services/api.js'
-
+import { PhCar, PhArrowCounterClockwise, PhArrowsClockwise } from '@phosphor-icons/vue'
 export default {
   name: 'ParkingList',
+  components: {
+    PhCar,
+    PhArrowCounterClockwise,
+    PhArrowsClockwise,
+  },
   setup() {
     const data = ref([])
     const loading = ref(false)
