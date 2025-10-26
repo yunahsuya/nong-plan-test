@@ -160,9 +160,10 @@
             <button
               v-if="item.phone"
               @click="callPhone(item.phone)"
-              class="flex-1 px-3 py-2 bg-green-500 text-white text-sm rounded hover:bg-green-600"
+              class="flex-1 px-3 py-2 bg-green-500 text-white text-sm rounded hover:bg-green-600 flex items-center justify-center gap-1"
             >
-              📞 聯絡
+              <PhPhone class="w-4 h-4" weight="bold" />
+              聯絡
             </button>
             <button
               v-if="item.website"
@@ -174,9 +175,10 @@
             <button
               v-if="item.coordinates.latitude && item.coordinates.longitude"
               @click="openMap(item.coordinates.latitude, item.coordinates.longitude, item.name)"
-              class="flex-1 px-3 py-2 bg-orange-500 text-white text-sm rounded hover:bg-orange-600"
+              class="flex-1 px-3 py-2 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 flex items-center justify-center gap-1"
             >
-              🗺️ 地圖
+              <PhMapPinLine class="w-4 h-4" weight="bold" />
+              地圖
             </button>
           </div>
         </div>
@@ -221,8 +223,14 @@
 import { ref, onMounted, watch } from 'vue'
 import agriBestItemService from '@/services/agriBestItemService.js'
 
+import { PhMapPinLine, PhPhone } from '@phosphor-icons/vue'
+
 export default {
   name: 'AgriBestItemList',
+  components: {
+    PhMapPinLine,
+    PhPhone,
+  },
   setup() {
     const items = ref([])
     const counties = ref([])

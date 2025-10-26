@@ -175,7 +175,10 @@
               <!-- 無障礙設施標籤 - 可點擊篩選 -->
               <div class="mt-4 mb-4 min-h-[60px]">
                 <div v-if="item.accessibleItems && item.accessibleItems.length > 0">
-                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br />
+                  <small class="text-green-600 font-semibold">
+                    <PhWheelchair :size="15" weight="bold" class="inline-block" />
+                    無障礙設施：</small
+                  ><br />
                   <span
                     v-for="(feature, index) in item.accessibleItems"
                     :key="index"
@@ -192,7 +195,11 @@
                   </span>
                 </div>
                 <div v-else class="text-gray-400 text-sm">
-                  <small>♿ 無障礙設施：</small><br />
+                  <small>
+                    <PhWheelchair :size="15" weight="bold" class="inline-block" />
+
+                    無障礙設施： </small
+                  ><br />
                   <span class="text-gray-400">暫無資料</span>
                 </div>
               </div>
@@ -367,6 +374,7 @@ import {
   PhMapPinLine,
   PhGlobe,
   PhBookmarkSimple,
+  PhWheelchair,
 } from '@phosphor-icons/vue'
 
 export default {
@@ -381,6 +389,7 @@ export default {
     PhMapPinLine,
     PhGlobe,
     PhBookmarkSimple,
+    PhWheelchair,
   },
   setup() {
     const selectedCounty = ref('')

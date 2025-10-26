@@ -43,7 +43,8 @@
               : 'bg-white text-green-500 border-2 border-green-500 hover:bg-green-50',
           ]"
         >
-          ♿ 無障礙廁所
+          <PhWheelchair :size="15" weight="bold" class="inline-block" />
+          無障礙廁所
         </button>
 
         <button
@@ -92,7 +93,7 @@
               v-if="toilet.accessibleFeatures?.length > 0"
               class="flex items-center text-green-600"
             >
-              <span class="mr-1">♿</span>
+              <span class="mr-1"><PhWheelchair :size="15" weight="bold" /></span>
               <span class="text-sm">{{ toilet.accessibleFeatures.join('、') }}</span>
             </div>
 
@@ -140,12 +141,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { getPublicToilets } from '@/services/api.js'
 
-import { PhToiletPaper } from '@phosphor-icons/vue'
+import { PhToiletPaper, PhWheelchair } from '@phosphor-icons/vue'
 
 export default {
   name: 'ToiletList',
   components: {
     PhToiletPaper,
+    PhWheelchair,
   },
   setup() {
     const toilets = ref([])

@@ -200,9 +200,9 @@
               <button
                 v-if="souvenir.coordinates"
                 @click="showOnMap(souvenir)"
-                class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-1"
               >
-                <i class="fas fa-map-marker-alt mr-1"></i>
+                <PhMapPinLine class="w-4 h-4" weight="bold" />
                 地圖
               </button>
             </div>
@@ -272,8 +272,13 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { getRuralSouvenirs } from '@/services/api'
 
+import { PhMapPinLine } from '@phosphor-icons/vue'
+
 export default {
   name: 'SouvenirList',
+  components: {
+    PhMapPinLine,
+  },
 
   setup() {
     const souvenirs = ref([])

@@ -25,7 +25,7 @@
               />
             </div>
 
-            <div class="flex-1 min-w-[200px]">
+            <!-- <div class="flex-1 min-w-[200px]">
               <label for="minCapacity" class="block font-semibold text-gray-700 mb-2"
                 >最小停車格數</label
               >
@@ -38,7 +38,7 @@
                 placeholder="停車格數"
                 :disabled="loading"
               />
-            </div>
+            </div> -->
 
             <div class="flex-1 min-w-[200px]">
               <label class="block font-semibold text-gray-700 mb-2">無障礙設施</label>
@@ -115,7 +115,10 @@
             class="border border-gray-200 rounded-xl bg-white transition-all duration-300 overflow-hidden hover:transform hover:-translate-y-1 hover:shadow-xl hover:border-green-500"
           >
             <div class="p-6">
-              <h5 class="text-green-800 font-semibold mb-4">🅿️ {{ item.location }}</h5>
+              <h5 class="text-green-800 font-semibold mb-4">
+                <PhLetterCircleP class="inline-block" weight="bold" size="20" />
+                {{ item.location }}
+              </h5>
               <p class="text-gray-600 leading-relaxed mb-4">
                 <strong>地點：</strong>{{ item.location }}<br />
                 <strong>總停車格：</strong>{{ item.totalSpaces }} 格<br />
@@ -123,14 +126,17 @@
 
               <!-- 停車格詳細資訊 -->
               <div class="mb-4 min-h-[60px]">
-                <small class="text-green-600 font-semibold">🚗 停車格分布：</small><br />
+                <small class="text-green-600 font-semibold">
+                  <PhCarProfile :size="20" class="inline-block" weight="bold" />
+                  停車格分布：</small
+                ><br />
                 <div class="grid grid-cols-2 gap-2 mt-2">
                   <div class="bg-blue-50 p-2 rounded text-xs">
                     <span class="font-semibold text-blue-800">小客車</span><br />
                     <span class="text-blue-600">{{ item.parkingSpaces.car }} 格</span>
                   </div>
                   <div class="bg-green-50 p-2 rounded text-xs">
-                    <span class="font-semibold text-green-800">身心障礙</span><br />
+                    <span class="font-semibold text-green-800">無障礙</span><br />
                     <span class="text-green-600">{{ item.parkingSpaces.disabled }} 格</span>
                   </div>
                   <div class="bg-yellow-50 p-2 rounded text-xs">
@@ -147,7 +153,10 @@
               <!-- 無障礙設施標籤 -->
               <div class="mb-4 min-h-[40px]">
                 <div v-if="item.accessibleFeatures && item.accessibleFeatures.length > 0">
-                  <small class="text-green-600 font-semibold">♿ 無障礙設施：</small><br />
+                  <small class="text-green-600 font-semibold">
+                    <PhWheelchair :size="15" weight="bold" class="inline-block" />
+                    無障礙設施： </small
+                  ><br />
                   <span
                     v-for="(feature, index) in item.accessibleFeatures"
                     :key="index"
@@ -157,7 +166,11 @@
                   </span>
                 </div>
                 <div v-else class="text-gray-400 text-sm">
-                  <small>♿ 無障礙設施：</small><br />
+                  <small>
+                    <PhWheelchair :size="15" weight="bold" class="inline-block" />
+
+                    無障礙設施：</small
+                  ><br />
                   <span class="text-gray-400">暫無資料</span>
                 </div>
               </div>
@@ -166,15 +179,17 @@
               <div class="flex gap-2 flex-wrap">
                 <button
                   @click="viewOnMap(item)"
-                  class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors"
+                  class="px-3 py-1.5 font-bold bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-1"
                 >
-                  🗺️ 地圖
+                  <PhMapPinLine class="w-4 h-4" weight="bold" />
+                  地圖
                 </button>
                 <button
                   @click="addToFavorites(item)"
-                  class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors"
+                  class="px-3 py-1.5 font-semibold border border-yellow-500 text-yellow-500 rounded text-sm bg-yellow-50 hover:bg-yellow-100 transition-colors flex items-center justify-center gap-1"
                 >
-                  ⭐ 收藏
+                  <PhBookmarkSimple class="w-4 h-4" weight="bold" />
+                  收藏
                 </button>
               </div>
             </div>
@@ -276,13 +291,27 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { getParkingLots, searchParkingLots } from '@/services/api.js'
-import { PhCar, PhArrowCounterClockwise, PhArrowsClockwise } from '@phosphor-icons/vue'
+import {
+  PhCar,
+  PhArrowCounterClockwise,
+  PhArrowsClockwise,
+  PhWheelchair,
+  PhMapPinLine,
+  PhBookmarkSimple,
+  PhLetterCircleP,
+  PhCarProfile,
+} from '@phosphor-icons/vue'
 export default {
   name: 'ParkingList',
   components: {
     PhCar,
     PhArrowCounterClockwise,
     PhArrowsClockwise,
+    PhWheelchair,
+    PhMapPinLine,
+    PhBookmarkSimple,
+    PhLetterCircleP,
+    PhCarProfile,
   },
   setup() {
     const data = ref([])

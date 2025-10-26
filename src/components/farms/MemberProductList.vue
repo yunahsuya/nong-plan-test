@@ -28,7 +28,7 @@
         </div>
 
         <!-- 農民篩選 -->
-        <div>
+        <!-- <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">農民</label>
           <select
             v-model="selectedMember"
@@ -40,7 +40,7 @@
               {{ member }}
             </option>
           </select>
-        </div>
+        </div> -->
 
         <!-- 作物篩選 -->
         <div>
@@ -115,12 +115,12 @@
         <!-- 產品資訊卡片 -->
         <div class="p-6">
           <!-- 農民姓名 -->
-          <div class="mb-4">
+          <!-- <div class="mb-4">
             <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
               <span class="text-2xl mr-2">👨‍🌾</span>
               {{ item.memberName }}
             </h3>
-          </div>
+          </div> -->
 
           <!-- 作物名稱 -->
           <div class="mb-4">
@@ -193,12 +193,12 @@
           </div>
 
           <!-- 分類 -->
-          <div class="mb-4">
+          <!-- <div class="mb-4">
             <span class="text-sm text-gray-600">分類：</span>
             <span class="ml-1 px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs font-medium">
               {{ item.category }}
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
